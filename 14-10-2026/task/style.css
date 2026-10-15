@@ -142,5 +142,73 @@ color: white;
     text-decoration: none;
     color:white
 }
+/* electronic product page */
+.elecronic-list{
+     list-style: none;
+}
+.electro-products{
+    background-color: orange;
+    border-radius: 20px;
+    display: grid;
+   grid-template-columns: 4;
+   padding: 3px;
+}
+.product-info{
+    background-color: white;
+    border-radius: 20px;
+    width: 300;
+    height: 400;
+}
+.product-price{
+    justify-content: space-around;
+}
+.budget{
+background-color: palevioletred;
+padding: 2px;
+}
+.budget-deals{
+ padding: 2px;
+}
+.sidebar{
+    border: 2px solid gainsboro;
+    right: 250px;
+}
+.subbar {
+    display: flex;
+    gap: 12px;
+    border: 2px solid gainsboro;
+}
+.link-main{
+    text-decoration: none;
+    color: black;
+}
 
+.link-main:hover{
+   color: orange;
+}
+.cart{
+    background-color: yellow; 
+    display: flex;
+    border-radius: 40px;
+    padding: 10px;
+}
+/* motrola page*/
+.product{
+    border:2px solid gainsboro;
+    border-radius: 20px;
+    width:300px;
+    font-size: 20px;
+    padding: 20px;
+}
+.product-flex{
+    display: flex;
+    justify-content: center;
+    gap:20px;
+    padding: 10px;
 
+}
+.product-pic{
+     display: flex;
+     justify-content: center;
+     align-content: center;
+}
