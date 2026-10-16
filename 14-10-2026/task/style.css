@@ -212,3 +212,76 @@ padding: 2px;
      justify-content: center;
      align-content: center;
 }
+/* Accessories */
+.product-access{
+    border:2px solid gainsboro;
+    width:300px;
+    font-size: 20px;
+    padding: 20px;
+    background-color: gainsboro;
+}
+.product-flex-access{
+    display: flex;
+    justify-content: center;
+    gap:20px;
+    padding: 10px;
+
+}
+.product-pic-access{
+     display: flex;
+     justify-content: center;
+     align-content: center;
+}
+/* Customer Services*/
+.flex-box{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+.flex-service{
+    border: 2px solid gainsboro;
+    padding: 10px ;
+    border-radius: 5px;
+}
+/* sell page */
+.big{
+    font-weight: bold; 
+    color: blue;
+    display: flex;
+    justify-content: center;
+
+}
+.big-one{
+   display: flex; 
+   justify-content: center; 
+   align-items: center;
+   margin-left: 450px;
+   width :1000px;
+   height:800px;
+}
+.sell{
+    background-color: orange;
+    padding: 20px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+.flex-sell{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+.flex-data{
+    background-color: white;
+    box-shadow: inset;
+}
+
+   
+.sell-bg{
+    background-color: gainsboro;
+}
