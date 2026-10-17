@@ -126,14 +126,18 @@ display: flex;
     
 }
 .grid-items{
-    display:grid;
-    grid-template-rows: 4;
-    padding: 3px;
+  display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 20px;
+    padding: 10px;
+    
 }
 .flex{
-background-color: orange;
-width: 500px;
-border-radius: 10px;
+    width: 100%;
+    min-width: 0;
+    border-radius: 10px;
+    padding: 15px;
+    box-sizing: border-box;
 }
 .title{
     font-weight: bold;
@@ -147,32 +151,113 @@ color: white;
 .elecronic-list{
      list-style: none;
 }
-.electro-products{
-    background-color: orange;
-    border-radius: 20px;
-    display: grid;
-   grid-template-columns: 4;
-   padding: 3px;
-}
-.product-info{
-    background-color: white;
-    border-radius: 20px;
-    width: 300;
-    height: 400;
-}
-.product-price{
-    justify-content: space-around;
-}
 .budget{
 background-color: palevioletred;
-padding: 2px;
+padding: 10px;
 }
 .budget-deals{
- padding: 2px;
+ padding: 10px;
+ display: flex;
+ justify-content: center;
+ align-items: flex-start;
 }
-.sidebar{
-    border: 2px solid gainsboro;
-    right: 250px;
+.page-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.page-layout .sidebar {
+    flex: 0 0 230px;
+    width: 230px;
+    min-width: 0;
+    margin: 0;
+    padding: 12px;
+    border: 1px solid gainsboro;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.electro-content {
+    flex: 1;
+    min-width: 0;
+    background-color: #eaeaea;
+    padding: 20px;
+    box-sizing: border-box;
+
+}
+
+.electro-products {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: orange;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.electro-products h2 {
+    font-size: 22px;
+    margin: 0 0 15px;
+}
+
+.explore-link {
+    font-size: 14px;
+    font-weight: normal;
+    margin-left: 10px;
+    text-decoration: none;
+    color: #007185;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.product-info {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 300px;
+    padding: 12px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    background-color: white;
+    box-sizing: border-box;
+}
+
+.product-info img {
+    display: block;
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.product-info > p {
+    font-size: 15px;
+    line-height: 1.4;
+    margin: 8px 0;
+}
+.product-price {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.product-price p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.mrp {
+    color: gray;
+    text-decoration: line-through;
 }
 .subbar {
     display: flex;
@@ -287,4 +372,91 @@ padding: 2px;
  
 .sell-bg{
     background-color: whitesmoke;
+}
+.box-flex {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    box-sizing: border-box;
+}
+.box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    width: 100%;
+    max-width: 1100px;
+    min-height: 350px;
+    background-color: sandybrown;
+    border-radius: 20px;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+
+.box > div:first-child {
+    flex: 1;
+    min-width: 0;
+}
+
+.box p:first-child {
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.box p:nth-child(2) {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.box > div:last-child {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box img {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    object-fit: contain;
+}
+
+.sell {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 20px;
+}
+
+.sell-btn {
+    background-color: orange;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.sell-1{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.sell-1-btn {
+    background-color: orange;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.sell-img{
+    border-radius: 20px;
+    width: 700px;
+    height:600px;
+     object-fit: contain;
+    display: block;
 }
