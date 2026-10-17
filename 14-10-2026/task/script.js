@@ -1,163 +1,242 @@
 
-const products = [...document.querySelectorAll(".product-info")];
+document.addEventListener("DOMContentLoaded", () => {
+    const products = [...document.querySelectorAll(".product-info")];
 
-// One selected value for each clickable link filter.
-const activeLinks = {};
+    // Track selected filters
+    const selected = {
+        category: "",
+        price: "",
+        discount: "",
+    };
 
-const selectedFilters = {}; // for checkbox
-
-document.querySelectorAll(".sidebar [data-filter]").forEach((control) => {
-  const filterName = control.dataset.filter;
-
-  if (control.matches('input[type="checkbox"]')) {
-    control.addEventListener("change", () => {
-      selectedFilters[filterName] ??= new Set();
-
-      if (control.checked) {
-        selectedFilters[filterName].add(control.value);
-      } else {
-        selectedFilters[filterName].delete(control.value);
-      }
-
-      if (selectedFilters[filterName].size === 0) {
-        delete selectedFilters[filterName];
-      }
-
-      filterProducts();
-    });
-  } else {
-    control.addEventListener("click", (event) => {
-      event.preventDefault();
-
-      const value = control.dataset.value;
-
-      // "all" clears only the category selection.
-      if (filterName === "category" && value === "all") {
-        delete activeLinks.category;
-      } else if (activeLinks[filterName] === value) {
-        delete activeLinks[filterName];
-      } else {
-        activeLinks[filterName] = value;
-      }
-
-      filterProducts();
-    });
-  }
-});
-
-function getProductValue(product, key) {
-  return product.dataset[key] ?? "";
-}
-
-function matchesLinkFilter(product, filterName, value) {
-  const data = product.dataset;
-
-  switch (filterName) {
-    case "category":
-      return data.category === value;
-
-    case "price": {
-      const price = Number(data.price);
-
-      if (value === "20001-plus") return price >= 20001;
-
-      const [min, max] = value.split("-").map(Number);
-      return price >= min && price <= max;
+    function getCheckedValues(filterName) {
+        return [
+            ...document.querySelectorAll(
+                `input[data-filter="${filterName}"]:checked`
+            )
+        ].map(input => input.value.trim().toLowerCase());
     }
 
-    case "discount":
-      return Number(data.discount) >= Number(value);
+    function matchesProduct(product) {
+        const data = product.dataset;
 
-    case "deal":
-      return data.deal === value;
-
-    default:
-      return getProductValue(product, filterName) === value;
-  }
-}
-
-function matchesCheckboxFilter(product, filterName, values) {
-  const data = product.dataset;
-
-  switch (filterName) {
-    case "prime":
-    case "madeForAmazon":
-    case "topBrand":
-    case "customizable":
-    case "payOnDelivery":
-      return data[filterName] === "true";
-
-    case "brand":
-      return values.includes(data.brand);
-
-    case "delivery": {
-      const deliveryOptions = (data.delivery || "").split(/\s+/);
-      return values.some((value) => deliveryOptions.includes(value));
-    }
-
-    case "condition":
-      return values.includes(data.condition);
-
-    case "arrival":
-      return values.some(
-        (days) => Number(data.arrivalDays) <= Number(days)
-      );
-
-    case "seller":
-      return values.includes(data.seller);
-
-    case "origin":
-      return values.includes(data.origin);
-
-    case "includeOutOfStock":
-      // This option is handled separately below.
-      return true;
-
-    default:
-      return true;
-  }
-}
-
-function filterProducts() {
-  const includeOutOfStock =
-    selectedFilters.includeOutOfStock?.has("true") ?? false;
-
-  products.forEach((product) => {
-    let show = true;
-
-    // Hide out-of-stock items unless the user enables that option.
-    if (!includeOutOfStock && product.dataset.inStock !== "true") {
-      show = false;
-    }
-
-    // Apply clickable link filters.
-    for (const [filterName, value] of Object.entries(activeLinks)) {
-      if (!matchesLinkFilter(product, filterName, value)) {
-        show = false;
-        break;
-      }
-    }
-
-    // Apply checkbox filters together.
-    if (show) {
-      for (const [filterName, values] of Object.entries(selectedFilters)) {
+        // Category
         if (
-          filterName === "includeOutOfStock" ||
-          values.size === 0
+            selected.category &&
+            selected.category !== "all" &&
+            data.category?.toLowerCase() !== selected.category
         ) {
-          continue;
+            return false;
         }
 
-        if (!matchesCheckboxFilter(product, filterName, [...values])) {
-          show = false;
-          break;
+        // Brand: allow any selected brand
+        const brands = getCheckedValues("brand");
+        if (
+            brands.length &&
+            !brands.includes(data.brand?.toLowerCase())
+        ) {
+            return false;
         }
-      }
+
+        // Prime
+        if (
+            getCheckedValues("prime").length &&
+            data.prime !== "true"
+        ) {
+            return false;
+        }
+
+        // Delivery day (products must have data-delivery)
+        const delivery = getCheckedValues("delivery");
+        if (
+            delivery.length &&
+            !delivery.some(day =>
+                (data.delivery || "").toLowerCase().split(/\s+/).includes(day)
+            )
+        ) {
+            return false;
+        }
+
+        // Condition
+        const conditions = getCheckedValues("condition");
+        if (
+            conditions.length &&
+            !conditions.includes(data.condition?.toLowerCase())
+        ) {
+            return false;
+        }
+
+        // Price range
+        if (selected.price) {
+            const price = Number(data.price);
+            const [min, max] = selected.price.split("-");
+
+            if (price < Number(min)) return false;
+            if (max !== "plus" && price > Number(max)) return false;
+        }
+
+        // Discount percentage
+        if (
+            selected.discount &&
+            Number(data.discount || 0) < Number(selected.discount)
+        ) {
+            return false;
+        }
+
+        // Boolean checkbox filters
+        const booleanFilters = {
+            madeForAmazon: "madeForAmazon",
+            topBrand: "topBrand",
+            customizable: "customizable",
+            payOnDelivery: "payOnDelivery",
+        };
+
+        for (const [filterName, dataName] of Object.entries(booleanFilters)) {
+            if (
+                getCheckedValues(filterName).length &&
+                data[dataName] !== "true"
+            ) {
+                return false;
+            }
+        }
+
+        // Availability: hide out-of-stock products by default
+        if (
+            !getCheckedValues("includeOutOfStock").length &&
+            data.inStock === "false"
+        ) {
+            return false;
+        }
+
+        // New arrivals
+        const arrivals = getCheckedValues("arrival");
+        if (
+            arrivals.length &&
+            !arrivals.some(days =>
+                Number(data.arrivalDays) <= Number(days)
+            )
+        ) {
+            return false;
+        }
+
+        // Seller
+        const sellers = getCheckedValues("seller");
+        if (
+            sellers.length &&
+            !sellers.includes(data.seller?.toLowerCase())
+        ) {
+            return false;
+        }
+
+        // Country of origin
+        const origins = getCheckedValues("origin");
+        if (
+            origins.length &&
+            !origins.includes(data.origin?.toLowerCase())
+        ) {
+            return false;
+        }
+
+        return true;
     }
 
-    product.style.display = show ? "" : "none";
-  });
-}
+    function applyFilters() {
+        let visibleCount = 0;
 
-// Run once when the page loads.
-filterProducts();
+        products.forEach(product => {
+            const show = matchesProduct(product);
+            product.style.display = show ? "" : "none";
+
+            if (show) visibleCount++;
+        });
+
+        // Update each section's product grid
+        document.querySelectorAll(".product-list").forEach(list => {
+            const section = list.closest(".electro-products");
+            if (!section) return;
+
+            const sectionProducts = [
+                ...list.querySelectorAll(".product-info")
+            ];
+
+            const sectionHasProducts = sectionProducts.some(product =>
+                product.style.display !== "none"
+            );
+
+            const message = section.parentElement.querySelector(".no-products");
+
+            if (message) {
+                message.style.display = sectionHasProducts ? "none" : "block";
+            }
+        });
+
+        // Optional: display a page-wide result count
+        const count = document.getElementById("filterCount");
+        if (count) {
+            count.textContent = `${visibleCount} product(s) found`;
+        }
+    }
+
+    // Sidebar checkboxes
+    document.querySelectorAll(".sidebar input[data-filter]")
+        .forEach(input => {
+            input.addEventListener("change", applyFilters);
+        });
+
+    // Category links
+    document.querySelectorAll(
+        '.sidebar a[data-filter="category"]'
+    ).forEach(link => {
+        link.addEventListener("click", event => {
+            event.preventDefault();
+            selected.category = (
+                link.dataset.value || ""
+            ).toLowerCase();
+
+            applyFilters();
+        });
+    });
+
+    // Price links
+    document.querySelectorAll(".sidebar a[data-value]")
+        .forEach(link => {
+            if (link.dataset.filter === "discount") return;
+
+            link.addEventListener("click", event => {
+                event.preventDefault();
+                selected.price = link.dataset.value || "";
+                applyFilters();
+            });
+        });
+
+    // Discount links
+    document.querySelectorAll(
+        '.sidebar a[data-filter="discount"]'
+    ).forEach(link => {
+        link.addEventListener("click", event => {
+            event.preventDefault();
+            selected.discount = link.dataset.value || "";
+            applyFilters();
+        });
+    });
+
+    // Clicking a selected category/price/discount again clears it
+    document.querySelectorAll(".sidebar a[data-filter], .sidebar a[data-value]")
+        .forEach(link => {
+            link.addEventListener("dblclick", event => {
+                event.preventDefault();
+
+                if (link.dataset.filter === "category") {
+                    selected.category = "";
+                } else if (link.dataset.filter === "discount") {
+                    selected.discount = "";
+                } else if (link.dataset.value) {
+                    selected.price = "";
+                }
+
+                applyFilters();
+            });
+        });
+
+    applyFilters();
+});
