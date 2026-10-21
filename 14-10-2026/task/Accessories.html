@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessories | Amazon-style Store</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body id="top">
+  <header>
+    <div class="main">
+      <p class="amazon-logo">Amazon</p>
+      <p class="logo"><i class="fa fa-map-marker"></i> Update locations</p>
+      <select id="searchCategory" aria-label="Search category">
+        <option value="all">All Category</option>
+        <option value="electronics" selected>Electronics</option>
+        <option value="baby">Baby</option>
+      </select>
+      <input type="search" id="searchInput" placeholder="Search products" class="search" aria-label="Search products">
+      <button type="button" id="searchButton" aria-label="Search"><i class="fa fa-search"></i></button>
+      <select id="language" aria-label="Language">
+        <option value="en">EN</option><option value="ta">TA</option><option value="te">TE</option>
+      </select>
+      <p>Hello, sign in<br>Account &; Lists</p>
+      <p>Returns &; orders</p>
+      <p><i class="fa fa-shopping-cart"></i> Cart</p>
+    </div>
+    <div class="navbar">
+      <nav aria-label="Main navigation">
+        <ul class="list">
+          <li class="list1"><i class="fa fa-bars"></i> All</li>
+          <li class="list1">Fresh</li><li class="list1">Prime Video</li>
+          <li class="list1"><a href="electronics.html" class="link">Electronics</a></li>
+          <li class="list1">Mobiles</li><li class="list1"><a href="Sell.html" class="link">Sell</a></li>
+          <li class="list1">Bestsellers</li><li class="list1"><a href="Service.html" class="link">Customer Service</a></li>
+          <li class="list1">Today's Deals</li><li class="list1">New Releases</li><li class="list1">Prime</li><li class="list1">Amazon Pay</li>
+        </ul>
+      </nav>
+    </div>
+    <div class="subbar">
+      <nav aria-label="Electronics navigation">
+        <ul class="list">
+          <li><a href="electronics.html" class="link-main">Electronics</a></li>
+          <li>Mobile & Accessories</li><li>Laptop &; Accessories</li><li>TV & Entertainment</li>
+          <li>Cameras</li><li>Audio</li><li>Computer peripherals</li><li>Smart Technology</li>
+          <li>New Releases</li><li>Musical Instruments</li><li>Office & Stationery</li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-layout">
+    <aside class="sidebar" aria-label="Product filters">
+      <section class="filter-group">
+        <p class="filter-title">Category</p>
+        <p><strong>Electronics</strong></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="accessories">Accessories</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="cameras">Cameras &; Photography</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="car-electronics">Car and vehicle electronics</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="computers">Computer &; Accessories</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="gps">GPS &; Accessories</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="home-audio">Home Audio</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="home-theatre">Home Theatre, TV &; Video</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="mobiles">Mobile &; Accessories</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="media-players">Portable Media Players</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="radio">Radio Communication</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="tablets">Tablets</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="telephones">Telephone &; Accessories</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="warranties">Warranties</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="ebooks">Ebook and Reader &; Accessories</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="wearables">Wearable Technology</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="batteries">Batteries &; Battery Chargers</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="headphones">Headphones, Earbuds &; Accessories</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="power-accessories">Power Accessories</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="storage-devices">Storage Devices</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="speakers">Speakers</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="software">Software</a></p>
+        <p><a href="#" class="link-main" data-filter="category" data-value="all">Show All Products</a></p>
+      </section>
+
+      <section class="filter-group">
+        <p class="filter-title">Amazon Prime</p>
+        <label><input type="checkbox" data-filter="prime" value="true"> Prime</label>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">Delivery day</p>
+        <label><input type="checkbox" data-filter="delivery" value="today"> Get It Today</label><br>
+        <label><input type="checkbox" data-filter="delivery" value="tomorrow"> Get It By Tomorrow</label>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">Brands</p>
+        <label><input type="checkbox" data-filter="brand" value="apple"> Apple</label><br>
+        <label><input type="checkbox" data-filter="brand" value="sony"> Sony</label><br>
+        <label><input type="checkbox" data-filter="brand" value="redmi"> Redmi</label><br>
+        <label><input type="checkbox" data-filter="brand" value="boat"> boAt</label><br>
+        <label><input type="checkbox" data-filter="brand" value="motorola"> Motorola</label><br>
+        <label><input type="checkbox" data-filter="brand" value="xiaomi"> Xiaomi</label><br>
+        <label><input type="checkbox" data-filter="brand" value="oneplus"> OnePlus</label><br>
+        <label><input type="checkbox" data-filter="brand" value="portronics"> Portronics</label><br>
+        <label><input type="checkbox" data-filter="brand" value="realme"> Realme</label><br>
+        <label><input type="checkbox" data-filter="brand" value="sandisk"> SanDisk</label><br>
+        <label><input type="checkbox" data-filter="brand" value="hp"> HP</label><br>
+        <label><input type="checkbox" data-filter="brand" value="jbl"> JBL</label><br>
+        <label><input type="checkbox" data-filter="brand" value="adobe"> Adobe</label>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">Items Condition</p>
+        <label><input type="checkbox" data-filter="condition" value="new"> New</label><br>
+        <label><input type="checkbox" data-filter="condition" value="used"> Used</label>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">Price</p>
+        <p><a href="#" class="link-main" data-filter="price" data-value="0-999">Under ₹1,000</a></p>
+        <p><a href="#" class="link-main" data-filter="price" data-value="1000-5000">₹1,000 - ₹5,000</a></p>
+        <p><a href="#" class="link-main" data-filter="price" data-value="5000-10000">₹5,000 - ₹10,000</a></p>
+        <p><a href="#" class="link-main" data-filter="price" data-value="10000-20000">₹10,000 - ₹20,000</a></p>
+        <p><a href="#" class="link-main" data-filter="price" data-value="20000-plus">Over ₹20,000</a></p>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">Deals &; Discounts</p>
+        <p>Great Indian Festival</p>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">Made for Amazon Brands</p>
+        <label><input type="checkbox" data-filter="madeForAmazon" value="true"> Made for Amazon</label>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">Top Brands in Electronics</p>
+        <label><input type="checkbox" data-filter="topBrand" value="true"> Top Brands</label>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">Customizable Products</p>
+        <label><input type="checkbox" data-filter="customizable" value="true"> Customizable Products</label>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">Discount</p>
+        <p><a href="#" class="link-main" data-filter="discount" data-value="10">10% Off or more</a></p>
+        <p><a href="#" class="link-main" data-filter="discount" data-value="25">25% Off or more</a></p>
+        <p><a href="#" class="link-main" data-filter="discount" data-value="35">35% Off or more</a></p>
+        <p><a href="#" class="link-main" data-filter="discount" data-value="50">50% Off or more</a></p>
+        <p><a href="#" class="link-main" data-filter="discount" data-value="60">60% Off or more</a></p>
+        <p><a href="#" class="link-main" data-filter="discount" data-value="70">70% Off or more</a></p>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">New Arrivals</p>
+        <label><input type="checkbox" data-filter="arrival" value="30"> Last 30 days</label><br>
+        <label><input type="checkbox" data-filter="arrival" value="90"> Last 90 days</label>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">Availability</p>
+        <label><input type="checkbox" data-filter="includeOutOfStock" value="true"> Include out of stock</label>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">Pay On Delivery</p>
+        <label><input type="checkbox" data-filter="payOnDelivery" value="true"> Eligible for pay on delivery</label>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">Seller</p>
+        <label><input type="checkbox" data-filter="seller" value="Clicktech"> Clicktech Retail Private Ltd</label><br>
+        <label><input type="checkbox" data-filter="seller" value="Cocoblu"> Cocoblu Retail Private Ltd</label><br>
+        <label><input type="checkbox" data-filter="seller" value="sts_shop"> STS Shop</label><br>
+        <label><input type="checkbox" data-filter="seller" value="Trendora"> Trendora Global</label><br>
+        <label><input type="checkbox" data-filter="seller" value="TheGlobalGenie"> TheGlobalGenie</label><br>
+        <label><input type="checkbox" data-filter="seller" value="Pluton"> Pluton Here</label>
+      </section>
+      <section class="filter-group">
+        <p class="filter-title">Country of Origin</p>
+        <label><input type="checkbox" data-filter="origin" value="india"> India</label><br>
+        <label><input type="checkbox" data-filter="origin" value="china"> China</label><br>
+        <label><input type="checkbox" data-filter="origin" value="japan"> Japan</label><br>
+        <label><input type="checkbox" data-filter="origin" value="taiwan"> Taiwan</label><br>
+        <label><input type="checkbox" data-filter="origin" value="thailand"> Thailand</label><br>
+        <label><input type="checkbox" data-filter="origin" value="germany"> Germany</label><br>
+        <label><input type="checkbox" data-filter="origin" value="singapore"> Singapore</label><br>
+        <label><input type="checkbox" data-filter="origin" value="united_states"> United States</label><br>
+        <label><input type="checkbox" data-filter="origin" value="hong kong"> Hong Kong</label><br>
+        <label><input type="checkbox" data-filter="origin" value="vietnam"> Vietnam</label><br>
+        <label><input type="checkbox" data-filter="origin" value="south_korea"> South Korea</label>
+      </section>
+      <button type="button" id="clearFilters" class="clear-filters">Clear all filters</button>
+    </aside>
+
+    <main class="electro-content">
+     <h2>Mobiles</h2>
+      <section class="electro-products">
+        <div class="product-list">
+          <article class="product-info" data-category="Mobiles" data-brand="motorola" data-price="799" data-discount="77" data-prime="true" data-condition="new" data-origin="india" data-delivery="today" data-in-stock="true" data-pay-on-delivery="true" data-seller="Clicktech" data-arrival-days="20" data-top-brand="true" data-made-for-amazon="false" data-customizable="false">
+            <img src="./assests/moto-edge.webp" alt="moto-edge">
+            <p class="product-name">Motorola Compatible with Moto Edge 70 Pro
+                        Plus Aurashine (TPU PC) Back..</p>
+            <div class="product-price"><p>₹1,190</p><p>MRP: <span class="mrp">₹3,490</span></p></div>
+           <button class="cart">Add to Cart</button>
+          </article>
+          <article class="product-info" data-category="Mobiles" data-brand="Xiaomi" data-price="799" data-discount="28" data-prime="true" data-condition="new" data-origin="india" data-delivery="tomorrow" data-in-stock="true" data-pay-on-delivery="true" data-seller="Cocoblu" data-arrival-days="45" data-top-brand="true" data-made-for-amazon="false" data-customizable="false">
+            <img src="./assests/xiaomi-17.webp" alt="Xiaomi">
+            <p class="product-name">XIAOMI 17 (12GB/512GB)|50MP Leica Triple Camera|Snapdragon 8...</p>
+            <div class="product-price"><p>₹68,999</p><p>MRP: <span class="mrp">₹1,90,999</span></p></div>
+          <button class="cart">Add to Cart</button>
+          </article>
+          <article class="product-info" data-category="Mobiles" data-brand="realme" data-price="999" data-discount="67" data-condition="new" data-origin="china" data-delivery="tomorrow" data-in-stock="true" data-pay-on-delivery="false" data-seller="Trendora" data-arrival-days="70" data-top-brand="true" data-made-for-amazon="false" data-customizable="false">
+            <img src="./assests/realme.webp" alt="realme">
+            <p class="product-name">realme P4R 5G Smartphone, Lavender Glare, 8000mAh Battery, 144Hz Display, 6 GB...</p>
+            <div class="product-price"><p>₹23,850</p><p>MRP: <span class="mrp">₹39,999</span></p></div>
+          <button class="cart">Add to Cart</button>
+          </article>
+          <article class="product-info" data-category="Mobiles" data-brand="redmi" data-price="999" data-discount="23" data-condition="new" data-origin="china" data-delivery="today" data-in-stock="true" data-pay-on-delivery="true" data-seller="Pluton" data-arrival-days="120" data-top-brand="false" data-made-for-amazon="false" data-customizable="false">
+            <img src="./assests/Redmi-17.webp" alt="Redmi">
+            <p class="product-name">Redmi 17 5G (Endless Blue, 6GB RAM, 128GB ROM) | 7900mAh Battery + 45W Fast..</p>
+            <div class="product-price"><p>₹23,998</p><p>MRP: <span class="mrp">₹39,999</span></p></div>
+           <button class="cart">Add to Cart</button>
+          </article>
+        </div>
+        <br>
+         <div class="product-list">
+          <article class="product-info" data-category="Mobiles" data-brand="motorola" data-price="799" data-discount="77" data-prime="true" data-condition="new" data-origin="india" data-delivery="today" data-in-stock="true" data-pay-on-delivery="true" data-seller="Clicktech" data-arrival-days="20" data-top-brand="true" data-made-for-amazon="false" data-customizable="false">
+            <img src="./assests/a300.webp" alt="a300">
+            <p class="product-name">Motorola All-New A300-2026 Dual Sim keypad Phone
+                        | 2 Years Replacement | Type C...</p>
+            <div class="product-price"><p>₹1,299</p><p>MRP: <span class="mrp">₹3,490</span></p></div>
+            <button class="cart">Add to Cart</button>
+          </article>
+          <article class="product-info" data-category="Mobiles" data-brand="motorola" data-price="799" data-discount="28" data-prime="true" data-condition="new" data-origin="india" data-delivery="tomorrow" data-in-stock="true" data-pay-on-delivery="true" data-seller="Cocoblu" data-arrival-days="45" data-top-brand="true" data-made-for-amazon="false" data-customizable="false">
+            <img src="./assests/a10e.webp" alt="a10e">
+            <p class="product-name">Motorola All-New A10e Dual Sim keypad Phone |
+                        2 Years Replacement | Long Lasting....</p>
+            <div class="product-price"><p>₹1,275</p><p>MRP: <span class="mrp">₹3,999</span></p></div>
+             <button class="cart">Add to Cart</button>
+          </article>
+          <article class="product-info" data-category="Mobiles" data-brand="motorola" data-price="999" data-discount="67" data-condition="new" data-origin="china" data-delivery="tomorrow" data-in-stock="true" data-pay-on-delivery="false" data-seller="Trendora" data-arrival-days="70" data-top-brand="true" data-made-for-amazon="false" data-customizable="false">
+            <img src="./assests/a100.webp" alt="a100">
+            <p class="product-name">Motorola A100 Keypad Mobile Phone with 2 Years Replacement
+                        Warranty, Long...</p>
+            <div class="product-price"><p>₹1,099</p><p>MRP: <span class="mrp">₹3,999</span></p></div>
+             <button class="cart">Add to Cart</button>
+          </article>
+          <article class="product-info" data-category="Mobiles" data-brand="redmi" data-price="999" data-discount="23" data-condition="new" data-origin="china" data-delivery="today" data-in-stock="true" data-pay-on-delivery="true" data-seller="Pluton" data-arrival-days="120" data-top-brand="false" data-made-for-amazon="false" data-customizable="false">
+            <img src="./assests/Redmi-17.webp" alt="Redmi">
+            <p class="product-name">Redmi 17 5G (Endless Blue, 6GB RAM, 128GB ROM) | 7900mAh Battery + 45W Fast..</p>
+            <div class="product-price"><p>₹23,998</p><p>MRP: <span class="mrp">₹39,999</span></p></div>
+           <button class="cart">Add to Cart</button>
+          </article>
+        </div>
+        <p class="no-products" hidden>No products found.</p>
+      </section>
+      <br>
+    </main>
+  </div>
+
+  <div  class="back-top" ><button class="top"><a href="#top" style="text-decoration: none; color: white;">Back to top</a></button></div>
+  <footer>
+    <div class="ups">
+      <div class="footer-up">
+        <div><p class="title">Get to Know Us</p><p><a href="#" class="sub">About Amazon</a></p><p><a href="#" class="sub">Careers</a></p><p><a href="#" class="sub">Press Releases</a></p><p><a href="#" class="sub">Amazon Science</a></p></div>
+        <div><p class="title">Connect with Us</p><p><a href="#" class="sub">Facebook</a></p><p><a href="#" class="sub">Twitter</a></p><p><a href="#" class="sub">Instagram</a></p></div>
+        <div><p class="title">Make Money with Us</p><p><a href="#" class="sub">Sell on Amazon</a></p><p><a href="#" class="sub">Sell under Amazon Accelerator</a></p><p><a href="#" class="sub">Protect and Build Your Brand</a></p><p><a href="#" class="sub">Amazon Global Selling</a></p><p><a href="#" class="sub">Supply to Amazon</a></p><p><a href="#" class="sub">Become an Affiliate</a></p><p><a href="#" class="sub">Fulfilment by Amazon</a></p><p><a href="#" class="sub">Advertise Your Products</a></p><p><a href="#" class="sub">Amazon Pay on Merchants</a></p></div>
+        <div><p class="title">Let Us Help You</p><p><a href="#" class="sub">Your Account</a></p><p><a href="#" class="sub">Returns Centre</a></p><p><a href="#" class="sub">Recalls and Product Safety Alerts</a></p><p><a href="#" class="sub">100% Purchase Protection</a></p><p><a href="#" class="sub">Amazon App Download</a></p><p><a href="#" class="sub">Help</a></p></div>
+      </div>
+      <div class="p2"><p>Amazon</p><select aria-label="Footer language"><option value="en">English</option><option value="ta">Tamil</option><option value="te">Telugu</option></select><p class="country">India</p></div>
+    </div>
+    <div class="footer"><div class="para"><p>Conditions of Use &; Sale</p><p>Privacy Notice</p><p>Interest-Based Ads</p></div><p class="end">© 1996-2026, Amazon.com, Inc. or its affiliates</p></div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

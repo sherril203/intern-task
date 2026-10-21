@@ -216,7 +216,7 @@ padding: 10px;
 
 .product-list {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 15px;
 }
 
@@ -319,7 +319,7 @@ padding: 10px;
      display: flex;
      justify-content: center;
      align-content: center;
-}
+}*/
 /* Customer Services*/
 .flex-box{
     display: flex;
@@ -331,9 +331,9 @@ padding: 10px;
     border: 2px solid gainsboro;
     padding: 10px ;
     border-radius: 5px;
-}
+}*/
 /* sell page */
-.big{
+ .big{
     font-weight: bold; 
     color: blue;
     display: flex;
@@ -486,3 +486,4 @@ padding: 10px;
   .product-info img { height: 130px; }
   .footer-up { grid-template-columns: 1fr; }
 }
+
