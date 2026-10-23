@@ -50,6 +50,7 @@ display: flex;
        flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
     background-color: black;
     color:white;
     font-size: 20px;
@@ -185,10 +186,11 @@ text-decoration: none;
     display: flex;
     justify-content: center;
     align-items: stretch;
-    gap: 25px;
+    gap: 30px;
     padding: 30px 20px;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .form {
@@ -198,27 +200,28 @@ text-decoration: none;
     border-radius: 8px;
     padding: 25px;
     width: 100%;
-    max-width: 350px;
-    min-height: 350px;
+    max-width: 400px;
+    min-width: 0;
+    flex: 1;
     box-sizing: border-box;
     font-size: 20px;
-    flex: 1;
 }
 
 .form p {
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    line-height: 1.5;
 }
 
 .form input,
 .form textarea {
     width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 12px;
     box-sizing: border-box;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 15px;
     font-size: 16px;
     border: 1px solid gray;
-    border-radius: 4px;
+    border-radius: 5px;
 }
 
 .form textarea {
@@ -227,12 +230,12 @@ text-decoration: none;
 }
 
 .form-submit {
-    background-color: blue;
-    color: white;
     width: 100%;
     padding: 12px;
-    border-radius: 10px;
+    background-color: blue;
+    color: white;
     border: none;
+    border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
 }
@@ -243,6 +246,7 @@ text-decoration: none;
     align-items: center;
     background-color: aqua;
     padding: 10px;
+    text-align: center;
 }
 .form{
  background-color: white;
@@ -256,7 +260,7 @@ text-decoration: none;
 .form-submit{
     background-color: blue;
     color:white;
-    width: 310px;
+    width: px;
     padding: 10px;
     border-radius:10px;
 
@@ -298,7 +302,7 @@ color: white;
 }
 
 /* responsive */
-
+/* index and product page*/
 /* Tablet */
 @media (max-width: 992px) {
     .filter-products {
@@ -373,5 +377,53 @@ color: white;
     .footer {
         text-align: center;
         padding: 10px;
+    }
+}
+/* contact page*/
+/* Tablet */
+@media (max-width: 768px) {
+    .navbar {
+        justify-content: center;
+    }
+
+    .contact-flex {
+        gap: 20px;
+        padding: 20px 15px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .navbar ul {
+        justify-content: center;
+    }
+
+    .navbar > div:last-child {
+        display: flex;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .navbar .input {
+        flex: 1;
+        min-width: 0;
+    }
+
+     .contact-flex {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 20px 15px;
+    }
+
+    .form {
+        width: 100%;
+        max-width: 450px;
+        flex: auto;
     }
 }
