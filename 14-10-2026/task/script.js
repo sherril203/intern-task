@@ -319,3 +319,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
     filterProducts();
 });
+//search option
+
+document.addEventListener("DOMContentLoaded", () => {
+    const SearchInput = document.getElementById("searchInput");
+    const SearchBtn = document.getElementById("searchBtn");
+    const products = document.querySelectorAll(".product");
+
+    function Search() {
+        const SearchText = SearchInput.value.trim().toLowerCase();
+
+        products.forEach(product => {
+            const ProductName =
+                product.querySelector(".title")?.textContent.toLowerCase() || "";
+
+            const Category =
+                product.dataset.category?.toLowerCase() || "";
+
+            const Brand =
+                product.dataset.brand?.toLowerCase() || "";
+
+            const matches =
+                ProductName.includes(SearchText) ||
+                Category.includes(SearchText) ||
+                Brand.includes(SearchText);
+
+            product.style.display = matches ? "" : "none";
+        });
+    }
+
+    SearchBtn.addEventListener("click", Search);
+
+    SearchInput.addEventListener("input", Search);
+
+    SearchInput.addEventListener("keydown", event => {
+        if (event.key === "Enter") {
+            Search();
+        }
+    });
+});
