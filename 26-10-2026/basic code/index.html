@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+         <link rel="stylesheet" href="index.css">
+           <link rel="icon" type="image/ico" href="./logo/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products World</title>
+</head>
+<body>
+   <nav class="navbar">
+        <div style="display:flex;justify-content: center; align-items: center;gap: 10px;">
+            <img src="./logo/favicon.ico" alt="">
+           <p style="font-family:cursive; font-weight: bold;"><a href="index.html" class="link" style="color:black">ProductWorld</a></p>
+        </div>
+    <ul >
+        <li class="list"><a href="index.html"  class="link" style="text-decoration-line: underline; text-decoration-color: orange;">Home</a></li>
+        <li class="list"><a href="Products.html"  class="link">Products</a></li>
+        <li class="list"><a href="Contact.html" class="link">Contact</a></li>
+    </ul>
+    <div>
+        <input type="text" class="input" placeholder="Search products..." id="searchInput">
+            <button class="search" id="searchBtn">Search</button>
+    </div>
+   </nav>
+    <div class="main">
+            <div>
+            <p style="font-weight: bold;font-size:30px">Home</p>
+            <p style="font-size:20px ">Welcome user and start to purchase</p>
+            <button class="click"><a href="Products.html">Go to Products</a></button>
+            </div>
+            
+        </div>
+        <div>
+            <p  style="display: flex;justify-content: center;font-weight: bold;font-size: 30px;">Products</p>
+            
+                     <div class="product-flex">
+
+    <div class="product" data-category="PC Accessories" data-brand="HP" data-price="799">
+        <img src="./assests/HP-2.0.jpg" alt="HP USB Flash Drive" width="200" height="200">
+        <p class="category">PC Accessories</p>
+        <p class="title">HP v150w 64 GB USB 2.0 Flash Drive (Blue)</p>
+        <p style="font-size: 20px;">MRP: ₹799 <span style="text-decoration: line-through;">₹1,999</span></p>
+        <div class="button">
+            <button class="buy">Buy Now</button>
+            <button class="cart">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="product" data-category="Accessories" data-brand="Boat" data-price="1099">
+        <img src="./assests/boat-stone.jpg" alt="boAt Bluetooth Speaker" width="200" height="200">
+        <p class="category">Accessories</p>
+        <p class="title">boAt Stone 352/358 Bluetooth Speaker</p>
+        <p style="font-size: 20px;">MRP: ₹1,099 <span style="text-decoration: line-through;">₹3,499</span></p>
+        <div class="button">
+            <button class="buy">Buy Now</button>
+            <button class="cart">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="product" data-category="PC Accessories" data-brand="Portronics" data-price="599">
+        <img src="./assests/toad.jpg" alt="Portronics Bluetooth Mouse" width="200" height="200">
+        <p class="category">PC Accessories</p>
+        <p class="title">Portronics Toad One Bluetooth Mouse</p>
+        <p style="font-size: 20px;">MRP: ₹599 <span style="text-decoration: line-through;">₹1,999</span></p>
+        <div class="button">
+            <button class="buy">Buy Now</button>
+            <button class="cart">Add to Cart</button>
+        </div>
+    </div>
+<div class="product" data-category="books" data-brand="book" data-price="699">
+        <img src="./assests/atomic-habits.webp" alt="atomic habits" width="200" height="200">
+        <p class="category">books</p>
+        <p class="title">Atomic Habits</p>
+        <p style="font-size: 20px;">MRP: ₹613 <span style="text-decoration: line-through;">₹1,999</span></p>
+        <div class="button">
+            <button class="buy">Buy Now</button>
+            <button class="cart">Add to Cart</button>
+        </div>
+    </div>
+</div>
+        </div>
+        <div style="display: flex; justify-content: center;padding: 8px;">
+                <button class="explore">
+                    <a href="Products.html" class="link">Explore More</a>
+                </button>
+            </div>
+        </div>
+        <div class="footer">
+           <p style="font-weight: bold;">ProductWorld</p> 
+           <p>Purchase and enjoy</p>
+           <p> 2026 All rights reserved</p>
+        </div>
+          <script src="script.js"></script>
+</body>
+</html>

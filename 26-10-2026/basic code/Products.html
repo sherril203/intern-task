@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/ico" href="./logo/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Products</title>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div style="display:flex;justify-content: center; align-items: center;gap: 10px;">
+            <img src="./logo/favicon.ico" alt="">
+            <p style="font-family:cursive; font-weight: bold;"><a href="index.html" class="link"
+                    style="color:black">ProductWorld</a></p>
+        </div>
+
+        <ul>
+            <li class="list"><a href="index.html" class="link">Home</a></li>
+            <li class="list"><a href="Products.html" class="link"
+                    style="text-decoration-line: underline; text-decoration-color: orange;">Products</a></li>
+            <li class="list"><a href="Contact.html" class="link">Contact</a></li>
+        </ul>
+
+        <div>
+            <input type="text" class="input" placeholder="Search products..." id="searchInput">
+            <button class="search" id="searchBtn">Search</button>
+        </div>
+    </nav>
+
+    <div class="main">
+        <div>
+            <p style="font-weight: bold;font-size:30px ">Products</p>
+            <p style="font-size:20px ">Buy your products and enjoy</p>
+        </div>
+    </div>
+
+    <div class="filter-products">
+        <div class="filter">
+            <div style="font-size: 20px;">
+                <p style="font-weight: bold;">Categories</p>
+
+                <input type="checkbox" data-filter="category" value="PC Accessories"> PC Accessories<br>
+                <input type="checkbox" data-filter="category" value=" Game Accessories">Game Accessories<br>
+                <input type="checkbox" data-filter="category" value="Laptop">Laptop <br>
+                <input type="checkbox" data-filter="category" value="Camera">Camera <br>
+                <input type="checkbox" data-filter="category" value="Accessories"> Accessories <br>
+                <input type="checkbox" data-filter="category" value="Smart Watch"> Smart Watch <br>
+                <input type="checkbox" data-filter="category" value="Power Bank ">Power Bank <br>
+                <input type="checkbox" data-filter="category" value="Mobiles"> Mobiles <br>
+                <input type="checkbox" data-filter="category" value="books"> Books <br>
+                <input type="checkbox" data-filter="category" value="Shoes"> Shoes
+
+            </div>
+            <div style="font-size: 20px;">
+                <p style="font-weight: bold;">Brands</p>
+                <input type="checkbox" data-filter="brand" value="HP"> HP<br>
+                <input type="checkbox" data-filter="brand" value="Sandisk"> Sandisk<br>
+                <input type="checkbox" data-filter="brand" value="Boat"> boAt<br>
+                <input type="checkbox" data-filter="brand" value="Portronics"> Portronics <br>
+                <input type="checkbox" data-filter="brand" value="Acer"> Acer <br>
+                <input type="checkbox" data-filter="brand" value="Canon"> Canon <br>
+                <input type="checkbox" data-filter="brand" value="Tecno"> Tecno <br>
+                <input type="checkbox" data-filter="brand" value="Callmate"> Callmate <br>
+                <input type="checkbox" data-filter="brand" value="Bacca Bucci">Bacca Bucci
+            </div>
+
+            <div style="font-size: 20px;">
+                <p style="font-weight: bold;">Price</p>
+                <input type="checkbox" data-filter="price" value="0-999"> Under ₹1,000<br>
+                <input type="checkbox" data-filter="price" value="1000-3000"> ₹1,000–₹3,000<br>
+                <input type="checkbox" data-filter="price" value="3000-5000"> ₹3,000–₹5,000<br>
+                <input type="checkbox" data-filter="price" value="5000-7000"> ₹5,000–₹7,000<br>
+                <input type="checkbox" data-filter="price" value="7000+"> ₹7,000+
+            </div>
+        </div>
+<div class="product-container">
+
+    <!-- Hidden template -->
+   
+
+    <!-- Products will display here -->
+    <div class="product-flex" id="productList">
+         <div class="product" id="productTemplate" hidden>
+        <img src="" alt="Product" width="200" height="200">
+        <p class="category"></p>
+        <p class="title"></p>
+        <p class="price" style="font-size: 20px;"></p>
+
+        <div class="button">
+            <button class="buy">Buy Now</button>
+            <button class="cart">Add to Cart</button>
+        </div>
+    </div>
+    </div>
+
+</div>
+    </div>
+
+
+    <div class="footer">
+        <p style="font-weight: bold;">ProductWorld</p>
+        <p>Purchase and enjoy</p>
+        <p> 2026 All rights reserved</p>
+    </div>
+    <script src="./config.js"></script>
+    <script src="./script.js"></script>
+
+
+</body>
+
+</html>
