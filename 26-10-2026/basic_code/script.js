@@ -1,8 +1,11 @@
+
 document.addEventListener("DOMContentLoaded", () => {
-    const products = document.querySelectorAll(".product");
+    const products = document.querySelectorAll(
+        ".dynamic-product"
+    );
 
     const filters = document.querySelectorAll(
-        'input[data-filter]'
+        "input[data-filter]"
     );
 
     function filterProducts() {
@@ -24,28 +27,23 @@ document.addEventListener("DOMContentLoaded", () => {
             )
         ).map(input => input.value);
 
-        products.forEach(product => {
-            const category = (
-                product.dataset.category || ""
-            ).trim().toLowerCase();
+        document.querySelectorAll(".dynamic-product").forEach(product => {
+            const category = (product.dataset.category || "")
+                .trim().toLowerCase();
 
-            const brand = (
-                product.dataset.brand || ""
-            ).trim().toLowerCase();
+            const brand = (product.dataset.brand || "")
+                .trim().toLowerCase();
 
-            const price = Number(product.dataset.price);
+            const price = Number(product.dataset.price || 0);
 
-            // Category filter
             const categoryMatch =
                 selectedCategories.length === 0 ||
                 selectedCategories.includes(category);
 
-            // Brand filter
             const brandMatch =
                 selectedBrands.length === 0 ||
                 selectedBrands.includes(brand);
 
-            // Price filter
             const priceMatch =
                 selectedPrices.length === 0 ||
                 selectedPrices.some(range => {
@@ -53,14 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         return price >= 7000;
                     }
 
-                    const [min, max] = range
-                        .split("-")
-                        .map(Number);
-
+                    const [min, max] = range.split("-").map(Number);
                     return price >= min && price <= max;
                 });
 
-            // Display product if all selected filters match
             product.style.display =
                 categoryMatch && brandMatch && priceMatch
                     ? ""
@@ -72,8 +66,13 @@ document.addEventListener("DOMContentLoaded", () => {
         filter.addEventListener("change", filterProducts);
     });
 
+    // Run filters after products have been loaded
     filterProducts();
+
+    // Call this function again after fetchProducts() renders new products
+    window.filterProducts = filterProducts;
 });
+
 //search option
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -171,6 +170,10 @@ function displayProducts(products) {
         card.classList.add("dynamic-product");
         productList.appendChild(card);
     });
+    // After all cards are appended:
+    if (window.filterProducts) {
+        window.filterProducts();
+    }
 }
 fetchProducts();
 
