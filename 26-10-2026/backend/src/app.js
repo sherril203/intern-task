@@ -6,7 +6,7 @@ const app=express()
 
 app.use(cors())
 app.use(express.json())
-app.use('/files',express.static(path.join(__dirname,'image')))
+app.use('/files',express.static(path.join(__dirname,'src','image')))
 app.get("/",(req,res)=>{
     res.send("api is working")
 })

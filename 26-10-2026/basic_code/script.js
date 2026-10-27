@@ -114,8 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
- 
-
 
 const productList = document.getElementById("productList");
 const template = document.getElementById("productTemplate");
@@ -137,7 +135,7 @@ async function fetchProducts() {
 function displayProducts(products) {
     productList.innerHTML = "";
 
-    products.forEach(function(item) {
+    products.forEach(function (item) {
         const card = template.cloneNode(true);
         card.dataset.category = item.category || "";
         card.dataset.brand = item.brand || "";
@@ -148,8 +146,13 @@ function displayProducts(products) {
         card.dataset.price = price;
 
         const img = card.querySelector("img");
+
         img.src = `${API}/files/${item.image}`;
         img.alt = item.product_title || "Product";
+
+        img.onerror = function () {
+            console.log("Image not found:", img.src);
+        };
 
         card.querySelector(".category").textContent = item.category || "";
         card.querySelector(".title").textContent = item.product_title || "";
