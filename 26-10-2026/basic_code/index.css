@@ -430,3 +430,6 @@ color: white;
         flex: auto;
     }
 }
+[hidden] {
+    display: none !important;
+}

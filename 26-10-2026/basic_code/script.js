@@ -348,8 +348,7 @@ function displayProducts(products) {
     applySearchAndFilters();
 }
 
-    // ADD TO CART
-
+// ADD TO CART
 async function addToCart(item) {
     try {
         const response = await fetch(`${API}/cart`, {
@@ -370,18 +369,15 @@ async function addToCart(item) {
         if (!response.ok) {
             const message = await response.text();
             console.error("Add to Cart error:", response.status, message);
-            alert("Product not added. Please try again.");
             return false;
         }
 
         await cartCount();
-        alert("Product added to cart!");
-
+       
         return true;
 
     } catch (error) {
         console.error("Add to Cart error:", error);
-        alert("Server connection failed.");
         return false;
     }
 }
@@ -463,7 +459,6 @@ async function addToCart(item) {
             await cartCount();
         } catch (error) {
             console.error("Remove cart error:", error);
-            alert("Unable to remove product. Please check the console.");
         }
     }
 

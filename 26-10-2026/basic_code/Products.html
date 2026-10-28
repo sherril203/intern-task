@@ -6,6 +6,7 @@
     <link rel="icon" type="image/ico" href="./logo/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Products</title>
 </head>
 
@@ -24,13 +25,8 @@
                     style="text-decoration-line: underline; text-decoration-color: orange;">Products</a></li>
             <li class="list"><a href="Contact.html" class="link">Contact</a></li>
         </ul>
-
         <div>
-            <input type="text" class="input" placeholder="Search products..." id="searchInput">
-            <button class="search" id="searchBtn">Search</button>
-        </div>
-        <div>
-            <p><a href="./Cart.html" class="link"> Cart(<span id="cartCount">0</span>)</a></p>
+            <p ><a href="./Cart.html" class="link" style="color:black"><i class="fa-solid fa-cart-shopping"></i> Cart(<span id="cartCount">0</span>)</a></p>
         </div>
     </nav>
 
@@ -80,22 +76,27 @@
                 <input type="checkbox" data-filter="price" value="7000+"> ₹7,000+
             </div>
         </div>
+
 <div class="product-container">
-    
-    <div class="product-flex" id="productList">
-  
-    </div>
-       <div class="product" id="productTemplate" hidden>
+       <div style="display:flex;justify-content: center;gap:10px">
+            <input type="text" class="input" placeholder="Search products..." id="searchInput">
+            <button class="search" id="searchBtn">Search</button>
+        </div>
+ <div class="product-flex" id="productList">
+    <div class="product" id="productTemplate" hidden>
         <img src="" alt="Product" width="200" height="200">
         <p class="category"></p>
         <p class="title"></p>
-        <p class="price" style="font-size: 20px;"></p>
+        <p class="price"></p>
 
         <div class="button">
             <button class="buy">Buy Now</button>
             <button class="cart">Add to Cart</button>
         </div>
     </div>
+</div>
+
+
 </div>
     </div>
 
@@ -107,6 +108,7 @@
     </div>
     <script src="./config.js"></script>
     <script src="./script.js"></script>
+    <script src="https://kit.fontawesome.com/8872bf04b0.js" crossorigin="anonymous"></script>
 
 
 </body>
