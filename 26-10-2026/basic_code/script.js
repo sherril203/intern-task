@@ -115,115 +115,213 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const productList = document.getElementById("productList");
-const template = document.getElementById(
-    isCartPage ? "cartTemplate" : "productTemplate"
-);
-async function fetchProducts() {
-    try {
-        const response = await fetch(`${API}/alldata`);
-        const result = await response.json();
+const template = document.getElementById("productTemplate");
 
-        console.log("API data:", result);
+document.addEventListener("DOMContentLoaded", () => {
+    const productList = document.getElementById("productList");
+    const productTemplate = document.getElementById("productTemplate");
+    const cartTemplate = document.getElementById("cartTemplate");
+    const cartCountElement = document.getElementById("cartCount");
 
-        const products = result.data || result;
+    const isCartPage = window.location.pathname
+        .toLowerCase()
+        .endsWith("cart.html");
 
-        displayProducts(products);
-    } catch (error) {
-        console.log("Error:", error);
+    // SEARCH AND FILTER
+    const searchInput = document.getElementById("searchInput");
+    const searchButton = document.getElementById("searchBtn");
+    const filters = document.querySelectorAll("input[data-filter]");
+
+    function applySearchAndFilters() {
+        const searchText = (searchInput?.value || "").trim().toLowerCase();
+
+        const categories = Array.from(
+            document.querySelectorAll('input[data-filter="category"]:checked')
+        ).map(input => input.value.trim().toLowerCase());
+
+        const brands = Array.from(
+            document.querySelectorAll('input[data-filter="brand"]:checked')
+        ).map(input => input.value.trim().toLowerCase());
+
+        const prices = Array.from(
+            document.querySelectorAll('input[data-filter="price"]:checked')
+        ).map(input => input.value);
+
+        document.querySelectorAll(".dynamic-product").forEach(card => {
+            const title = card.querySelector(".title")?.textContent.toLowerCase() || "";
+            const category = (card.dataset.category || "").toLowerCase();
+            const brand = (card.dataset.brand || "").toLowerCase();
+            const price = Number(card.dataset.price || 0);
+
+            const searchMatch =
+                !searchText ||
+                title.includes(searchText) ||
+                category.includes(searchText) ||
+                brand.includes(searchText);
+
+            const categoryMatch =
+                categories.length === 0 || categories.includes(category);
+
+            const brandMatch =
+                brands.length === 0 || brands.includes(brand);
+
+            const priceMatch =
+                prices.length === 0 ||
+                prices.some(range => {
+                    if (range === "7000+") return price >= 7000;
+
+                    const [min, max] = range.split("-").map(Number);
+                    return price >= min && price <= max;
+                });
+
+            card.style.display =
+                searchMatch && categoryMatch && brandMatch && priceMatch
+                    ? ""
+                    : "none";
+        });
     }
-}
 
-function displayProducts(products) {
-    productList.innerHTML = "";
+    filters.forEach(filter => {
+        filter.addEventListener("change", applySearchAndFilters);
+    });
 
-    products.forEach(function (item) {
-        const card = template.cloneNode(true);
-        card.dataset.category = item.category || "";
-        card.dataset.brand = item.brand || "";
+    searchButton?.addEventListener("click", applySearchAndFilters);
+    searchInput?.addEventListener("input", applySearchAndFilters);
 
-        const price = Number(String(item.price || "0").replace(/,/g, ""));
-        const oldPrice = Number(String(item.original_price || "0").replace(/,/g, ""));
+    searchInput?.addEventListener("keydown", event => {
+        if (event.key === "Enter") {
+            applySearchAndFilters();
+        }
+    });
 
-        card.dataset.price = price;
+    window.filterProducts = applySearchAndFilters;
+
+
+    // PRICE FORMAT
+    function formatPrice(value) {
+        const price = Number(String(value || "0").replace(/,/g, ""));
+        return Number.isFinite(price) ? price : 0;
+    }
+
+
+    // DISPLAY PRODUCT DETAILS
+    function fillProductCard(card, item) {
+        const price = formatPrice(item.price);
+        const oldPrice = formatPrice(item.original_price);
 
         const img = card.querySelector("img");
 
-        img.src = `${API}/files/${item.image}`;
-        img.alt = item.product_title || "Product";
+        if (img) {
+            img.src = `${API}/files/${item.image || ""}`;
+            img.alt = item.product_title || "Product";
 
-        img.onerror = function () {
-            console.log("Image not found:", img.src);
-        };
-
-        card.querySelector(".category").textContent = item.category || "";
-        card.querySelector(".title").textContent = item.product_title || "";
-
-        const priceText = card.querySelector(".price");
-        priceText.textContent = `MRP: ₹${price.toLocaleString("en-IN")}`;
-
-        if (oldPrice > price) {
-            const oldPriceText = document.createElement("span");
-            oldPriceText.style.textDecoration = "line-through";
-            oldPriceText.style.marginLeft = "5px";
-            oldPriceText.textContent = `₹${oldPrice.toLocaleString("en-IN")}`;
-            priceText.appendChild(oldPriceText);
+            img.onerror = () => {
+                console.error("Image not found:", img.src);
+            };
         }
 
-        card.classList.add("dynamic-product");
-        productList.appendChild(card);
-    });
-    // After all cards are appended:
-    if (window.filterProducts) {
-        window.filterProducts();
+        const category = card.querySelector(".category");
+        if (category) category.textContent = item.category || "";
+
+        const title = card.querySelector(".title");
+        if (title) title.textContent = item.product_title || "";
+
+        const priceText = card.querySelector(".price");
+
+        if (priceText) {
+            priceText.textContent =
+                `MRP: ₹${price.toLocaleString("en-IN")}`;
+
+            if (oldPrice > price) {
+                const oldPriceText = document.createElement("span");
+                oldPriceText.style.textDecoration = "line-through";
+                oldPriceText.style.marginLeft = "5px";
+                oldPriceText.textContent =
+                    ` ₹${oldPrice.toLocaleString("en-IN")}`;
+
+                priceText.appendChild(oldPriceText);
+            }
+        }
+
+        return price;
     }
-}
-fetchProducts();
 
 
-
-// Get cart products and update navbar count
-async function getCartProducts() {
-    const response = await fetch(`${API}/cart`);
-
-    if (!response.ok) {
-        throw new Error("Failed to fetch cart");
-    }
-
-    const result = await response.json();
-    return result.data || result;
-}
-
-// Display products from backend
-async function fetchProducts() {
-    try {
-        const response = await fetch(`${API}/alldata`);
+    // GET CART PRODUCTS
+    async function getCartProducts() {
+        const response = await fetch(`${API}/cart`);
 
         if (!response.ok) {
-            throw new Error("Failed to fetch products");
+            throw new Error(`Failed to fetch cart: ${response.status}`);
         }
 
         const result = await response.json();
         const products = result.data || result;
 
-        displayProducts(products);
-    } catch (error) {
-        console.log("Products error:", error);
-    }
-}
+        if (!Array.isArray(products)) {
+            throw new Error("Invalid cart data");
+        }
 
-// Display all products on Products.html
-function displayProducts(products) {
-    productList.innerHTML = "";
+        return products;
+    }
+
+
+    // UPDATE CART COUNT
+    async function cartCount() {
+        if (!cartCountElement) return;
+
+        try {
+            const products = await getCartProducts();
+            cartCountElement.textContent = products.length;
+        } catch (error) {
+            console.error("Cart count error:", error);
+        }
+    }
+
+
+    // FETCH PRODUCTS
+    async function fetchProducts() {
+        try {
+            const response = await fetch(`${API}/alldata`);
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch products: ${response.status}`);
+            }
+
+            const result = await response.json();
+            const products = result.data || result;
+
+            if (!Array.isArray(products)) {
+                throw new Error("Invalid products data");
+            }
+
+            displayProducts(products);
+        } catch (error) {
+            console.error("Products error:", error);
+            productList.textContent =
+                "Unable to load products. Please try again.";
+        }
+    }
+
+
+    // DISPLAY PRODUCTS ON Products.html
+   function displayProducts(products) {
+    if (!productList || !productTemplate) return;
+
+    // Keep the template and remove only previously rendered products
+    productList.querySelectorAll(".dynamic-product").forEach(card => {
+        card.remove();
+    });
 
     products.forEach(function (item) {
-        const card = template.cloneNode(true);
+        const card = productTemplate.cloneNode(true);
 
         card.removeAttribute("id");
         card.hidden = false;
         card.classList.add("dynamic-product");
 
-        card.dataset.category = item.category || "";
-        card.dataset.brand = item.brand || "";
+        card.dataset.category = (item.category || "").trim();
+        card.dataset.brand = (item.brand || "").trim();
 
         const price = Number(
             String(item.price || "0").replace(/,/g, "")
@@ -251,36 +349,39 @@ function displayProducts(products) {
 
         if (oldPrice > price) {
             const oldPriceText = document.createElement("span");
-
             oldPriceText.style.textDecoration = "line-through";
             oldPriceText.style.marginLeft = "5px";
-
             oldPriceText.textContent =
                 ` ₹${oldPrice.toLocaleString("en-IN")}`;
 
             priceText.appendChild(oldPriceText);
         }
 
-        // Add to Cart button
+        // Add to Cart
         const cartButton = card.querySelector(".cart");
 
         cartButton.textContent = "Add to Cart";
+        cartButton.onclick = function () {
+            addToCart(item);
+        };
 
-        cartButton.addEventListener("click", function () {
-            addtoCart(item);
-        });
+        // Buy Now
+        const buyButton = card.querySelector(".buy");
+
+        buyButton.hidden = false;
+        buyButton.onclick = function () {
+            buyNow(item);
+        };
 
         productList.appendChild(card);
     });
 
-    // Run existing search/filter function if available
     if (typeof window.filterProducts === "function") {
         window.filterProducts();
     }
 }
-
-// Add product to cart
-async function addtoCart(item) {
+    // ADD TO CART
+   async function addToCart(item) {
     try {
         const response = await fetch(`${API}/cart`, {
             method: "POST",
@@ -298,137 +399,125 @@ async function addtoCart(item) {
         });
 
         if (!response.ok) {
-    const message = await response.text();
-    console.log("Backend response:", message);
-    throw new Error(message);
-}
+            const message = await response.text();
+            console.error("Add to Cart error:", response.status, message);
+            alert("Product add aagala. Please try again.");
+            return;
+        }
 
+        await cartCount();
         alert("Product added to cart!");
 
-        await cartCount();
     } catch (error) {
-        console.log("Add to cart error:", error);
-        alert("Unable to add product to cart.");
+        console.error("Add to Cart error:", error);
+        alert("Server connection failed.");
     }
 }
 
-// Fetch cart and display it on Cart.html
-async function fetchCart() {
-    try {
-        const products = await getCartProducts();
-        displayCart(products);
-    } catch (error) {
-        console.log("Cart error:", error);
-    }
-}
 
-// Display cart products
-function displayCart(products) {
-    productList.innerHTML = "";
-
-    if (products.length === 0) {
-        productList.textContent = "Your cart is empty.";
-        return;
+    // FETCH CART ON Cart.html
+    async function fetchCart() {
+        try {
+            const products = await getCartProducts();
+            displayCart(products);
+        } catch (error) {
+            console.error("Cart error:", error);
+            productList.textContent =
+                "Unable to load your cart. Please try again.";
+        }
     }
 
-    products.forEach(function (item) {
-        const card = template.cloneNode(true);
 
-        card.removeAttribute("id");
-        card.hidden = false;
+    // DISPLAY CART USING cartTemplate
+    function displayCart(products) {
+        if (!productList || !cartTemplate) return;
 
-        const price = Number(
-            String(item.price || "0").replace(/,/g, "")
-        );
+        productList.innerHTML = "";
 
-        const oldPrice = Number(
-            String(item.original_price || "0").replace(/,/g, "")
-        );
-
-        const img = card.querySelector("img");
-        img.src = `${API}/files/${item.image}`;
-        img.alt = item.product_title || "Product";
-
-        card.querySelector(".category").textContent =
-            item.category || "";
-
-        card.querySelector(".title").textContent =
-            item.product_title || "";
-
-        const priceText = card.querySelector(".price");
-        priceText.textContent =
-            `MRP: ₹${price.toLocaleString("en-IN")}`;
-
-        if (oldPrice > price) {
-            const oldPriceText = document.createElement("span");
-
-            oldPriceText.style.textDecoration = "line-through";
-            oldPriceText.style.marginLeft = "5px";
-
-            oldPriceText.textContent =
-                ` ₹${oldPrice.toLocaleString("en-IN")}`;
-
-            priceText.appendChild(oldPriceText);
+        if (products.length === 0) {
+            productList.textContent = "Your cart is empty.";
+            return;
         }
 
-        // Remove button
-        const cartButton = card.querySelector(".cart");
+        products.forEach(item => {
+            const card = cartTemplate.cloneNode(true);
 
-        cartButton.textContent = "Remove Cart";
-        cartButton.style.backgroundColor = "red";
+            card.removeAttribute("id");
+            card.hidden = false;
 
-        cartButton.addEventListener("click", function () {
-            removeFromCart(item._id);
+            fillProductCard(card, item);
+
+            const removeButton = card.querySelector(".cart");
+
+            if (removeButton) {
+                removeButton.textContent = "Remove Cart";
+                removeButton.style.backgroundColor = "red";
+
+                removeButton.addEventListener("click", () => {
+                    removeFromCart(item._id);
+                });
+            }
+
+            const buyButton = card.querySelector(".buy");
+
+            if (buyButton) {
+                buyButton.hidden = true;
+            }
+
+            productList.appendChild(card);
         });
+    }
 
-        // Buy button is not connected to checkout yet
-        productList.appendChild(card);
-    });
-}
 
-// Remove product from cart
-async function removeFromCart(id) {
-    try {
-        const response = await fetch(`${API}/cart/${id}`, {
-            method: "DELETE"
-        });
+    // REMOVE FROM CART
+    async function removeFromCart(id) {
+        try {
+            const response = await fetch(
+                `${API}/cart/${encodeURIComponent(id)}`,
+                {
+                    method: "DELETE"
+                }
+            );
 
-        if (!response.ok) {
-            throw new Error("Failed to remove product");
+            if (!response.ok) {
+                const message = await response.text();
+                throw new Error(
+                    `Remove failed (${response.status}): ${message}`
+                );
+            }
+
+            await fetchCart();
+            await cartCount();
+        } catch (error) {
+            console.error("Remove cart error:", error);
+            alert("Unable to remove product. Please check the console.");
         }
-
-        await fetchCart();
-        await cartCount();
-
-    } catch (error) {
-        console.log("Remove cart error:", error);
-        alert("Unable to remove product.");
     }
-}
 
-// Update navbar cart count
-async function cartCount() {
-    try {
-        const products = await getCartProducts();
-        const count = document.getElementById("cartCount");
 
-        if (count) {
-            count.textContent = products.length;
+    // LOAD THE CORRECT PAGE
+    if (productList) {
+        if (isCartPage) {
+            if (cartTemplate) {
+                fetchCart();
+            } else {
+                console.error(
+                    'Cart template not found. Add id="cartTemplate" in Cart.html.'
+                );
+            }
+        } else {
+            if (productTemplate) {
+                fetchProducts();
+            } else {
+                console.error(
+                    'Product template not found. Add id="productTemplate" in Products.html.'
+                );
+            }
         }
-    } catch (error) {
-        console.log("Cart count error:", error);
     }
-}
-const isCartPage = window.location.pathname
-    .toLowerCase()
-    .endsWith("cart.html");
 
-if (productList && template) {
-    if (isCartPage) {
-        fetchCart();
-    } else {
-        fetchProducts();
-    }
+    cartCount();
+});
+async function buyNow(item) {
+    await addToCart(item);
 }
-
-cartCount();
