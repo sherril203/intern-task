@@ -115,7 +115,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const productList = document.getElementById("productList");
-const template = document.getElementById("productTemplate");
+const template = document.getElementById(
+    isCartPage ? "cartTemplate" : "productTemplate"
+);
 async function fetchProducts() {
     try {
         const response = await fetch(`${API}/alldata`);
