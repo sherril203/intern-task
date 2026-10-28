@@ -305,15 +305,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // DISPLAY PRODUCTS ON Products.html
-   function displayProducts(products) {
+
+function displayProducts(products) {
     if (!productList || !productTemplate) return;
 
-    // Keep the template and remove only previously rendered products
-    productList.querySelectorAll(".dynamic-product").forEach(card => {
-        card.remove();
-    });
+    productList
+        .querySelectorAll(".dynamic-product")
+        .forEach(card => card.remove());
 
-    products.forEach(function (item) {
+    products.forEach(item => {
         const card = productTemplate.cloneNode(true);
 
         card.removeAttribute("id");
@@ -322,66 +322,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
         card.dataset.category = (item.category || "").trim();
         card.dataset.brand = (item.brand || "").trim();
+        card.dataset.price = formatPrice(item.price);
 
-        const price = Number(
-            String(item.price || "0").replace(/,/g, "")
-        );
+        fillProductCard(card, item);
 
-        const oldPrice = Number(
-            String(item.original_price || "0").replace(/,/g, "")
-        );
+        const cartButton = card.querySelector(".cart");
+        if (cartButton) {
+            cartButton.hidden = false;
+            cartButton.textContent = "Add to Cart";
 
-        card.dataset.price = price;
-
-        const img = card.querySelector("img");
-        img.src = `${API}/files/${item.image}`;
-        img.alt = item.product_title || "Product";
-
-        card.querySelector(".category").textContent =
-            item.category || "";
-
-        card.querySelector(".title").textContent =
-            item.product_title || "";
-
-        const priceText = card.querySelector(".price");
-        priceText.textContent =
-            `MRP: ₹${price.toLocaleString("en-IN")}`;
-
-        if (oldPrice > price) {
-            const oldPriceText = document.createElement("span");
-            oldPriceText.style.textDecoration = "line-through";
-            oldPriceText.style.marginLeft = "5px";
-            oldPriceText.textContent =
-                ` ₹${oldPrice.toLocaleString("en-IN")}`;
-
-            priceText.appendChild(oldPriceText);
+            cartButton.onclick = () => addToCart(item);
         }
 
-        // Add to Cart
-        const cartButton = card.querySelector(".cart");
-
-        cartButton.textContent = "Add to Cart";
-        cartButton.onclick = function () {
-            addToCart(item);
-        };
-
-        // Buy Now
         const buyButton = card.querySelector(".buy");
+        if (buyButton) {
+            buyButton.hidden = false;
+            buyButton.textContent = "Buy Now";
 
-        buyButton.hidden = false;
-        buyButton.onclick = function () {
-            buyNow(item);
-        };
+            buyButton.onclick = () => buyNow(item);
+        }
 
         productList.appendChild(card);
     });
 
-    if (typeof window.filterProducts === "function") {
-        window.filterProducts();
-    }
+    applySearchAndFilters();
 }
+
     // ADD TO CART
-   async function addToCart(item) {
+
+async function addToCart(item) {
     try {
         const response = await fetch(`${API}/cart`, {
             method: "POST",
@@ -401,18 +370,22 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!response.ok) {
             const message = await response.text();
             console.error("Add to Cart error:", response.status, message);
-            alert("Product add aagala. Please try again.");
-            return;
+            alert("Product not added. Please try again.");
+            return false;
         }
 
         await cartCount();
         alert("Product added to cart!");
 
+        return true;
+
     } catch (error) {
         console.error("Add to Cart error:", error);
         alert("Server connection failed.");
+        return false;
     }
 }
+
 
 
     // FETCH CART ON Cart.html
@@ -518,6 +491,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cartCount();
 });
+
 async function buyNow(item) {
-    await addToCart(item);
+    const added = await addToCart(item);
+
+    if (added) {
+        window.location.href = "./Cart.html";
+    }
 }
