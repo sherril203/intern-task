@@ -415,7 +415,6 @@ async function addToCart(item) {
             card.hidden = false;
 
             fillProductCard(card, item);
-
             const removeButton = card.querySelector(".cart");
 
             if (removeButton) {
@@ -430,7 +429,9 @@ async function addToCart(item) {
             const buyButton = card.querySelector(".buy");
 
             if (buyButton) {
-                buyButton.hidden = true;
+                buyButton.textContent = "Buy Now";
+               buyButton.style.backgroundColor = "blue";
+                buyButton.hidden = false;
             }
 
             productList.appendChild(card);
