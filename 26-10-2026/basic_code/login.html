@@ -8,24 +8,32 @@
 </head>
 <body>
     <div class="formdata">
-        <p style="display: flex; justify-content: center; font-weight: bold;">Login</p>
-        <div>
-            <label for="">Email</label> <br>
-            <input type="email">
-        </div>
-        <div>
-            <label for="">Password</label> <br>
-            <input type="password">
-        </div>
-        <div>
-            <button class="form-submit"><a href="./admin.html" class="link">Login</a></button>
-        </div>
-        <div>
-            <p>not created <a href="./signup.html">Sign up</a></p>
-        </div>
+        <p style="display: flex; justify-content: center; font-weight: bold;">
+            Login
+        </p>
+
+        <form onsubmit="login(event)">
+            <div>
+                <label for="email">Email</label><br>
+                <input type="email" id="email" required>
+            </div>
+
+            <div>
+                <label for="password">Password</label><br>
+                <input type="password" id="password" required>
+            </div>
+
+            <div>
+                <button type="submit" class="form-submit">Login</button>
+            </div>
+
+            <div>
+                <p>Don't have an account? <a href="./signup.html">Sign up</a></p>
+            </div>
+        </form>
     </div>
+
     <script src="./config.js"></script>
     <script src="./script.js"></script>
 </body>
-
 </html>

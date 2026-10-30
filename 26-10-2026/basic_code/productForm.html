@@ -1,12 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
     <title>Admin</title>
 </head>
+
 <body>
     <div class="admin">
 
@@ -14,10 +15,10 @@
         <div class="sidebar">
             <h2>Admin</h2>
 
-            <div  class="sidebar-upper">
+            <div class="sidebar-upper">
                 <p><a href="./admin.html" class="link">Dashboard</a></p> <br>
                 <p><a href="./AdminProducts.html" class="link">Products</a></p> <br>
-               <p><a href="./profile.html" class="link">Profile</a></p>
+                <p><a href="./profile.html" class="link">Profile</a></p>
             </div>
 
             <div class="sidebar-bottom">
@@ -28,32 +29,43 @@
 
         <!-- Main Dashboard -->
         <div class="main-content">
-             <div class="formdata">
-        <p style="display: flex; justify-content: center; font-weight: bold;">Update Products</p>
-        <div>
-            <label for="">Image</label>
-           <input type="file">
-        </div>
-        <div>
-            <label for="">Product name</label>
-            <input type="text">
-        </div>
-        <div>
-            <label for="">Category</label>
-            <input type="text">
-        </div>
-        <div>
-            <label for="">Price</label> <br>
-            <input type="text">
-        </div>
-        <div>
-            <button class="form-submit"><a href="./AdminProducts.html" class="link">Update</a></button>
-        </div>
-    </div>
+            <form class="formdata"  onsubmit="post(e)" enctype="multipart/form-data">
+                <p style="display: flex; justify-content: center; font-weight: bold;">post Products</p>
+                <div>
+                    <label for="">Image</label>
+                    <input type="file">
+                </div>
+                <div>
+                    <label for="">Product name</label>
+                    <input type="text">
+                </div>
+                <div>
+                    <label for="">Category</label>
+                    <input type="text">
+                </div>
+                <div>
+                    <label for="">Price</label> <br>
+                    <input type="text">
+                </div>
+                <div>
+                    <label for=""> Original Price</label> <br>
+                    <input type="text">
+                </div>
+                <div>
+                    <label for="">Brand</label> <br>
+                    <input type="text">
+                </div>
+                <div>
+                    <button class="form-submit">Update</button>
+                </div>
+            </form>
 
-        
+
         </div>
 
     </div>
+        <script src="./config.js"></script>
+    <script src="./script.js"></script>
 </body>
+
 </html>

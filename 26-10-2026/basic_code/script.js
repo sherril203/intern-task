@@ -527,6 +527,7 @@ async function login(e) {
                 localStorage.setItem("admin", JSON.stringify(admin));
             }
 
+        alert("login successful!");
             window.location.href = "./admin.html";
         }
 
@@ -535,14 +536,14 @@ async function login(e) {
         alert("Something went wrong!");
     }
 }
-document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
+async function signup(e) {
     e.preventDefault();
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-
     try {
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
         const response = await fetch(`${API}/adminRegister`, {
             method: "POST",
             headers: {
@@ -551,10 +552,10 @@ document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
             body: JSON.stringify({ name, email, password })
         });
 
-        const data = await response.json();
+        const result = await response.json();
 
         if (!response.ok) {
-            alert(data.message);
+            alert(result.message || "Signup failed");
             return;
         }
 
@@ -562,14 +563,99 @@ document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
         window.location.href = "./login.html";
 
     } catch (err) {
-        console.error("Signup error:", err);
+        console.error("Signup failed:", err);
         alert("Something went wrong!");
     }
-});
-async function update(){
-    
 }
-// async function delete(){
-    
-// }
+async function post(e){
+    e.preventDefault();
+    const form = document.querySelector(".formdata");
+    try {
+        const formData = new FormData();
 
+        formData.append("product_title", document.getElementById("product_title").value);
+        formData.append("category", document.getElementById("category").value);
+        formData.append("brand", document.getElementById("brand").value);
+        formData.append("price", document.getElementById("price").value);
+        formData.append("original_price", document.getElementById("original_price").value);
+        formData.append("image", document.getElementById("image").files[0]);
+
+        const response = await fetch(`${API}/postdata`, {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            alert(result.message || "data added failed");
+            return;
+        }
+   alert("data added");
+   form.reset()
+
+    } catch (err) {
+        console.error("Login failed:", err);
+        alert("error");
+    }
+}
+async function get(){
+    try {
+      
+        const response = await fetch(`${API}/alldata`);
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            alert(result.message || "failed to get");
+            return;
+        }
+
+    } catch (err) {
+        console.error("data failed:", err);
+    }
+}
+async function update(id){
+    try {
+        const formData = new FormData();
+
+        formData.append("product_title", document.getElementById("product_title").value);
+        formData.append("category", document.getElementById("category").value);
+        formData.append("brand", document.getElementById("brand").value);
+        formData.append("price", document.getElementById("price").value);
+        formData.append("original_price", document.getElementById("original_price").value);
+
+        const image = document.getElementById("image").files[0];
+
+ const response = await fetch(`${API}/updatedata/${id}`, {
+            method: "PUT",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            alert(result.message || "update failed");
+            return;
+        }      
+     alert("Product updated successfully!");
+    } catch (err) {
+        console.error("Update failed:", err);
+    }
+}
+ async function deleted(id){
+       try {
+      
+        const response = await fetch(`${API}/deletedata/${id}`,{method:"DELETE"});
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            alert(result.message || "failed to delete");
+            return;
+        }
+  alert("data deleted");
+    } catch (err) {
+        console.error("data failed:", err);
+    }
+ }
