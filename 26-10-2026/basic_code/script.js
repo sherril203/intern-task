@@ -239,47 +239,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // DISPLAY PRODUCTS
-    function displayProducts(products) {
 
-        if (!productList || !productTemplate) return;
+function displayProducts(products) {
 
-        productList.innerHTML = "";
-
-        products.forEach(item => {
-
-            const card = productTemplate.content
-                .firstElementChild.cloneNode(true);
-
-            card.hidden = false;
-            card.classList.add("dynamic-product");
-
-            card.dataset.category = (item.category || "").trim();
-            card.dataset.brand = (item.brand || "").trim();
-            card.dataset.price = formatPrice(item.price);
-
-            fillProductCard(card, item);
-
-            const cartButton = card.querySelector(".cart");
-
-            if (cartButton) {
-                cartButton.hidden = false;
-                cartButton.textContent = "Add to Cart";
-                cartButton.onclick = () => addToCart(item);
-            }
-
-            const buyButton = card.querySelector(".buy");
-
-            if (buyButton) {
-                buyButton.hidden = false;
-                buyButton.textContent = "Buy Now";
-                buyButton.onclick = () => buyNow(item);
-            }
-
-            productList.appendChild(card);
-        });
-
-        applySearchAndFilters();
+    if (!productList || !productTemplate) {
+        console.error("Product list or template not found");
+        return;
     }
+
+    console.log("Template:", productTemplate);
+    console.log("Template type:", productTemplate.tagName);
+
+    const templateContent = productTemplate.content;
+
+    if (!templateContent || !templateContent.firstElementChild) {
+        console.error("Product template content is missing");
+        return;
+    }
+
+    productList.innerHTML = "";
+
+    products.forEach(item => {
+
+        const card = templateContent.firstElementChild.cloneNode(true);
+
+        card.classList.add("dynamic-product");
+
+        card.dataset.category = (item.category || "").trim();
+        card.dataset.brand = (item.brand || "").trim();
+        card.dataset.price = formatPrice(item.price);
+
+        fillProductCard(card, item);
+
+        const cartButton = card.querySelector(".cart");
+
+        if (cartButton) {
+            cartButton.onclick = () => addToCart(item);
+        }
+
+        const buyButton = card.querySelector(".buy");
+
+        if (buyButton) {
+            buyButton.onclick = () => buyNow(item);
+        }
+
+        productList.appendChild(card);
+    });
+
+    applySearchAndFilters();
+}
+
 
 
     // ADD TO CART
@@ -526,8 +535,6 @@ async function signup(e) {
 
 
 // ADD PRODUCT
-
-
 async function post() {
 
     const formData = new FormData();
@@ -589,13 +596,47 @@ async function post() {
 
 
 
-// GET ADMIN PRODUCTS
 
+// =====================================
+// GET ALL PRODUCTS
+// =====================================
+
+async function getAllProducts() {
+    try {
+        console.log("API URL:", `${API}/alldata`);
+
+        const response = await fetch(`${API}/alldata`);
+
+        console.log("Response status:", response.status);
+
+        const result = await response.json();
+
+        console.log("Backend response:", result);
+
+        if (!response.ok) {
+            throw new Error(result.message || "API request failed");
+        }
+
+        const products = Array.isArray(result)
+            ? result
+            : result.data;
+
+        if (!Array.isArray(products)) {
+            throw new Error("Backend response does not contain a product array");
+        }
+
+        return products;
+
+    } catch (error) {
+        console.error("Get products error:", error);
+        throw error;
+    }
+}
 
 async function get() {
 
-    const productList = document.getElementById("productList");
-    const template = document.getElementById("productTemplate");
+    const productList = document.getElementById("adminProductList");
+    const template = document.getElementById("adminProductTemplate");
 
     if (!productList || !template) {
         console.error("Product list or template not found");
@@ -603,23 +644,21 @@ async function get() {
     }
 
     try {
-        const response = await fetch(`${API}/alldata`);
-        const result = await response.json();
+        const products = await getAllProducts();
 
-        if (!response.ok) {
-            throw new Error(result.message || "Failed to get products");
-        }
-
-        const products = result.data || [];
+        console.log("Fetched Products:", products);
 
         productList.innerHTML = "";
 
+        // PRODUCT COUNT
         const productCount = document.getElementById("productCount");
-        const categoryCount = document.getElementById("categoryCount");
 
         if (productCount) {
             productCount.textContent = products.length;
         }
+
+        // CATEGORY COUNT
+        const categoryCount = document.getElementById("categoryCount");
 
         const categories = [...new Set(
             products.map(item =>
@@ -631,29 +670,37 @@ async function get() {
             categoryCount.textContent = categories.length;
         }
 
+        // DISPLAY PRODUCTS
         products.forEach(item => {
 
             const product = template.content.cloneNode(true);
 
-            product.querySelector(".product-image").src =
+            product.querySelector(".admin-product-img").src =
                 `${API}/files/${item.image}`;
 
-            product.querySelector(".product-title").textContent =
-                item.product_title;
+            product.querySelector(".admin-product-name").textContent =
+                item.product_title || "";
 
-            product.querySelector(".product-price").textContent =
+            product.querySelector(".admin-product-category").textContent =
+                item.category || "";
+
+            product.querySelector(".admin-product-price").textContent =
                 `₹${item.price}`;
 
-            product.querySelector(".edit").addEventListener("click", () => {
+            product.querySelector(".edit-product").addEventListener("click", () => {
                 editProduct(item._id);
             });
 
-            product.querySelector(".del").addEventListener("click", () => {
+            product.querySelector(".delete-product").addEventListener("click", () => {
                 deleted(item._id);
             });
 
             productList.appendChild(product);
         });
+
+        if (products.length === 0) {
+            productList.textContent = "No products found.";
+        }
 
     } catch (error) {
         console.error("Data failed:", error);
@@ -661,7 +708,6 @@ async function get() {
 }
 
 
-// ADMIN PRODUCTS PAGE
 document.addEventListener("DOMContentLoaded", () => {
 
     const pageName = window.location.pathname
@@ -669,13 +715,21 @@ document.addEventListener("DOMContentLoaded", () => {
         .pop()
         .toLowerCase();
 
+    console.log("Current page:", pageName);
+    console.log("API:", API);
+
     if (pageName === "adminproducts.html") {
+        console.log("Calling get function...");
         get();
+    } else {
+        console.log("Admin products page condition not matched");
     }
 });
 
 
+// =====================================
 // UPDATE PRODUCT
+// =====================================
 
 async function update(id) {
 
@@ -726,6 +780,7 @@ async function update(id) {
         }
 
         alert("Product updated successfully!");
+
         window.location.href = "AdminProducts.html";
 
     } catch (error) {
@@ -734,18 +789,22 @@ async function update(id) {
 }
 
 
-
+// =====================================
 // DELETE PRODUCT
+// =====================================
 
 async function deleted(id) {
 
+    const confirmDelete = confirm("Are you sure you want to delete this product?");
+
+    if (!confirmDelete) {
+        return;
+    }
+
     try {
-        const response = await fetch(
-            `${API}/deletedata/${id}`,
-            {
-                method: "DELETE"
-            }
-        );
+        const response = await fetch(`${API}/deletedata/${id}`, {
+            method: "DELETE"
+        });
 
         const result = await response.json();
 
@@ -754,7 +813,7 @@ async function deleted(id) {
             return;
         }
 
-        alert("Data deleted successfully!");
+        alert("Product deleted successfully!");
 
         get();
 
@@ -764,30 +823,36 @@ async function deleted(id) {
 }
 
 
-
+// =====================================
 // EDIT PRODUCT
+// =====================================
+
 function editProduct(id) {
+
     window.location.href = `productForm.html?id=${id}`;
+
 }
 
 
-
+// =====================================
 // LOAD PRODUCT FOR UPDATE
+// =====================================
 
-let productId = new URLSearchParams(window.location.search).get("id");
+const productId = new URLSearchParams(
+    window.location.search
+).get("id");
+
+
 async function loadProduct() {
 
-    if (!productId) return;
+    if (!productId) {
+        return;
+    }
 
     try {
-        const response = await fetch(`${API}/alldata`);
-        const result = await response.json();
+        const products = await getAllProducts();
 
-        if (!response.ok) {
-            throw new Error("Failed to load product");
-        }
-
-        const product = (result.data || []).find(
+        const product = products.find(
             item => item._id === productId
         );
 
@@ -796,6 +861,7 @@ async function loadProduct() {
             return;
         }
 
+        // FILL PRODUCT DETAILS
         document.getElementById("product_title").value =
             product.product_title || "";
 
@@ -811,7 +877,9 @@ async function loadProduct() {
         document.getElementById("original_price").value =
             product.original_price || "";
 
+        // CURRENT IMAGE
         if (product.image) {
+
             const img = document.getElementById("currentImage");
 
             if (img) {
@@ -820,11 +888,12 @@ async function loadProduct() {
             }
         }
 
+        // CHANGE FORM TITLE
         const formTitle = document.getElementById("formTitle");
         const submitBtn = document.getElementById("submitBtn");
 
         if (formTitle) {
-            formTitle.textContent = "Update Products";
+            formTitle.textContent = "Update Product";
         }
 
         if (submitBtn) {
@@ -837,7 +906,9 @@ async function loadProduct() {
 }
 
 
+// =====================================
 // FORM SUBMIT
+// =====================================
 
 function handleSubmit(e) {
 
@@ -851,7 +922,10 @@ function handleSubmit(e) {
 }
 
 
-// LOAD PRODUCT FORM DATA ONLY ON PRODUCT FORM PAGE
+// =====================================
+// PRODUCT FORM PAGE
+// =====================================
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const pageName = window.location.pathname

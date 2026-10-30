@@ -42,19 +42,24 @@
             <input type="text" class="input" placeholder="Search products..." id="searchInput">
             <button class="search" id="searchBtn">Search</button>
         </div>
-   <div class="product-flex" id="productList">
-    <div class="product" id="cartTemplate" hidden>
-    <img src="" alt="Product" width="200" height="200">
-    <p class="category"></p>
-    <p class="title"></p>
-    <p class="price"></p>
+<div id="productList"></div>
 
-    <div class="button">
-        <button class="buy">Buy</button>
-        <button class="cart">Remove Cart</button>
-    </div>
+<template id="cartTemplate">
+    <div class="cart-item">
+        <img src="" alt="Product">
+
+        <div class="cart-details">
+            <p class="category"></p>
+            <h3 class="title"></h3>
+            <p class="price"></p>
+<div style="display: flex;justify-content: center;gap: 3px;">
+    <button class="cart" type="button">Remove Cart</button>
+            <button class="buy" type="button">Buy Now</button>
 </div>
-   </div>
+            
+        </div>
+    </div>
+</template>
 </div>
     </div>
     <div class="footer">

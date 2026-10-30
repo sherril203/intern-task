@@ -15,7 +15,7 @@
             <h2>Admin</h2>
 
             <div  class="sidebar-upper">
-                <p><a href="./admin.html" class="link">Dashboard</a></p> <br>
+                <p><a href="./Admin.html" class="link">Dashboard</a></p> <br>
                 <p><a href="./AdminProducts.html" class="link">Products</a></p> <br>
                <p><a href="./profile.html" class="link">Profile</a></p>
             </div>
@@ -27,8 +27,8 @@
         </div>
 
         <!-- Main Dashboard -->
-       
 <div class="main-content">
+    <h2>Hi Admin</h2>
     <h2>Products</h2>
     <!-- Count Boxes -->
     <div class="count">
@@ -36,7 +36,6 @@
             <p>Categories</p>
             <p id="categoryCount">0</p>
         </div>
-
         <div class="box">
             <p>Products</p>
             <p id="productCount">0</p>
@@ -54,13 +53,33 @@
             </button>
         </div>
 
-        <!-- Dynamic products will appear here -->
-        <div id="productList"></div>
+       <!-- Dynamic products -->
+
+<div id="adminProductList"></div>
+
+<template id="adminProductTemplate">
+    <div class="admin-product-row">
+
+        <img class="admin-product-img" src="" alt="Product">
+
+        <h4 class="admin-product-name"></h4>
+
+        <p class="admin-product-category"></p>
+
+        <p class="admin-product-price"></p>
+
+        <div class="product-actions">
+            <button type="button" class="edit-product">Edit</button>
+            <button type="button" class="delete-product">Delete</button>
+        </div>
+
+    </div>
+</template>
+
 
     </section>
 
 </div>
-
 
     </div>
       <script src="./config.js"></script>

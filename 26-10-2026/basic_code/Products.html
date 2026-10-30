@@ -83,19 +83,29 @@
             <input type="text" class="input" placeholder="Search products..." id="searchInput">
             <button class="search" id="searchBtn">Search</button>
         </div>
- <div class="product-flex" id="productList">
-    <div class="product" id="productTemplate" hidden>
-        <img src="" alt="Product" width="200" height="200">
+ <div id="productList"></div>
+
+<template id="productTemplate">
+    <div class="dynamic-product">
+
+        <img src="" alt="Product">
+
         <p class="category"></p>
         <p class="title"></p>
         <p class="price"></p>
+<div style="display: flex; justify-content: center;gap: 2px;">
+      <button class="cart" type="button">
+            Add to Cart
+        </button>
 
-        <div class="button">
-            <button class="buy">Buy Now</button>
-            <button class="cart">Add to Cart</button>
-        </div>
-    </div>
+        <button class="buy" type="button">
+            Buy Now
+        </button>
 </div>
+      
+
+    </div>
+</template>
 
 
 </div>
