@@ -27,37 +27,55 @@
         </div>
 
         <!-- Main Dashboard -->
-        <div class="main-content">
- <h2>Products</h2>
-            <!-- Count Boxes -->
-            <div class="count">
-                <div class="box">
-                    <p>Categories</p>
-                    <p>Count</p>
-                </div>
-
-                <div class="box">
-                    <p>Products</p>
-                    <p>Count</p>
-                </div>
-            </div>
-
-            <!-- Product Management -->
-            <section class="manage">
-                <div class="align">
-                    <h3>Product Management</h3>
-                    <button class="add"><a href="./productForm.html">Add Product</a></button>
-                </div>
-
-                <div class="details">
-                    <img src="" alt="Product">
-                    <p>Product Name</p>
-                    <p>Price</p>
-                    <button class="edit" onclick=" update(id)">Edit</button>
-                    <button class="del" onclick="deleted(id)">Delete</button>
-                </div>
-            </section>
+<div class="main-content">
+    <h2>Products</h2>
+    <!-- Count Boxes -->
+    <div class="count">
+        <div class="box">
+            <p>Categories</p>
+            <p id="categoryCount">0</p>
         </div>
+        <div class="box">
+            <p>Products</p>
+            <p id="productCount">0</p>
+        </div>
+    </div>
+
+    <!-- Product Management -->
+    <section class="manage">
+
+        <div class="align">
+            <h3>Product Management</h3>
+
+            <button class="add">
+                <a href="./productForm.html">Add Product</a>
+            </button>
+        </div>
+
+       <!-- Dynamic products -->
+<div id="productList"></div>
+
+<!-- Product Template -->
+<template id="productTemplate">
+    <div class="details">
+
+        <img class="product-image"
+             src=""
+             alt="Product"
+             width="100"
+             height="100">
+
+        <p class="product-title"></p>
+        <p class="product-price"></p>
+
+        <button class="edit" type="button">Edit</button>
+        <button class="del" type="button">Delete</button>
+
+    </div>
+</template>
+    </section>
+
+</div>
 
     </div>
       <script src="./config.js"></script>

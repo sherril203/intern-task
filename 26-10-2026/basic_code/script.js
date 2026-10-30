@@ -567,19 +567,26 @@ async function signup(e) {
         alert("Something went wrong!");
     }
 }
-async function post(e){
-    e.preventDefault();
-    const form = document.querySelector(".formdata");
+async function post() {
+
+    const formData = new FormData();
+
+    formData.append("product_title", document.getElementById("product_title").value);
+    formData.append("category", document.getElementById("category").value);
+    formData.append("brand", document.getElementById("brand").value);
+    formData.append("price", document.getElementById("price").value);
+    formData.append("original_price", document.getElementById("original_price").value);
+
+    const image = document.getElementById("image").files[0];
+
+    if (!image) {
+        alert("Please select an image");
+        return;
+    }
+
+    formData.append("image", image);
+
     try {
-        const formData = new FormData();
-
-        formData.append("product_title", document.getElementById("product_title").value);
-        formData.append("category", document.getElementById("category").value);
-        formData.append("brand", document.getElementById("brand").value);
-        formData.append("price", document.getElementById("price").value);
-        formData.append("original_price", document.getElementById("original_price").value);
-        formData.append("image", document.getElementById("image").files[0]);
-
         const response = await fetch(`${API}/postdata`, {
             method: "POST",
             body: formData
@@ -588,46 +595,98 @@ async function post(e){
         const result = await response.json();
 
         if (!response.ok) {
-            alert(result.message || "data added failed");
+            alert(result.message || "Post failed");
             return;
         }
-   alert("data added");
-   form.reset()
+
+        alert("Product added successfully!");
+        window.location.href = "AdminProducts.html";
 
     } catch (err) {
-        console.error("Login failed:", err);
-        alert("error");
+        console.error("Post failed:", err);
     }
 }
-async function get(){
-    try {
-      
-        const response = await fetch(`${API}/alldata`);
 
+async function get() {
+    try {
+        const response = await fetch(`${API}/alldata`);
         const result = await response.json();
 
         if (!response.ok) {
-            alert(result.message || "failed to get");
+            alert(result.message || "Failed to get products");
             return;
         }
 
+        const products = result.data || [];
+
+        const productList = document.getElementById("productList");
+        const template = document.getElementById("productTemplate");
+
+        productList.innerHTML = "";
+
+        // Product count
+        document.getElementById("productCount").textContent =
+            products.length;
+
+        // Unique category count
+        const categories = [...new Set(
+            products.map(item => item.category?.trim().toLowerCase())
+                .filter(Boolean)
+        )];
+
+        document.getElementById("categoryCount").textContent =
+            categories.length;
+
+        // Display products
+        products.forEach(item => {
+
+            const product = template.content.cloneNode(true);
+
+            product.querySelector(".product-image").src =
+                `${API}/files/${item.image}`;
+
+            product.querySelector(".product-title").textContent =
+                item.product_title;
+
+            product.querySelector(".product-price").textContent =
+                `₹${item.price}`;
+
+            product.querySelector(".edit").addEventListener("click", () => {
+                editProduct(item._id);
+            });
+
+            product.querySelector(".del").addEventListener("click", () => {
+                deleted(item._id);
+            });
+
+            productList.appendChild(product);
+        });
+
     } catch (err) {
-        console.error("data failed:", err);
+        console.error("Data failed:", err);
     }
 }
-async function update(id){
+document.addEventListener("DOMContentLoaded", get);
+
+
+async function update(id) {
+
+    const formData = new FormData();
+
+    formData.append("product_title", document.getElementById("product_title").value);
+    formData.append("category", document.getElementById("category").value);
+    formData.append("brand", document.getElementById("brand").value);
+    formData.append("price", document.getElementById("price").value);
+    formData.append("original_price", document.getElementById("original_price").value);
+
+    const image = document.getElementById("image").files[0];
+
+    if (image) {
+        formData.append("product_img", image);
+    }
+
     try {
-        const formData = new FormData();
-
-        formData.append("product_title", document.getElementById("product_title").value);
-        formData.append("category", document.getElementById("category").value);
-        formData.append("brand", document.getElementById("brand").value);
-        formData.append("price", document.getElementById("price").value);
-        formData.append("original_price", document.getElementById("original_price").value);
-
-        const image = document.getElementById("image").files[0];
-
- const response = await fetch(`${API}/updatedata/${id}`, {
+        const response = await fetch(`${API}/updatedata/${id}`, {
             method: "PUT",
             body: formData
         });
@@ -635,10 +694,13 @@ async function update(id){
         const result = await response.json();
 
         if (!response.ok) {
-            alert(result.message || "update failed");
+            alert(result.message || "Update failed");
             return;
-        }      
-     alert("Product updated successfully!");
+        }
+
+        alert("Product updated successfully!");
+        window.location.href = "AdminProducts.html";
+
     } catch (err) {
         console.error("Update failed:", err);
     }
@@ -655,7 +717,56 @@ async function update(id){
             return;
         }
   alert("data deleted");
+  get()
     } catch (err) {
         console.error("data failed:", err);
     }
  }
+ function editProduct(id) {
+    window.location.href = `productForm.html?id=${id}`;
+}
+
+let productId = new URLSearchParams(window.location.search).get("id");
+
+async function loadProduct() {
+
+    if (!productId) return;
+
+    const response = await fetch(`${API}/alldata`);
+    const result = await response.json();
+
+    const product = (result.data || []).find(item => item._id === productId);
+
+    if (!product) {
+        alert("Product not found");
+        return;
+    }
+
+    document.getElementById("product_title").value = product.product_title || "";
+    document.getElementById("category").value = product.category || "";
+    document.getElementById("brand").value = product.brand || "";
+    document.getElementById("price").value = product.price || "";
+    document.getElementById("original_price").value = product.original_price || "";
+
+    if (product.image) {
+        const img = document.getElementById("currentImage");
+        img.src = `${API}/files/${product.image}`;
+        img.style.display = "block";
+    }
+
+    document.getElementById("formTitle").textContent = "Update Products";
+    document.getElementById("submitBtn").textContent = "Update";
+}
+
+function handleSubmit(e) {
+    e.preventDefault();
+
+    if (productId) {
+        update(productId);
+    } else {
+        post();
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadProduct);
+

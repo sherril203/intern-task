@@ -27,38 +27,40 @@
         </div>
 
         <!-- Main Dashboard -->
-        <div class="main-content">
-            <h2>Hi Admin</h2>
-
-            <!-- Count Boxes -->
-            <div class="count">
-                <div class="box">
-                    <p>Categories</p>
-                    <p>Count</p>
-                </div>
-
-                <div class="box">
-                    <p>Products</p>
-                    <p>Count</p>
-                </div>
-            </div>
-
-            <!-- Product Management -->
-            <section class="manage">
-                <div class="align">
-                    <h3>Product Management</h3>
-                     <button class="add"><a href="./productForm.html">Add Product</a></button>
-                </div>
-
-                <div class="details">
-                    <img src="" alt="Product">
-                    <p>Product Name</p>
-                    <p>Price</p>
-                   <button class="edit" onclick=" update(id)">Edit</button>
-                    <button class="del" onclick="deleted(id)">Delete</button>
-                </div>
-            </section>
+       
+<div class="main-content">
+    <h2>Products</h2>
+    <!-- Count Boxes -->
+    <div class="count">
+        <div class="box">
+            <p>Categories</p>
+            <p id="categoryCount">0</p>
         </div>
+
+        <div class="box">
+            <p>Products</p>
+            <p id="productCount">0</p>
+        </div>
+    </div>
+
+    <!-- Product Management -->
+    <section class="manage">
+
+        <div class="align">
+            <h3>Product Management</h3>
+
+            <button class="add">
+                <a href="./productForm.html">Add Product</a>
+            </button>
+        </div>
+
+        <!-- Dynamic products will appear here -->
+        <div id="productList"></div>
+
+    </section>
+
+</div>
+
 
     </div>
       <script src="./config.js"></script>
