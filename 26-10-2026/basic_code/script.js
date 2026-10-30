@@ -718,7 +718,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Current page:", pageName);
     console.log("API:", API);
 
-    if (pageName === "adminproducts.html") {
+    if (pageName === "admin.html" ||  pageName === "adminproducts.html") {
         console.log("Calling get function...");
         get();
     } else {
