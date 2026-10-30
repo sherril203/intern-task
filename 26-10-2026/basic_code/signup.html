@@ -8,22 +8,40 @@
 </head>
 <body>
     <div class="formdata">
-        <p style="display: flex; justify-content: center; font-weight: bold;">Sign Up</p>
-        <div>
-            <label for="">Name</label> <br>
-            <input type="text">
-        </div>
-        <div>
-            <label for="">Email</label> <br>
-            <input type="email">
-        </div>
-        <div>
-            <label for="">Password</label> <br>
-            <input type="password">
-        </div>
-        <div>
-            <button class="form-submit"><a href="./login.html" class="link">Sign Up</a></button>
-        </div>
+        <p style="display: flex; justify-content: center; font-weight: bold;">
+            Sign Up
+        </p>
+
+        <form id="signupForm">
+    <div>
+        <label for="name">Name</label><br>
+        <input type="text" id="name" required>
     </div>
+
+    <div>
+        <label for="email">Email</label><br>
+        <input type="email" id="email" required>
+    </div>
+
+    <div>
+        <label for="password">Password</label><br>
+        <input type="password" id="password" required>
+    </div>
+
+    <div>
+        <button type="submit" class="form-submit">Sign Up</button>
+    </div>
+
+    <div>
+        <p>Already have an account? <a href="./login.html">Login</a></p>
+    </div>
+</form>
+
+<script src="./config.js"></script>
+<script src="./script.js"></script>
+    </div>
+
+    <script src="./config.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>

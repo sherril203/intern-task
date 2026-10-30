@@ -1,43 +1,92 @@
-const tokengenerator = require('../Middleware/Auth')
-const AdminModel=require('../models/Admin.model')
-const bcrypt=require('bcrypt')
+const tokengenerator = require('../Middleware/Auth');
+const AdminModel = require('../models/Admin.model');
+const bcrypt = require('bcrypt');
 
-const AdminRegister=async(req,res)=>{
-    try{
-        const {email,password}=req.body
-        const existdata=await AdminModel.findOne({email})
-        if (existdata){
-            return res.status(400).send({message:"admin not registered"})
+const AdminRegister = async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+
+        // Check existing admin
+        const existdata = await AdminModel.findOne({ email });
+
+        if (existdata) {
+            return res.status(400).send({
+                message: "Admin already registered"
+            });
         }
 
-    const hashedPassword = await bcrypt.hash(admindata.password, 10);
-    admindata.password = hashedPassword;
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-    const savedUser = new AdminModel(admindata);
-    await savedUser.save();
+        // Save admin
+        const savedUser = new AdminModel({
+            username: name,
+            email,
+            password: hashedPassword
+        });
 
-    return res.status(201).send({ message: "Admin registered successfully" });
+        await savedUser.save();
+
+        return res.status(201).send({
+            message: "Admin registered successfully"
+        });
+
+    } catch (err) {
+        console.error("Register error:", err);
+
+        return res.status(500).send({
+            message: "Signup failed"
+        });
     }
-    catch(err){
-        return res.status(400).send({message:"sign up failed"})
-    }
-}
-const Adminlogin=async(req,res)=>{
-    try{
-        const admindata=req.body
-        const existdata=await AdminModel.findOne({email:admindata.email})
-        if (!existdata){
-            return res.status(400).send({message:"admin not registered"})
+};
+
+
+const Adminlogin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const existdata = await AdminModel.findOne({ email });
+
+        if (!existdata) {
+            return res.status(400).send({
+                message: "Admin not registered"
+            });
         }
-           const matchedPassword=await bcrypt.compare(password,existdata.password)
-       if (!matchedPassword) {
-      return res.status(401).send({ message: "Invalid password" });
+
+        // Compare password
+        const matchedPassword = await bcrypt.compare(
+            password,
+            existdata.password
+        );
+
+        if (!matchedPassword) {
+            return res.status(401).send({
+                message: "Invalid password"
+            });
+        }
+
+        // Generate token
+        const token = tokengenerator(existdata._id);
+
+        return res.status(200).send({
+            message: "Admin login successful",
+            data: {
+                token,
+                admin: {
+                    id: existdata._id,
+                    username: existdata.username,
+                    email: existdata.email
+                }
+            }
+        });
+
+    } catch (err) {
+        console.error("Login error:", err);
+
+        return res.status(500).send({
+            message: "Login failed"
+        });
     }
-        const token=tokengenerator(existdata._id)
-        return res.status(200).send({message:"admin login",data:{token}})
-    }  
-    catch(err){
-        return res.status(400).send({message:"login failed"})
-    }
-}
-module.exports={AdminRegister,Adminlogin}
+};
+
+module.exports = { AdminRegister, Adminlogin };

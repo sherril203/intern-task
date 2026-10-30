@@ -4,5 +4,5 @@ const AdminSchema=new mongoose.Schema({
     email:{type:String},
     password:{type:String}
 })
-const adminModel=mongoose.models('/admin',AdminSchema);
+const adminModel=mongoose.model('admin',AdminSchema);
 module.exports=adminModel

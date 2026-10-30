@@ -495,3 +495,66 @@ async function buyNow(item) {
         window.location.href = "./Cart.html";
     }
 }
+async function login(e){
+    e.preventDefault()
+ try{
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const response=await fetch(`${API}/adminlogin`,{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        })
+         const result = await response.json();
+    const token=response.data.data?.token;
+    const admin=response.data.data?.admin;
+      if (token && admin) {
+        localStorage.setItem("token", token);
+        localStorage.setItem("admin", JSON.stringify(admin));
+        window.location.href = "./admin.html";
+      }
+ }
+ catch(err){
+    console.error('Login failed:', err.response?.data || err.message);
+ }
+}
+document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    try {
+        const response = await fetch(`${API}/adminRegister`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.message);
+            return;
+        }
+
+        alert("Registration successful!");
+        window.location.href = "./login.html";
+
+    } catch (err) {
+        console.error("Signup error:", err);
+        alert("Something went wrong!");
+    }
+});
+async function update(){
+    
+}
+// async function delete(){
+    
+// }
+
