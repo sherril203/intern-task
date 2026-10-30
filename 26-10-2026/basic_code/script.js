@@ -495,30 +495,45 @@ async function buyNow(item) {
         window.location.href = "./Cart.html";
     }
 }
-async function login(e){
-    e.preventDefault()
- try{
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const response=await fetch(`${API}/adminlogin`,{
+async function login(e) {
+    e.preventDefault();
+
+    try {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        const response = await fetch(`${API}/adminLogin`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ email, password })
-        })
-         const result = await response.json();
-    const token=response.data.data?.token;
-    const admin=response.data.data?.admin;
-      if (token && admin) {
-        localStorage.setItem("token", token);
-        localStorage.setItem("admin", JSON.stringify(admin));
-        window.location.href = "./admin.html";
-      }
- }
- catch(err){
-    console.error('Login failed:', err.response?.data || err.message);
- }
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            alert(result.message || "Login failed");
+            return;
+        }
+
+        const token = result.data?.token;
+        const admin = result.data?.admin;
+
+        if (token) {
+            localStorage.setItem("token", token);
+
+            if (admin) {
+                localStorage.setItem("admin", JSON.stringify(admin));
+            }
+
+            window.location.href = "./admin.html";
+        }
+
+    } catch (err) {
+        console.error("Login failed:", err);
+        alert("Something went wrong!");
+    }
 }
 document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
