@@ -288,10 +288,14 @@ nav {
 .dynamic-product .title {
     font-size: 16px;
     overflow-wrap: anywhere;
+    display: flex;
+    justify-content: center;
 }
 
 .dynamic-product .price {
     font-size: 15px;
+    display: flex;
+    justify-content: center;
 }
 
 .dynamic-product .cart,
@@ -349,11 +353,15 @@ nav {
     font-weight: bold;
     margin: 8px 0;
     overflow-wrap: break-word;
+    display: flex;
+    justify-content: center;
 }
 
 .cart-details .price {
     font-size: 14px;
     margin: 8px 0;
+    display: flex;
+    justify-content: center;
 }
 
 .cart-item button {
