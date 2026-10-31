@@ -125,12 +125,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const img = card.querySelector("img");
 
-        if (img) {
-            img.src = `${API}/files/${item.image || ""}`;
+        if (img && item.image) {
+
+            // Remove folder path and get only filename
+            const filename = item.image.split(/[\\/]/).pop();
+
+            img.src = `${API}/files/${encodeURIComponent(filename)}`;
             img.alt = item.product_title || "Product";
 
             img.onerror = () => {
-                console.error("Image not found:", img.src);
+                console.error("Image loading failed!");
+                console.error("Database filename:", item.image);
+                console.error("Requested URL:", img.src);
             };
         }
 
@@ -240,54 +246,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // DISPLAY PRODUCTS
 
-function displayProducts(products) {
+    function displayProducts(products) {
 
-    if (!productList || !productTemplate) {
-        console.error("Product list or template not found");
-        return;
-    }
-
-    console.log("Template:", productTemplate);
-    console.log("Template type:", productTemplate.tagName);
-
-    const templateContent = productTemplate.content;
-
-    if (!templateContent || !templateContent.firstElementChild) {
-        console.error("Product template content is missing");
-        return;
-    }
-
-    productList.innerHTML = "";
-
-    products.forEach(item => {
-
-        const card = templateContent.firstElementChild.cloneNode(true);
-
-        card.classList.add("dynamic-product");
-
-        card.dataset.category = (item.category || "").trim();
-        card.dataset.brand = (item.brand || "").trim();
-        card.dataset.price = formatPrice(item.price);
-
-        fillProductCard(card, item);
-
-        const cartButton = card.querySelector(".cart");
-
-        if (cartButton) {
-            cartButton.onclick = () => addToCart(item);
+        if (!productList || !productTemplate) {
+            console.error("Product list or template not found");
+            return;
         }
 
-        const buyButton = card.querySelector(".buy");
+        console.log("Template:", productTemplate);
+        console.log("Template type:", productTemplate.tagName);
 
-        if (buyButton) {
-            buyButton.onclick = () => buyNow(item);
+        const templateContent = productTemplate.content;
+
+        if (!templateContent || !templateContent.firstElementChild) {
+            console.error("Product template content is missing");
+            return;
         }
 
-        productList.appendChild(card);
-    });
+        productList.innerHTML = "";
 
-    applySearchAndFilters();
-}
+        products.forEach(item => {
+
+            const card = templateContent.firstElementChild.cloneNode(true);
+
+            card.classList.add("dynamic-product");
+
+            card.dataset.category = (item.category || "").trim();
+            card.dataset.brand = (item.brand || "").trim();
+            card.dataset.price = formatPrice(item.price);
+
+            fillProductCard(card, item);
+
+            const cartButton = card.querySelector(".cart");
+
+            if (cartButton) {
+                cartButton.onclick = () => addToCart(item);
+            }
+
+            const buyButton = card.querySelector(".buy");
+
+            if (buyButton) {
+                buyButton.onclick = () => buyNow(item);
+            }
+
+            productList.appendChild(card);
+        });
+
+        applySearchAndFilters();
+    }
 
 
 
@@ -676,12 +682,12 @@ async function loadProduct() {
         document.getElementById("original_price").value = product.original_price ?? "";
         document.getElementById("brand").value = product.brand ?? "";
 
-      document.getElementById("imageName").textContent =
-    product.image || "";
-document.getElementById("image").addEventListener("change", function () {
-    document.getElementById("imageName").textContent =
-        this.files[0]?.name || "";
-});
+        document.getElementById("imageName").textContent =
+            product.image || "";
+        document.getElementById("image").addEventListener("change", function () {
+            document.getElementById("imageName").textContent =
+                this.files[0]?.name || "";
+        });
         if (currentImage && product.image) {
             currentImage.src = `${API}/files/${product.image}`;
             currentImage.style.display = "block";
@@ -734,7 +740,12 @@ async function get() {
         if (categoryCount) {
             categoryCount.textContent = categories.length;
         }
-
+console.table(
+    products.map(item => ({
+        name: item.product_title,
+        image: item.image
+    }))
+);
         // DISPLAY PRODUCTS
         products.forEach(item => {
 
