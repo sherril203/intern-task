@@ -123,22 +123,29 @@ document.addEventListener("DOMContentLoaded", () => {
         const price = formatPrice(item.price);
         const oldPrice = formatPrice(item.original_price);
 
-        const img = card.querySelector("img");
+const img = card.querySelector("img");
 
-        if (img && item.image) {
+if (img && item.image) {
+    // Get only the filename
+    const filename = item.image.split(/[\\/]/).pop();
 
-            // Remove folder path and get only filename
-            const filename = item.image.split(/[\\/]/).pop();
+    console.log("Product:", item.product_title);
+    console.log("DB Image:", filename);
 
-            img.src = `${API}/files/${encodeURIComponent(filename)}`;
-            img.alt = item.product_title || "Product";
+    img.src = `${API}/files/${encodeURIComponent(filename)}`;
+    img.alt = item.product_title || "Product";
 
-            img.onerror = () => {
-                console.error("Image loading failed!");
-                console.error("Database filename:", item.image);
-                console.error("Requested URL:", img.src);
-            };
-        }
+    img.onerror = () => {
+        console.error("Image loading failed!");
+        console.error("Product:", item.product_title);
+        console.error("Database filename:", item.image);
+        console.error("Requested URL:", img.src);
+    };
+    console.log("API:", API);
+console.log("Product:", item);
+console.log("Image filename:", item.image);
+console.log("Final image URL:", `${API}/files/${item.image}`);
+}
 
         const category = card.querySelector(".category");
 
