@@ -7,7 +7,7 @@ const Admin=require('../controllers/Admin.controlers')
 //products
 router.post('/postdata',upload.single('image'),Productdata.postProductData)
 router.get('/alldata',Productdata.getProductData)
-router.put('/updatedata/:id', upload.single('product_img'),Productdata.updateProductData);
+router.put('/updatedata/:id', upload.single('image'),Productdata.updateProductData);
 router.delete('/deletedata/:id', Productdata.deleteProductdata);
 //cart
 router.get('/cart',Cartdata.getCartData)

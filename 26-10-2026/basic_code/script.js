@@ -534,67 +534,15 @@ async function signup(e) {
 
 
 
-// ADD PRODUCT
-async function post() {
 
-    const formData = new FormData();
+// =====================================
+// GET PRODUCT ID FROM URL
+// =====================================
 
-    formData.append(
-        "product_title",
-        document.getElementById("product_title").value
-    );
+const params = new URLSearchParams(window.location.search);
+const editId = params.get("id");
 
-    formData.append(
-        "category",
-        document.getElementById("category").value
-    );
-
-    formData.append(
-        "brand",
-        document.getElementById("brand").value
-    );
-
-    formData.append(
-        "price",
-        document.getElementById("price").value
-    );
-
-    formData.append(
-        "original_price",
-        document.getElementById("original_price").value
-    );
-
-    const image = document.getElementById("image").files[0];
-
-    if (!image) {
-        alert("Please select an image");
-        return;
-    }
-
-    formData.append("image", image);
-
-    try {
-        const response = await fetch(`${API}/postdata`, {
-            method: "POST",
-            body: formData
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-            alert(result.message || "Post failed");
-            return;
-        }
-
-        alert("Product added successfully!");
-        window.location.href = "AdminProducts.html";
-
-    } catch (error) {
-        console.error("Post failed:", error);
-    }
-}
-
-
+console.log("Edit ID:", editId);
 
 
 // =====================================
@@ -602,16 +550,10 @@ async function post() {
 // =====================================
 
 async function getAllProducts() {
+
     try {
-        console.log("API URL:", `${API}/alldata`);
-
         const response = await fetch(`${API}/alldata`);
-
-        console.log("Response status:", response.status);
-
         const result = await response.json();
-
-        console.log("Backend response:", result);
 
         if (!response.ok) {
             throw new Error(result.message || "API request failed");
@@ -622,7 +564,7 @@ async function getAllProducts() {
             : result.data;
 
         if (!Array.isArray(products)) {
-            throw new Error("Backend response does not contain a product array");
+            throw new Error("Invalid product data");
         }
 
         return products;
@@ -632,6 +574,128 @@ async function getAllProducts() {
         throw error;
     }
 }
+
+
+// =====================================
+// ADD / UPDATE PRODUCT
+// =====================================
+
+async function post(event) {
+    event.preventDefault();
+
+    const formData = new FormData();
+
+    const imageInput = document.getElementById("image");
+
+    if (!imageInput) {
+        console.error("Image input not found");
+        return;
+    }
+
+    const image = imageInput.files[0];
+
+    if (image) {
+        formData.append("image", image);
+    }
+
+    formData.append("product_title", document.getElementById("product_title").value);
+    formData.append("category", document.getElementById("category").value);
+    formData.append("price", document.getElementById("price").value);
+    formData.append("original_price", document.getElementById("original_price").value);
+    formData.append("brand", document.getElementById("brand").value);
+
+    try {
+        const response = await fetch(
+            editId
+                ? `${API}/updatedata/${editId}`
+                : `${API}/postdata`,
+            {
+                method: editId ? "PUT" : "POST",
+                body: formData
+            }
+        );
+
+        // Read response safely
+        const responseText = await response.text();
+
+        console.log("Response Status:", response.status);
+        console.log("Backend Response:", responseText);
+
+        let result;
+
+        try {
+            result = JSON.parse(responseText);
+        } catch {
+            throw new Error(
+                `Backend returned HTML instead of JSON. Status: ${response.status}. Check Render Logs.`
+            );
+        }
+
+        if (!response.ok) {
+            throw new Error(result.message || "Product update failed");
+        }
+
+        alert(
+            editId
+                ? "Product updated successfully!"
+                : "Product added successfully!"
+        );
+
+        window.location.href = "AdminProducts.html";
+
+    } catch (error) {
+        console.error("Product submit error:", error);
+        alert(error.message);
+    }
+}
+
+// =====================================
+// LOAD PRODUCT FOR EDIT
+// =====================================
+
+async function loadProduct() {
+    if (!editId) return;
+
+    try {
+        const products = await getAllProducts();
+
+        const product = products.find(
+            item => String(item._id) === String(editId)
+        );
+
+        console.log("Selected Product:", product);
+
+        if (!product) {
+            alert("Product not found");
+            return;
+        }
+
+        document.getElementById("product_title").value = product.product_title ?? "";
+        document.getElementById("category").value = product.category ?? "";
+        document.getElementById("price").value = product.price ?? "";
+        document.getElementById("original_price").value = product.original_price ?? "";
+        document.getElementById("brand").value = product.brand ?? "";
+
+      document.getElementById("imageName").textContent =
+    product.image || "";
+document.getElementById("image").addEventListener("change", function () {
+    document.getElementById("imageName").textContent =
+        this.files[0]?.name || "";
+});
+        if (currentImage && product.image) {
+            currentImage.src = `${API}/files/${product.image}`;
+            currentImage.style.display = "block";
+        }
+
+    } catch (error) {
+        console.error("Load Product Error:", error);
+    }
+}
+
+
+// =====================================
+// ADMIN PRODUCT LIST
+// =====================================
 
 async function get() {
 
@@ -644,6 +708,7 @@ async function get() {
     }
 
     try {
+
         const products = await getAllProducts();
 
         console.log("Fetched Products:", products);
@@ -687,10 +752,12 @@ async function get() {
             product.querySelector(".admin-product-price").textContent =
                 `₹${item.price}`;
 
+            // EDIT BUTTON
             product.querySelector(".edit-product").addEventListener("click", () => {
                 editProduct(item._id);
             });
 
+            // DELETE BUTTON
             product.querySelector(".delete-product").addEventListener("click", () => {
                 deleted(item._id);
             });
@@ -708,84 +775,14 @@ async function get() {
 }
 
 
-document.addEventListener("DOMContentLoaded", () => {
-
-    const pageName = window.location.pathname
-        .split("/")
-        .pop()
-        .toLowerCase();
-
-    console.log("Current page:", pageName);
-    console.log("API:", API);
-
-    if (pageName === "admin.html" ||  pageName === "adminproducts.html") {
-        console.log("Calling get function...");
-        get();
-    } else {
-        console.log("Admin products page condition not matched");
-    }
-});
-
-
 // =====================================
-// UPDATE PRODUCT
+// EDIT PRODUCT
 // =====================================
 
-async function update(id) {
+function editProduct(id) {
 
-    const formData = new FormData();
+    window.location.href = `productForm.html?id=${id}`;
 
-    formData.append(
-        "product_title",
-        document.getElementById("product_title").value
-    );
-
-    formData.append(
-        "category",
-        document.getElementById("category").value
-    );
-
-    formData.append(
-        "brand",
-        document.getElementById("brand").value
-    );
-
-    formData.append(
-        "price",
-        document.getElementById("price").value
-    );
-
-    formData.append(
-        "original_price",
-        document.getElementById("original_price").value
-    );
-
-    const image = document.getElementById("image").files[0];
-
-    if (image) {
-        formData.append("product_img", image);
-    }
-
-    try {
-        const response = await fetch(`${API}/updatedata/${id}`, {
-            method: "PUT",
-            body: formData
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-            alert(result.message || "Update failed");
-            return;
-        }
-
-        alert("Product updated successfully!");
-
-        window.location.href = "AdminProducts.html";
-
-    } catch (error) {
-        console.error("Update failed:", error);
-    }
 }
 
 
@@ -795,13 +792,14 @@ async function update(id) {
 
 async function deleted(id) {
 
-    const confirmDelete = confirm("Are you sure you want to delete this product?");
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this product?"
+    );
 
-    if (!confirmDelete) {
-        return;
-    }
+    if (!confirmDelete) return;
 
     try {
+
         const response = await fetch(`${API}/deletedata/${id}`, {
             method: "DELETE"
         });
@@ -824,106 +822,7 @@ async function deleted(id) {
 
 
 // =====================================
-// EDIT PRODUCT
-// =====================================
-
-function editProduct(id) {
-
-    window.location.href = `productForm.html?id=${id}`;
-
-}
-
-
-// =====================================
-// LOAD PRODUCT FOR UPDATE
-// =====================================
-
-const productId = new URLSearchParams(
-    window.location.search
-).get("id");
-
-
-async function loadProduct() {
-
-    if (!productId) {
-        return;
-    }
-
-    try {
-        const products = await getAllProducts();
-
-        const product = products.find(
-            item => item._id === productId
-        );
-
-        if (!product) {
-            alert("Product not found");
-            return;
-        }
-
-        // FILL PRODUCT DETAILS
-        document.getElementById("product_title").value =
-            product.product_title || "";
-
-        document.getElementById("category").value =
-            product.category || "";
-
-        document.getElementById("brand").value =
-            product.brand || "";
-
-        document.getElementById("price").value =
-            product.price || "";
-
-        document.getElementById("original_price").value =
-            product.original_price || "";
-
-        // CURRENT IMAGE
-        if (product.image) {
-
-            const img = document.getElementById("currentImage");
-
-            if (img) {
-                img.src = `${API}/files/${product.image}`;
-                img.style.display = "block";
-            }
-        }
-
-        // CHANGE FORM TITLE
-        const formTitle = document.getElementById("formTitle");
-        const submitBtn = document.getElementById("submitBtn");
-
-        if (formTitle) {
-            formTitle.textContent = "Update Product";
-        }
-
-        if (submitBtn) {
-            submitBtn.textContent = "Update";
-        }
-
-    } catch (error) {
-        console.error("Load product failed:", error);
-    }
-}
-
-
-// =====================================
-// FORM SUBMIT
-// =====================================
-
-function handleSubmit(e) {
-
-    e.preventDefault();
-
-    if (productId) {
-        update(productId);
-    } else {
-        post();
-    }
-}
-
-
-// =====================================
-// PRODUCT FORM PAGE
+// DOM CONTENT LOADED
 // =====================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -933,7 +832,20 @@ document.addEventListener("DOMContentLoaded", () => {
         .pop()
         .toLowerCase();
 
+    console.log("Current page:", pageName);
+    console.log("API:", API);
+
+    // PRODUCT FORM PAGE
     if (pageName === "productform.html") {
         loadProduct();
     }
+
+    // ADMIN PRODUCTS PAGE
+    if (
+        pageName === "admin.html" ||
+        pageName === "adminproducts.html"
+    ) {
+        get();
+    }
+
 });

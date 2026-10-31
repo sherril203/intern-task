@@ -581,65 +581,102 @@ nav {
 }
 
 /* Product management */
-
 .manage {
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 20px;
     background-color: white;
+    border-radius: 20px;
+    width: 100%;
+    padding: 25px;
+    box-sizing: border-box;
 }
 
+/* Heading and Add button */
 .align {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.align h3 {
+    font-size: 24px;
+    margin: 0;
 }
 
 .add {
     background-color: blue;
-    padding: 8px 12px;
     border: none;
-    border-radius: 3px;
-    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
     cursor: pointer;
 }
 
-/* Admin product details */
+.add a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
 
-.details {
-    display: flex;
+/* Product Heading */
+.product-heading,
+.admin-product-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1.5fr 1fr 1.5fr;
     align-items: center;
-    justify-content: space-between;
     gap: 15px;
+    padding: 15px;
+}
+
+.product-heading {
+    background-color: #eeeeee;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+/* Product Row */
+.admin-product-row {
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+}
+
+.admin-product-img {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
+.admin-product-name {
+    font-size: 15px;
+    overflow-wrap: anywhere;
+}
+
+.admin-product-category,
+.admin-product-price {
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.product-actions {
+    display: flex;
+    gap: 8px;
     flex-wrap: wrap;
-    padding: 15px 0;
-    border-top: 1px solid #ddd;
 }
 
-.details img {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-}
-
-.edit {
-    background-color: green;
-    color: white;
+.product-actions button {
+    padding: 8px 14px;
     border: none;
-    border-radius: 3px;
-    padding: 6px 10px;
+    border-radius: 5px;
+    color: white;
     cursor: pointer;
 }
 
-.del {
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    padding: 6px 10px;
-    cursor: pointer;
+.edit-product {
+    background-color: #2196F3;
+}
+
+.delete-product {
+    background-color: #e53935;
 }
 
 
@@ -647,6 +684,115 @@ nav {
    11. RESPONSIVE DESIGN
 ======================================== */
 
+/* Tablet */
+@media (max-width: 768px) {
+
+    .manage {
+        padding: 20px 12px;
+    }
+
+    .product-heading,
+    .admin-product-row {
+        grid-template-columns: 0.8fr 1.5fr 1fr 0.8fr 1.3fr;
+        gap: 8px;
+        padding: 12px 8px;
+    }
+
+    .admin-product-img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .product-heading span {
+        font-size: 13px;
+    }
+
+    .admin-product-name,
+    .admin-product-category,
+    .admin-product-price {
+        font-size: 13px;
+    }
+
+    .product-actions button {
+        padding: 7px 9px;
+        font-size: 12px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+
+    .manage {
+        padding: 15px 10px;
+    }
+
+    .align {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .align h3 {
+        font-size: 20px;
+    }
+
+    .add {
+        padding: 10px 16px;
+    }
+
+    /* Hide table heading */
+    .product-heading {
+        display: none;
+    }
+
+    /* Product Card */
+    .admin-product-row {
+        display: grid;
+        grid-template-columns: 85px 1fr;
+        gap: 8px 12px;
+        padding: 15px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .admin-product-img {
+        grid-column: 1;
+        grid-row: 1 / 4;
+        width: 85px;
+        height: 100px;
+    }
+
+    .admin-product-name {
+        grid-column: 2;
+        margin: 5px 0;
+        font-size: 15px;
+    }
+
+    .admin-product-category {
+        grid-column: 2;
+        margin: 0;
+        font-size: 13px;
+    }
+
+    .admin-product-price {
+        grid-column: 2;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    .product-actions {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 10px;
+        margin-top: 8px;
+    }
+
+    .product-actions button {
+        flex: 1;
+        padding: 10px;
+        font-size: 13px;
+    }
+}
 /* Tablet */
 
 @media (max-width: 992px) {
