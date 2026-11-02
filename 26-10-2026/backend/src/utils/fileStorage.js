@@ -1,10 +1,8 @@
-
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-// Save images inside src/image
-const uploadPath = path.join(__dirname, "image");
+const uploadPath = path.join(__dirname, "..", "image");
 
 if (!fs.existsSync(uploadPath)) {
     fs.mkdirSync(uploadPath, { recursive: true });
