@@ -26,8 +26,9 @@
             <li class="list"><a href="Contact.html" class="link">Contact</a></li>
         </ul>
         <div style="display: flex; gap: 5px;">
-            <p ><a href="./Cart.html" class="link" style="color:black"><i class="fa-solid fa-cart-shopping"></i> Cart(<span id="cartCount">0</span>)</a></p>
-         <button class="adminbtn"><a href="./signup.html" class="link">Admin</a></button>
+            <p><a href="./Cart.html" class="link" style="color:black"><i class="fa-solid fa-cart-shopping"></i>
+                    Cart(<span id="cartCount">0</span>)</a></p>
+            <button class="adminbtn"><a href="./signup.html" class="link">Admin</a></button>
         </div>
     </nav>
 
@@ -67,8 +68,10 @@
                 <input type="checkbox" data-filter="brand" value="Tecno"> Tecno <br>
                 <input type="checkbox" data-filter="brand" value="Callmate"> Callmate <br>
                 <input type="checkbox" data-filter="brand" value="Bacca Bucci"> Bacca Bucci <br>
-                     <input type="checkbox" data-filter="brand" value="OnePlus"> OnePlus <br>
-                          <input type="checkbox" data-filter="brand" value="Samsung"> Samsung 
+                <input type="checkbox" data-filter="brand" value="OnePlus"> OnePlus <br>
+                <input type="checkbox" data-filter="brand" value="Samsung"> Samsung <br>
+                <input type="checkbox" data-filter="brand" value="Asus"> Asus
+
             </div>
 
             <div style="font-size: 20px;">
@@ -81,37 +84,37 @@
             </div>
         </div>
 
-<div class="product-container">
-       <div style="display:flex;justify-content: center;gap:10px">
-            <input type="text" class="input" placeholder="Search products..." id="searchInput">
-            <button class="search" id="searchBtn">Search</button>
+        <div class="product-container">
+            <div style="display:flex;justify-content: center;gap:10px">
+                <input type="text" class="input" placeholder="Search products..." id="searchInput">
+                <button class="search" id="searchBtn">Search</button>
+            </div>
+            <div id="productList"></div>
+
+            <template id="productTemplate">
+                <div class="dynamic-product">
+
+                    <img src="" alt="Product">
+
+                    <p class="category"></p>
+                    <p class="title"></p>
+                    <p class="price"></p>
+                    <div style="display: flex; justify-content: center;gap: 2px;">
+                        <button class="cart" type="button">
+                            Add to Cart
+                        </button>
+
+                        <button class="buy" type="button">
+                            Buy Now
+                        </button>
+                    </div>
+
+
+                </div>
+            </template>
+
+
         </div>
- <div id="productList"></div>
-
-<template id="productTemplate">
-    <div class="dynamic-product">
-
-        <img src="" alt="Product">
-
-        <p class="category"></p>
-        <p class="title"></p>
-        <p class="price"></p>
-<div style="display: flex; justify-content: center;gap: 2px;">
-      <button class="cart" type="button">
-            Add to Cart
-        </button>
-
-        <button class="buy" type="button">
-            Buy Now
-        </button>
-</div>
-      
-
-    </div>
-</template>
-
-
-</div>
     </div>
 
 
