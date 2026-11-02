@@ -41,29 +41,35 @@
            <p>No:25,street road,aaa.</p>        
         </div>
     </div>
-    <div class="form">
+   <div class="form">
+    <form id="contactForm">
         <div>
-            <label for="">Name</label> <br>
-            <input type="text">
+            <label for="name">Name</label><br>
+            <input type="text" id="name" name="name" required>
         </div>
+
         <div>
-            <label for="">Email</label> <br>
-            <input type="email">
+            <label for="email">Email</label><br>
+            <input type="email" id="email" name="email" required>
         </div>
+
         <div>
-            <label for="">Message</label> <br>
-            <textarea name="" id=""></textarea>
+            <label for="message">Message</label><br>
+            <textarea id="message" name="message" required></textarea>
         </div>
+
         <div>
-            <button class="form-submit">Submit</button>
+            <button type="submit" class="form-submit">Submit</button>
         </div>
-    </div>
+    </form>
+</div>
    </div>
      <div class="footer">
            <p style="font-weight: bold;">ProductWorld</p> 
            <p>Purchase and enjoy</p>
            <p> 2026 All rights reserved</p>
         </div>
-          <script src="script.js"></script>
+        <script src="config.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

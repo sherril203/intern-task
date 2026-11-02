@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Productdata=require('../controllers/products.controllers')
+const Contactform=require('../controllers/contact.controllers')
 const upload=require('../utils/fileStorage')
 const Cartdata=require('../controllers/Cart.controllers')
 const Admin=require('../controllers/Admin.controlers')
@@ -16,4 +17,7 @@ router.delete("/cart/:id", Cartdata.removeCart);
 //admin
 router.post('/adminRegister',Admin.AdminRegister);
 router.post('/adminLogin',Admin.Adminlogin)
+
+//contact
+router.post('/contact',Contactform.postContact);
 module.exports=router

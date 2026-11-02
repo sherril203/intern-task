@@ -893,3 +893,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+/*contact form */
+const contactForm = document.getElementById("contactForm");
+
+if (contactForm) {
+    contactForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const data = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            message: document.getElementById("message").value
+        };
+
+        try {
+          const response = await fetch(`${API}/contact`, {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+});
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("Feedback submitted successfully!");
+                contactForm.reset();
+            } else {
+                alert(result.message || "Submission failed");
+            }
+
+        } catch (error) {
+            console.error("Contact form error:", error);
+            alert("Something went wrong!");
+        }
+    });
+}
