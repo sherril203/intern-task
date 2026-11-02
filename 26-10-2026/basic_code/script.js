@@ -123,29 +123,29 @@ document.addEventListener("DOMContentLoaded", () => {
         const price = formatPrice(item.price);
         const oldPrice = formatPrice(item.original_price);
 
-const img = card.querySelector("img");
+        const img = card.querySelector("img");
 
-if (img && item.image) {
-    // Get only the filename
-    const filename = item.image.split(/[\\/]/).pop();
+        if (img && item.image) {
+            // Get only the filename
+            const filename = item.image.split(/[\\/]/).pop();
 
-    console.log("Product:", item.product_title);
-    console.log("DB Image:", filename);
+            console.log("Product:", item.product_title);
+            console.log("DB Image:", filename);
 
-    img.src = `${API}/files/${encodeURIComponent(filename)}`;
-    img.alt = item.product_title || "Product";
+            img.src = `${API}/files/${encodeURIComponent(filename)}`;
+            img.alt = item.product_title || "Product";
 
-    img.onerror = () => {
-        console.error("Image loading failed!");
-        console.error("Product:", item.product_title);
-        console.error("Database filename:", item.image);
-        console.error("Requested URL:", img.src);
-    };
-    console.log("API:", API);
-console.log("Product:", item);
-console.log("Image filename:", item.image);
-console.log("Final image URL:", `${API}/files/${item.image}`);
-}
+            img.onerror = () => {
+                console.error("Image loading failed!");
+                console.error("Product:", item.product_title);
+                console.error("Database filename:", item.image);
+                console.error("Requested URL:", img.src);
+            };
+            console.log("API:", API);
+            console.log("Product:", item);
+            console.log("Image filename:", item.image);
+            console.log("Final image URL:", `${API}/files/${item.image}`);
+        }
 
         const category = card.querySelector(".category");
 
@@ -676,8 +676,6 @@ async function loadProduct() {
             item => String(item._id) === String(editId)
         );
 
-        console.log("Selected Product:", product);
-
         if (!product) {
             alert("Product not found");
             return;
@@ -689,16 +687,27 @@ async function loadProduct() {
         document.getElementById("original_price").value = product.original_price ?? "";
         document.getElementById("brand").value = product.brand ?? "";
 
-        document.getElementById("imageName").textContent =
-            product.image || "";
-        document.getElementById("image").addEventListener("change", function () {
-            document.getElementById("imageName").textContent =
-                this.files[0]?.name || "";
-        });
-        if (currentImage && product.image) {
-            currentImage.src = `${API}/files/${product.image}`;
+        const imageInput = document.getElementById("image");
+        const imageName = document.getElementById("imageName");
+        const currentImage = document.getElementById("currentImage");
+
+        imageName.textContent = product.image || "";
+
+        if (product.image) {
+            const filename = product.image.split(/[\\/]/).pop();
+
+            currentImage.src = `${API}/files/${encodeURIComponent(filename)}`;
             currentImage.style.display = "block";
         }
+
+        imageInput.addEventListener("change", function () {
+            imageName.textContent = this.files[0]?.name || "";
+
+            if (this.files[0]) {
+                currentImage.src = URL.createObjectURL(this.files[0]);
+                currentImage.style.display = "block";
+            }
+        });
 
     } catch (error) {
         console.error("Load Product Error:", error);
@@ -709,6 +718,7 @@ async function loadProduct() {
 // =====================================
 // ADMIN PRODUCT LIST
 // =====================================
+
 
 async function get() {
 
@@ -721,7 +731,6 @@ async function get() {
     }
 
     try {
-
         const products = await getAllProducts();
 
         console.log("Fetched Products:", products);
@@ -747,19 +756,35 @@ async function get() {
         if (categoryCount) {
             categoryCount.textContent = categories.length;
         }
-console.table(
-    products.map(item => ({
-        name: item.product_title,
-        image: item.image
-    }))
-);
+
+        console.table(
+            products.map(item => ({
+                name: item.product_title,
+                image: item.image
+            }))
+        );
+
         // DISPLAY PRODUCTS
         products.forEach(item => {
 
             const product = template.content.cloneNode(true);
 
-            product.querySelector(".admin-product-img").src =
-                `${API}/files/${item.image}`;
+            // IMAGE DISPLAY
+          const img = product.querySelector(".admin-product-img");
+
+if (img && item.image) {
+    const filename = item.image.split(/[\\/]/).pop();
+
+    img.src = item.image.startsWith("http")
+        ? item.image
+        : `${API}/files/${encodeURIComponent(filename)}`;
+
+    img.alt = item.product_title || "Product";
+
+    img.onerror = () => {
+        console.error("Image not found:", img.src);
+    };
+}
 
             product.querySelector(".admin-product-name").textContent =
                 item.product_title || "";
@@ -791,6 +816,7 @@ console.table(
         console.error("Data failed:", error);
     }
 }
+
 
 
 // =====================================
