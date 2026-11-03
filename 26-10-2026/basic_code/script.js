@@ -829,10 +829,12 @@ if (img && item.image) {
 
             product.querySelector(".admin-product-price").textContent =
                 `₹${item.price}`;
-                product.querySelector(".admin-product-quantity").textContent =
-                `${item.quantity}`;
-                product.querySelector(".admin-product-status").textContent =
-                `${item.status}`;
+            const quantity = Number(item.Quantity ?? item.quantity ?? 0);
+
+product.querySelector(".admin-product-quantity").textContent = quantity;
+
+product.querySelector(".admin-product-status").textContent =
+    quantity === 0 ? "out of stock" : "available";
 
             // EDIT BUTTON
             product.querySelector(".edit-product").addEventListener("click", () => {

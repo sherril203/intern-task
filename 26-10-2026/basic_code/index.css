@@ -957,7 +957,7 @@ nav {
 .product-heading,
 .admin-product-row {
     display: grid;
-    grid-template-columns: 100px 2fr 1.5fr 1fr 1.5fr;
+    grid-template-columns: 100px 2fr 1.5fr 1fr 1.5fr 1fr 1.5fr;
     align-items: center;
     gap: 15px;
     padding: 15px;
