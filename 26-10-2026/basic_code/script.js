@@ -249,7 +249,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Unable to load products. Please try again.";
         }
     }
+// HOME PAGE - DISPLAY ONLY 4 PRODUCTS
+async function fetchHomeProducts() {
 
+    if (!productList || !productTemplate) {
+        console.error("Product list or template not found");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API}/alldata`);
+
+        if (!response.ok) {
+            throw new Error(`Product fetch failed: ${response.status}`);
+        }
+
+        const result = await response.json();
+        const products = result.data || result;
+
+        if (!Array.isArray(products)) {
+            throw new Error("Invalid product data");
+        }
+
+        // Display only first 4 products
+        displayProducts(products.slice(0, 4));
+
+    } catch (error) {
+        console.error("Home products error:", error);
+        productList.textContent = "Unable to load products.";
+    }
+}
 
     // DISPLAY PRODUCTS
 
@@ -447,7 +476,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-
+if (pageName === "index.html" || pageName === "") {
+    fetchHomeProducts();
+}
     // LOAD CORRECT PAGE
     if (isProductsPage) {
         fetchProducts();
