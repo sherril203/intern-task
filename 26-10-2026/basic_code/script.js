@@ -647,6 +647,8 @@ async function post(event) {
     formData.append("price", document.getElementById("price").value);
     formData.append("original_price", document.getElementById("original_price").value);
     formData.append("brand", document.getElementById("brand").value);
+    formData.append("quantity", document.getElementById("quantity").value);
+    formData.append("status", document.getElementById("status").value);
 
     try {
         const response = await fetch(
@@ -717,6 +719,8 @@ async function loadProduct() {
         document.getElementById("price").value = product.price ?? "";
         document.getElementById("original_price").value = product.original_price ?? "";
         document.getElementById("brand").value = product.brand ?? "";
+        document.getElementById("quantity").value = product.quantity ?? "";
+        document.getElementById("status").value = product.status ?? "";
 
         const imageInput = document.getElementById("image");
         const imageName = document.getElementById("imageName");
@@ -825,6 +829,10 @@ if (img && item.image) {
 
             product.querySelector(".admin-product-price").textContent =
                 `₹${item.price}`;
+                product.querySelector(".admin-product-quantity").textContent =
+                `${item.quantity}`;
+                product.querySelector(".admin-product-status").textContent =
+                `${item.status}`;
 
             // EDIT BUTTON
             product.querySelector(".edit-product").addEventListener("click", () => {

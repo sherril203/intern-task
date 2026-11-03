@@ -6,7 +6,7 @@ const CartSchema=new mongoose.Schema(
       product_title:{type:String},
       price:{type:String},
       original_price:{type:String},
-      brand:{type:String}
+      brand:{type:String},
     }
 )
 const CartModel=mongoose.model('Cart',CartSchema)

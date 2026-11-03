@@ -6,7 +6,9 @@ const ProductSchema=new mongoose.Schema(
       product_title:{type:String},
       price:{type:String},
       original_price:{type:String},
-      brand:{type:String}
+      brand:{type:String},
+        Quantity:{type:String},
+            status:{type:String}
     }
 )
 const ProductModel=mongoose.model('Product',ProductSchema)
