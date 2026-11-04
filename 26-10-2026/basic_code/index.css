@@ -247,20 +247,12 @@ nav {
     height: 200px;
     object-fit: contain;
 }
-.product-btn{
+.product-btn,.cart-btn{
     display: flex; 
     justify-content: center;
     gap: 10px;
 }
 
-/* .category {
-    align-self: flex-start;
-    font-size: 18px;
-    color: white;
-    background-color: #666;
-    padding: 5px;
-    border-radius: 5px;
-} */
 
 .title {
     font-weight: bold;
@@ -364,12 +356,19 @@ nav {
    6. CART PAGE
 ======================================== */
 
-.cart-item {
+.cart-products {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
     width: 100%;
+}
+
+.cart-item {
     min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -378,22 +377,23 @@ nav {
 }
 
 .cart-item img {
-    display: block;
     width: 100%;
     max-width: 200px;
     height: 180px;
     object-fit: contain;
-    margin-bottom: 12px;
+    align-self: center;
 }
 
 .cart-details {
     width: 100%;
-    text-align: left;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .cart-details .category {
-    font-size: 14px;
     align-self: flex-start;
+    font-size: 14px;
     color: white;
     background-color: #666;
     padding: 5px;
@@ -401,10 +401,8 @@ nav {
 }
 
 .cart-details .title {
-    font-size: 15px;
-    font-weight: bold;
-    margin: 8px 0;
-    overflow-wrap: break-word;
+      font-size: 16px;
+    overflow-wrap: anywhere;
     display: flex;
     justify-content: center;
 }
@@ -412,23 +410,29 @@ nav {
 .cart-details .price {
     font-size: 14px;
     margin: 8px 0;
+    text-align: center;
+}
+
+.cart-btn {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    flex-wrap: wrap;
 }
 
 .cart-item button {
-    display: inline-block;
     padding: 8px 12px;
+    border: none;
     border-radius: 6px;
     color: white;
     cursor: pointer;
-    margin: 4px 3px 0 0;
-    white-space: nowrap;
+    font-size: 18px;
 }
 
 .cart-item .cart {
-    background-color: red;
-    font-size: 20px;
+    background-color: orange;
 }
 
 .cart-item .buy {
@@ -608,7 +612,7 @@ nav {
 .adminbtn {
     background-color: blue;
     color: white;
-    padding: 8px 12px;
+    padding: 8px 20px;
     width: 80px;
     border-radius: 5px;
     cursor: pointer;

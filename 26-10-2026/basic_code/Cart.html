@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Products</title>
+    <title>Cart</title>
 </head>
 
 <body>
@@ -24,8 +24,9 @@
             <li class="list"><a href="Products.html" class="link">Products</a></li>
             <li class="list"><a href="Contact.html" class="link">Contact</a></li>
         </ul>
-        <div>
+        <div style="display: flex;justify-content: center; align-items: center; gap:10px;">
            <p><a href="./Cart.html" class="link" style="color:black"><i class="fa-solid fa-cart-shopping"></i> Cart(<span id="cartCount">0</span>)</a></p>
+        <button class="adminbtn" onclick="openAdmin()" style="display: flex;justify-content: center; align-items: center; gap:10px;"><i class="fa-regular fa-circle-user"></i> Admin</button>
         </div>
     </nav>
 
@@ -52,7 +53,7 @@
             <p class="category"></p>
             <h3 class="title"></h3>
             <p class="price"></p>
-<div style="display: flex;justify-content: center;gap: 3px;">
+<div class="cart-btn">
     <button class="cart" type="button">Remove Cart</button>
             <button class="buy" type="button">Buy Now</button>
 </div>

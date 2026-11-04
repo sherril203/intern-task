@@ -43,13 +43,10 @@
             </li>
         </ul>
 
-        <div>
-            <input type="text" class="input"
-                placeholder="Search products..." id="searchInput">
-
-            <button class="search" id="searchBtn">
-                Search
-            </button>
+        <div style="display: flex;justify-content: center; align-items: center; gap:10px;">
+                        <p><a href="./Cart.html" class="link" style="color:black"><i class="fa-solid fa-cart-shopping"></i>
+                    Cart(<span id="cartCount">0</span>)</a></p>
+              <button class="adminbtn" onclick="openAdmin()" style="display: flex;justify-content: center; align-items: center; gap:10px;"> <i class="fa-regular fa-circle-user"></i> Admin</button>
         </div>
 
     </nav>
@@ -143,6 +140,7 @@
     <!-- JavaScript -->
     <script src="./config.js"></script>
     <script src="./script.js"></script>
+       <script src="https://kit.fontawesome.com/8872bf04b0.js" crossorigin="anonymous"></script>
 
 </body>
 
