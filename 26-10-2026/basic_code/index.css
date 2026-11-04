@@ -247,6 +247,11 @@ nav {
     height: 200px;
     object-fit: contain;
 }
+.product-btn{
+    display: flex; 
+    justify-content: center;
+    gap: 10px;
+}
 
 /* .category {
     align-self: flex-start;
