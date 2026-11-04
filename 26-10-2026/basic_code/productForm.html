@@ -33,13 +33,13 @@
                 <p style="display: flex; justify-content: center; font-weight: bold;">post Products</p>
                 <div>
                     <label for="">Image</label>
-                 <input type="file" id="image" name="image" accept="image/*" required>
-                        <p id="imageName"></p>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                    <p id="imageName"></p>
 
                 </div>
                 <div>
                     <label for="">Product name</label>
-                    <input  type="text" id="product_title">
+                    <input type="text" id="product_title">
                 </div>
                 <div>
                     <label for="">Category</label>
@@ -57,16 +57,17 @@
                     <label for="">Brand</label> <br>
                     <input type="text" id="brand">
                 </div>
-                 <div>
-                    <label for="">Quantity</label> <br>
-                    <input type="text" id="quantity">
+                <div>
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" min="0" required>
                 </div>
-                 <div>
-                    <label for="">Status</label> <br>
-                    <input type="text" id="status">
+
+                <div>
+                    <label for="status">Status</label>
+                    <input type="text" id="status" >
                 </div>
                 <div>
-                    <button class="form-submit"  id="submitBtn" type="submit">Submit</button>
+                    <button class="form-submit" id="submitBtn" type="submit">Submit</button>
                 </div>
             </form>
 
@@ -74,8 +75,9 @@
         </div>
 
     </div>
-        <script src="./config.js"></script>
-    <script src="./script.js"></script>
+   <script src="./config.js"></script>
+<script src="./auth.js"></script>
+<script src="./script.js"></script>
 </body>
 
 </html>

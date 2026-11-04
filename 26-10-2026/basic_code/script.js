@@ -538,10 +538,7 @@ async function login(e) {
     }
 }
 
-
-
 // ADMIN SIGNUP
-
 
 async function signup(e) {
 
@@ -576,8 +573,22 @@ async function signup(e) {
     }
 }
 
+// private routing
+function openAdmin() {
+    const token = localStorage.getItem("token");
 
-
+    if (token) {
+        window.location.href = "./Admin.html";
+    } else {
+        window.location.href = "./login.html";
+    }
+}
+// admin logout
+function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("admin");
+    window.location.href = "./login.html";
+}
 
 // =====================================
 // GET PRODUCT ID FROM URL
@@ -630,13 +641,19 @@ async function post(event) {
     const formData = new FormData();
 
     const imageInput = document.getElementById("image");
+    const quantity = Number(document.getElementById("quantity").value);
 
-    if (!imageInput) {
-        console.error("Image input not found");
+    if (!editId && (!imageInput || !imageInput.files[0])) {
+        alert("Please select a product image");
         return;
     }
 
-    const image = imageInput.files[0];
+    if (!Number.isFinite(quantity) || quantity < 0) {
+        alert("Please enter a valid quantity");
+        return;
+    }
+
+    const image = imageInput?.files[0];
 
     if (image) {
         formData.append("image", image);
@@ -647,8 +664,13 @@ async function post(event) {
     formData.append("price", document.getElementById("price").value);
     formData.append("original_price", document.getElementById("original_price").value);
     formData.append("brand", document.getElementById("brand").value);
-    formData.append("quantity", document.getElementById("quantity").value);
-    formData.append("status", document.getElementById("status").value);
+
+    // Send quantity and automatically calculate status
+    formData.append("quantity", quantity);
+    formData.append(
+        "status",
+        quantity > 0 ? "available" : "out of stock"
+    );
 
     try {
         const response = await fetch(
@@ -661,7 +683,6 @@ async function post(event) {
             }
         );
 
-        // Read response safely
         const responseText = await response.text();
 
         console.log("Response Status:", response.status);
@@ -694,7 +715,6 @@ async function post(event) {
         alert(error.message);
     }
 }
-
 // =====================================
 // LOAD PRODUCT FOR EDIT
 // =====================================
@@ -759,7 +779,8 @@ async function get() {
 
     const productList = document.getElementById("adminProductList");
     const template = document.getElementById("adminProductTemplate");
-
+    const availableCount = document.getElementById("availableCount");
+    const outOfStockCount = document.getElementById("outOfStockCount"); 
     if (!productList || !template) {
         console.error("Product list or template not found");
         return;
@@ -798,7 +819,22 @@ async function get() {
                 image: item.image
             }))
         );
+// available and out of stock count
+const available = products.filter(item =>
+    Number(item.Quantity ?? item.quantity ?? 0) > 0
+).length;
 
+const outOfStock = products.filter(item =>
+    Number(item.Quantity ?? item.quantity ?? 0) === 0
+).length;
+
+if (availableCount) {
+    availableCount.textContent = available;
+}
+
+if (outOfStockCount) {
+    outOfStockCount.textContent = outOfStock;
+}
         // DISPLAY PRODUCTS
         products.forEach(item => {
 
