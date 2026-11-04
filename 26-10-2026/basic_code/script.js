@@ -492,11 +492,8 @@ if (pageName === "index.html" || pageName === "") {
 
 });
 
-
-
 // ADMIN LOGIN
 async function login(e) {
-
     e.preventDefault();
 
     try {
@@ -521,16 +518,19 @@ async function login(e) {
         const token = result.data?.token;
         const admin = result.data?.admin;
 
-        if (token) {
-            localStorage.setItem("token", token);
-
-            if (admin) {
-                localStorage.setItem("admin", JSON.stringify(admin));
-            }
-
-            alert("Login successful!");
-            window.location.href = "./admin.html";
+        if (!token) {
+            alert("Token not received from backend");
+            return;
         }
+
+        localStorage.setItem("token", token);
+
+        if (admin) {
+            localStorage.setItem("admin", JSON.stringify(admin));
+        }
+
+        alert("Login successful!");
+        window.location.href = "./Admin.html";
 
     } catch (error) {
         console.error("Login failed:", error);
@@ -637,7 +637,11 @@ async function getAllProducts() {
 
 async function post(event) {
     event.preventDefault();
-
+    if (!token) {
+        alert("Please login first");
+        window.location.href = "./login.html";
+        return;
+    }
     const formData = new FormData();
 
     const imageInput = document.getElementById("image");
@@ -673,12 +677,15 @@ async function post(event) {
     );
 
     try {
-        const response = await fetch(
+         const response = await fetch(
             editId
                 ? `${API}/updatedata/${editId}`
                 : `${API}/postdata`,
             {
                 method: editId ? "PUT" : "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
                 body: formData
             }
         );
@@ -1006,3 +1013,15 @@ if (contactForm) {
         }
     });
 }
+// filter option
+document.querySelectorAll(".show-more").forEach(button => {
+    button.addEventListener("click", () => {
+        const list = document.getElementById(button.dataset.target);
+
+        list.classList.toggle("show-all");
+
+        button.textContent = list.classList.contains("show-all")
+            ? "Show Less"
+            : "Show More";
+    });
+});

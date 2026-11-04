@@ -25,7 +25,7 @@
                     style="text-decoration-line: underline; text-decoration-color: orange;">Products</a></li>
             <li class="list"><a href="Contact.html" class="link">Contact</a></li>
         </ul>
-        <div style="display: flex; gap: 5px;">
+        <div style="display: flex; gap: 20px; ">
             <p><a href="./Cart.html" class="link" style="color:black"><i class="fa-solid fa-cart-shopping"></i>
                     Cart(<span id="cartCount">0</span>)</a></p>
             <button class="adminbtn" onclick="openAdmin()">Admin</button>
@@ -40,54 +40,77 @@
     </div>
 
     <div class="filter-products">
-        <div class="filter">
-            <div style="font-size: 20px;">
-                <p style="font-weight: bold;">Categories</p>
+  <div class="filter">
 
-                <input type="checkbox" data-filter="category" value="PC Accessories"> PC Accessories<br>
-                <input type="checkbox" data-filter="category" value=" Game Accessories"> Game Accessories<br>
-                <input type="checkbox" data-filter="category" value="Laptop"> Laptop <br>
-                <input type="checkbox" data-filter="category" value="Camera"> Camera <br>
-                <input type="checkbox" data-filter="category" value="Accessories"> Accessories <br>
-                <input type="checkbox" data-filter="category" value="Smart Watch"> Smart Watch <br>
-                <input type="checkbox" data-filter="category" value="Power Bank "> Power Bank <br>
-                <input type="checkbox" data-filter="category" value="Mobiles"> Mobiles <br>
-                <input type="checkbox" data-filter="category" value="books"> Books <br>
-                <input type="checkbox" data-filter="category" value="Shoes"> Shoes <br>
-                <input type="checkbox" data-filter="category" value="Bags"> Bags
+    <!-- Categories -->
+    <div style="font-size: 20px;">
+        <p style="font-weight: bold;">Categories</p>
 
-            </div>
-            <div style="font-size: 20px;">
-                <p style="font-weight: bold;">Brands</p>
-                <input type="checkbox" data-filter="brand" value="Sandisk"> Sandisk<br>
-                <input type="checkbox" data-filter="brand" value="Boat"> boAt<br>
-                <input type="checkbox" data-filter="brand" value="Portronics"> Portronics <br>
-                <input type="checkbox" data-filter="brand" value="Acer"> Acer <br>
-                <input type="checkbox" data-filter="brand" value="Canon"> Canon <br>
-                <input type="checkbox" data-filter="brand" value="Tecno"> Tecno <br>
-                <input type="checkbox" data-filter="brand" value="Callmate"> Callmate <br>
-                <input type="checkbox" data-filter="brand" value="Bacca Bucci"> Bacca Bucci <br>
-                <input type="checkbox" data-filter="brand" value="OnePlus"> OnePlus <br>
-                <input type="checkbox" data-filter="brand" value="Samsung"> Samsung <br>
-                <input type="checkbox" data-filter="brand" value="Asus"> Asus
-
-            </div>
-
-            <div style="font-size: 20px;">
-                <p style="font-weight: bold;">Price</p>
-                <input type="checkbox" data-filter="price" value="0-999"> Under ₹1,000<br>
-                <input type="checkbox" data-filter="price" value="1000-3000"> ₹1,000–₹3,000<br>
-                <input type="checkbox" data-filter="price" value="3000-5000"> ₹3,000–₹5,000<br>
-                <input type="checkbox" data-filter="price" value="5000-7000"> ₹5,000–₹7,000<br>
-                <input type="checkbox" data-filter="price" value="7000+"> ₹7,000+
-            </div>
+        <div class="filter-list" id="categoryList">
+            <label><input type="checkbox" data-filter="category" value="PC Accessories"> PC Accessories</label>
+            <label><input type="checkbox" data-filter="category" value="Game Accessories"> Game Accessories</label>
+            <label><input type="checkbox" data-filter="category" value="Laptop"> Laptop</label>
+            <label><input type="checkbox" data-filter="category" value="Camera"> Camera</label>
+            <label><input type="checkbox" data-filter="category" value="Accessories"> Accessories</label>
+            <label><input type="checkbox" data-filter="category" value="Smart Watch"> Smart Watch</label>
+            <label><input type="checkbox" data-filter="category" value="Power Bank"> Power Bank</label>
+            <label><input type="checkbox" data-filter="category" value="Mobiles"> Mobiles</label>
+            <label><input type="checkbox" data-filter="category" value="books"> Books</label>
+            <label><input type="checkbox" data-filter="category" value="Shoes"> Shoes</label>
+            <label><input type="checkbox" data-filter="category" value="Bags"> Bags</label>
         </div>
 
+        <button type="button" class="show-more" data-target="categoryList">Show More</button>
+    </div>
+
+    <!-- Brands -->
+    <div style="font-size: 20px;">
+        <p style="font-weight: bold;">Brands</p>
+
+        <div class="filter-list" id="brandList">
+            <label><input type="checkbox" data-filter="brand" value="Sandisk"> Sandisk</label>
+            <label><input type="checkbox" data-filter="brand" value="Boat"> boAt</label>
+            <label><input type="checkbox" data-filter="brand" value="Portronics"> Portronics</label>
+            <label><input type="checkbox" data-filter="brand" value="Acer"> Acer</label>
+            <label><input type="checkbox" data-filter="brand" value="Canon"> Canon</label>
+            <label><input type="checkbox" data-filter="brand" value="Tecno"> Tecno</label>
+            <label><input type="checkbox" data-filter="brand" value="Callmate"> Callmate</label>
+            <label><input type="checkbox" data-filter="brand" value="Bacca Bucci"> Bacca Bucci</label>
+            <label><input type="checkbox" data-filter="brand" value="OnePlus"> OnePlus</label>
+            <label><input type="checkbox" data-filter="brand" value="Samsung"> Samsung</label>
+            <label><input type="checkbox" data-filter="brand" value="Asus"> Asus</label>
+            <label><input type="checkbox" data-filter="brand" value="Sony"> Sony</label>
+        </div>
+
+        <button type="button" class="show-more" data-target="brandList">Show More</button>
+    </div>
+
+    <!-- Price -->
+    <div style="font-size: 20px;">
+        <p style="font-weight: bold;">Price</p>
+
+        <label><input type="checkbox" data-filter="price" value="0-999"> Under ₹1,000</label><br>
+        <label><input type="checkbox" data-filter="price" value="1000-3000"> ₹1,000–₹3,000</label><br>
+        <label><input type="checkbox" data-filter="price" value="3000-5000"> ₹3,000–₹5,000</label><br>
+        <label><input type="checkbox" data-filter="price" value="5000-7000"> ₹5,000–₹7,000</label><br>
+        <label><input type="checkbox" data-filter="price" value="7000+"> ₹7,000+</label>
+    </div>
+
+</div>
+
         <div class="product-container">
-            <div style="display:flex;justify-content: center;gap:10px">
-                <input type="text" class="input" placeholder="Search products..." id="searchInput">
-                <button class="search" id="searchBtn">Search</button>
-            </div>
+  <div class="search-container">
+    <div class="search-content">
+        <h2>Search Products</h2>
+
+        <div class="search-box">
+            <input type="text" class="input"
+                placeholder="Search products..." id="searchInput">
+            <button class="search" id="searchBtn">Search</button>
+        </div>
+    </div>
+</div>
+            
             <div id="productList"></div>
 
             <template id="productTemplate">

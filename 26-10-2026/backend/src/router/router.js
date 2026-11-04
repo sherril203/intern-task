@@ -5,11 +5,12 @@ const Contactform=require('../controllers/contact.controllers')
 const upload=require('../utils/fileStorage')
 const Cartdata=require('../controllers/Cart.controllers')
 const Admin=require('../controllers/Admin.controlers')
+const verifyToken = require("../Middleware/verifyToken");
 //products
-router.post('/postdata',upload.single('image'),Productdata.postProductData)
+router.post('/postdata', verifyToken,upload.single('image'),Productdata.postProductData)
 router.get('/alldata',Productdata.getProductData)
-router.put('/updatedata/:id', upload.single('image'),Productdata.updateProductData);
-router.delete('/deletedata/:id', Productdata.deleteProductdata);
+router.put('/updatedata/:id', verifyToken, upload.single('image'),Productdata.updateProductData);
+router.delete('/deletedata/:id', verifyToken, Productdata.deleteProductdata);
 //cart
 router.get('/cart',Cartdata.getCartData)
 router.post("/cart", Cartdata.addToCart);
