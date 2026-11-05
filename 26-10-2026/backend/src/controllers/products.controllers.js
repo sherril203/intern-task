@@ -1,9 +1,23 @@
 const ProductModel=require('../models/product.model')
 const postProductData = async (req, res) => {
     try {
+        const quantity = Number(req.body.quantity ?? 0);
+
         const data = {
-            ...req.body
+            ...req.body,
+            quantity: quantity,
+            status: quantity > 0 ? "available" : "out of stock"
         };
+         if (
+            req.body.quantity === undefined ||
+            req.body.quantity === "" ||
+            !Number.isInteger(quantity) ||
+            quantity < 0
+        ) {
+            return res.status(400).json({
+                message: "Please enter a valid quantity"
+            });
+        }
 
         if (req.file) {
             data.image = req.file.filename;
@@ -20,10 +34,7 @@ const postProductData = async (req, res) => {
 
     } catch (err) {
         console.error("Error in product data:", err);
-
-        res.status(500).json({
-            message: err.message
-        });
+        res.status(500).json({ message: err.message });
     }
 };
 const getProductData=async(req,res)=>{
@@ -39,13 +50,16 @@ const getProductData=async(req,res)=>{
 const updateProductData = async (req, res) => {
     try {
         const id = req.params.id;
+        const quantity = Number(req.body.quantity ?? 0);
 
         const update = {
             product_title: req.body.product_title,
             category: req.body.category,
             price: req.body.price,
             original_price: req.body.original_price,
-            brand: req.body.brand
+            brand: req.body.brand,
+            quantity: quantity,
+            status: quantity > 0 ? "available" : "out of stock"
         };
 
         if (req.file) {
@@ -74,10 +88,7 @@ const updateProductData = async (req, res) => {
 
     } catch (err) {
         console.error("Update Product Error:", err);
-
-        return res.status(500).json({
-            message: err.message
-        });
+        return res.status(500).json({ message: err.message });
     }
 };
 

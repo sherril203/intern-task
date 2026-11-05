@@ -637,6 +637,7 @@ async function getAllProducts() {
 
 async function post(event) {
     event.preventDefault();
+    const token = localStorage.getItem("token");
     if (!token) {
         alert("Please login first");
         window.location.href = "./login.html";
@@ -746,7 +747,7 @@ async function loadProduct() {
         document.getElementById("price").value = product.price ?? "";
         document.getElementById("original_price").value = product.original_price ?? "";
         document.getElementById("brand").value = product.brand ?? "";
-        document.getElementById("quantity").value = product.quantity ?? "";
+        document.getElementById("quantity").value = product.quantity ?? product.Quantity ?? 0;
         document.getElementById("status").value = product.status ?? "";
 
         const imageInput = document.getElementById("image");
@@ -828,11 +829,11 @@ async function get() {
         );
 // available and out of stock count
 const available = products.filter(item =>
-    Number(item.Quantity ?? item.quantity ?? 0) > 0
+    Number(item.quantity ?? item.Quantity ?? 0) > 0
 ).length;
 
 const outOfStock = products.filter(item =>
-    Number(item.Quantity ?? item.quantity ?? 0) === 0
+    Number(item.quantity ?? item.Quantity ?? 0) === 0
 ).length;
 
 if (availableCount) {
@@ -872,7 +873,7 @@ if (img && item.image) {
 
             product.querySelector(".admin-product-price").textContent =
                 `₹${item.price}`;
-            const quantity = Number(item.Quantity ?? item.quantity ?? 0);
+            const quantity = Number(item.quantity ?? item.Quantity ?? 0);
 
 product.querySelector(".admin-product-quantity").textContent = quantity;
 
@@ -927,10 +928,14 @@ async function deleted(id) {
     if (!confirmDelete) return;
 
     try {
+const token = localStorage.getItem("token");
 
-        const response = await fetch(`${API}/deletedata/${id}`, {
-            method: "DELETE"
-        });
+const response = await fetch(`${API}/deletedata/${id}`, {
+    method: "DELETE",
+    headers: {
+        Authorization: `Bearer ${token}`
+    }
+});
 
         const result = await response.json();
 
