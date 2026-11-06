@@ -282,54 +282,68 @@ async function fetchHomeProducts() {
 
     // DISPLAY PRODUCTS
 
-    function displayProducts(products) {
+   
+function displayProducts(products) {
 
-        if (!productList || !productTemplate) {
-            console.error("Product list or template not found");
-            return;
-        }
-
-        console.log("Template:", productTemplate);
-        console.log("Template type:", productTemplate.tagName);
-
-        const templateContent = productTemplate.content;
-
-        if (!templateContent || !templateContent.firstElementChild) {
-            console.error("Product template content is missing");
-            return;
-        }
-
-        productList.innerHTML = "";
-
-        products.forEach(item => {
-
-            const card = templateContent.firstElementChild.cloneNode(true);
-
-            card.classList.add("dynamic-product");
-
-            card.dataset.category = (item.category || "").trim();
-            card.dataset.brand = (item.brand || "").trim();
-            card.dataset.price = formatPrice(item.price);
-
-            fillProductCard(card, item);
-
-            const cartButton = card.querySelector(".cart");
-
-            if (cartButton) {
-                cartButton.onclick = () => addToCart(item);
-            }
-
-            const buyButton = card.querySelector(".buy");
-
-            if (buyButton) {
-                buyButton.onclick = () => buyNow(item);
-            }
-
-            productList.appendChild(card);
-        });
-
-        applySearchAndFilters();
+    if (!productList || !productTemplate) {
+        console.error("Product list or template not found");
+        return;
     }
+
+    productList.innerHTML = "";
+
+    products.forEach(item => {
+
+        const card = productTemplate.content
+            .firstElementChild.cloneNode(true);
+
+        card.classList.add("dynamic-product");
+
+        card.dataset.category = (item.category || "").trim();
+        card.dataset.brand = (item.brand || "").trim();
+        card.dataset.price = formatPrice(item.price);
+
+        // Fill product information
+        fillProductCard(card, item);
+
+        // PRODUCT DETAILS NAVIGATION
+        const image = card.querySelector("img");
+        const title = card.querySelector(".title");
+
+        const openDetails = () => {
+            window.location.href =
+                `ProductDetails.html?id=${encodeURIComponent(item._id)}`;
+        };
+
+        if (image) {
+            image.style.cursor = "pointer";
+            image.addEventListener("click", openDetails);
+        }
+
+        if (title) {
+            title.style.cursor = "pointer";
+            title.addEventListener("click", openDetails);
+        }
+
+        // ADD TO CART
+        const cartButton = card.querySelector(".cart");
+
+        if (cartButton) {
+            cartButton.onclick = () => addToCart(item);
+        }
+
+        // BUY NOW
+        const buyButton = card.querySelector(".buy");
+
+        if (buyButton) {
+            buyButton.onclick = () => buyNow(item);
+        }
+
+        productList.appendChild(card);
+    });
+
+    applySearchAndFilters();
+}
 
 
 
@@ -480,13 +494,18 @@ if (pageName === "index.html" || pageName === "") {
     fetchHomeProducts();
 }
     // LOAD CORRECT PAGE
-    if (isProductsPage) {
-        fetchProducts();
-    }
+  
+if (isProductsPage) {
+    fetchProducts();
+}
 
-    if (isCartPage) {
-        fetchCart();
-    }
+if (isCartPage) {
+    fetchCart();
+}
+
+if (pageName === "productdetails.html") {
+    loadProductDetails();
+}
 
     cartCount();
 
@@ -1030,3 +1049,140 @@ document.querySelectorAll(".show-more").forEach(button => {
             : "Show More";
     });
 });
+
+
+
+// =====================================
+// PRODUCT DETAILS PAGE
+// =====================================
+
+async function loadProductDetails() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    try {
+        const response = await fetch(`${API}/alldata`);
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch products");
+        }
+
+        const result = await response.json();
+        const products = result.data || result;
+
+        const product = products.find(
+            item => String(item._id) === String(id)
+        );
+        
+
+        if (!product) {
+            document.getElementById("productDetails").innerHTML =
+                "<h2>Product not found</h2>";
+            return;
+        }
+
+        console.log("Selected Product:", product);
+
+        // Image
+        const imageName = product.image.split(/[\\/]/).pop();
+
+        document.getElementById("detailImage").src =
+            `${API}/files/${encodeURIComponent(imageName)}`;
+
+        // Product details
+        document.getElementById("detailTitle").textContent =
+            product.product_title || "No title";
+
+        document.getElementById("detailCategory").textContent =
+            (product.category || "N/A");
+
+        // Price
+        document.getElementById("detailPrice").textContent =
+            formatPrice(product.price);
+
+        // Original Price
+        document.getElementById("detailOriginalPrice").textContent =
+            formatPrice(product.original_price);
+
+        // Quantity
+        document.getElementById("detailQuantity").textContent =
+            "Quantity: " + (product.quantity ?? "N/A");
+
+        // Buttons
+        document.getElementById("detailCart").onclick = async () => {
+            await addProductToCart(product);
+            await updateDetailsCartCount();
+        };
+
+        document.getElementById("detailBuy").onclick = async () => {
+            const added = await addProductToCart(product);
+
+            if (added) {
+                window.location.href = "Cart.html";
+            }
+        };
+
+    } catch (error) {
+        console.error("Product details error:", error);
+    }
+}
+// =====================================
+// ADD PRODUCT TO CART
+// =====================================
+
+async function addProductToCart(item) {
+
+    try {
+
+        const response = await fetch(`${API}/cart`, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                image: item.image,
+                category: item.category,
+                product_title: item.product_title,
+                price: item.price,
+                original_price: item.original_price,
+                brand: item.brand
+
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error("Unable to add product to cart");
+        }
+
+        alert("Product added to cart!");
+
+        return true;
+
+    } catch (error) {
+
+        console.error("Add to Cart Error:", error);
+
+        alert(error.message);
+
+        return false;
+    }
+}
+function formatPrice(value) {
+    if (value === undefined || value === null || value === "") {
+        return "Price not available";
+    }
+
+    const number = Number(
+        String(value).replace(/[₹,\s]/g, "")
+    );
+
+    if (Number.isNaN(number)) {
+        return "Price not available";
+    }
+
+    return "₹" + number.toLocaleString("en-IN");
+}

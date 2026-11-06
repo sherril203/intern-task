@@ -11,6 +11,7 @@ router.post('/postdata', verifyToken,upload.single('image'),Productdata.postProd
 router.get('/alldata',Productdata.getProductData)
 router.put('/updatedata/:id', verifyToken, upload.single('image'),Productdata.updateProductData);
 router.delete('/deletedata/:id', verifyToken, Productdata.deleteProductdata);
+router.get('/product/:id', Productdata.getProductById);
 //cart
 router.get('/cart',Cartdata.getCartData)
 router.post("/cart", Cartdata.addToCart);

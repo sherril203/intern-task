@@ -99,7 +99,30 @@ const updateProductData = async (req, res) => {
         return res.status(500).json({ message: err.message });
     }
 };
+const getProductById = async (req, res) => {
+    try {
+        const id = req.params.id;
 
+        const product = await ProductModel.findById(id);
+
+        if (!product) {
+            return res.status(404).json({
+                message: "Product not found"
+            });
+        }
+
+        res.status(200).json({
+            data: product
+        });
+
+    } catch (err) {
+        console.error("Get Product By ID Error:", err);
+
+        res.status(500).json({
+            message: err.message
+        });
+    }
+};
 const deleteProductdata=async(req,res)=>{
    try {
     const id = req.params.id;
@@ -117,4 +140,4 @@ const deleteProductdata=async(req,res)=>{
   }
 }
 module.exports={postProductData,getProductData,
-    updateProductData,deleteProductdata}
+    updateProductData,deleteProductdata,getProductById}

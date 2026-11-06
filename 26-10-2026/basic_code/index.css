@@ -1063,3 +1063,153 @@ nav {
 .delete-product {
     background: red;
 }
+
+/* Product Details */
+.product-details-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 35px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+.detail-image {
+    width: 350px;
+    height: 350px;
+    object-fit: contain;
+}
+
+.detail-info {
+    flex: 1;
+}
+
+.detail-info h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.detail-info p {
+    font-size: 17px;
+    margin: 15px 0;
+    color: #444;
+}
+
+.detail-info .detail-price {
+    font-size: 26px;
+    font-weight: bold;
+    color: #222;
+}
+
+#detailOriginalPrice {
+    font-size: 18px;
+    color: #888;
+    text-decoration: line-through;
+}
+
+#detailQuantity {
+    font-size: 16px;
+    color: green;
+}
+
+.detail-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.detail-actions button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+}
+
+#detailCart {
+    background: orange;
+}
+
+#detailBuy {
+    background: blue;
+}
+
+.detail-actions button:hover {
+    opacity: 0.85;
+}
+
+.detail-actions button:disabled {
+    background: gray;
+    cursor: not-allowed;
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 768px) {
+    .product-details-container {
+        flex-direction: column;
+        margin: 20px;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .detail-image {
+        width: 100%;
+        max-width: 300px;
+        height: 280px;
+    }
+
+    .detail-info {
+        width: 100%;
+    }
+
+    .detail-actions {
+        flex-wrap: wrap;
+    }
+}
+/* more products */
+/* More Products */
+
+.more-products {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.more-products h2 {
+    font-size: 26px;
+    margin-bottom: 25px;
+    color: #222;
+}
+
+.more-products .product-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: flex-start;
+}
+
+.more-products .dynamic-product {
+    width: 250px;
+}
+
+@media (max-width: 768px) {
+    .more-products {
+        margin: 20px;
+        padding: 10px;
+    }
+
+    .more-products .product-flex {
+        justify-content: center;
+    }
+
+    .more-products .dynamic-product {
+        width: 100%;
+        max-width: 300px;
+    }
+}

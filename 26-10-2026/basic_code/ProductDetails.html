@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="index.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <title>Product Details - ProductWorld</title>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div style="display:flex;justify-content:center;align-items:center;gap:10px;">
+            <img src="./logo/favicon.ico" alt="Logo">
+
+            <p style="font-family:cursive;font-weight:bold;">
+                <a href="index.html" class="link" style="color:black">
+                    ProductWorld
+                </a>
+            </p>
+        </div>
+
+        <ul>
+            <li class="list">
+                <a href="index.html" class="link">Home</a>
+            </li>
+
+            <li class="list">
+                <a href="Products.html" class="link">Products</a>
+            </li>
+
+            <li class="list">
+                <a href="Contact.html" class="link">Contact</a>
+            </li>
+        </ul>
+
+        <div style="display:flex;gap:20px;align-items:center;">
+
+            <p>
+                <a href="./Cart.html" class="link" style="color:black">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    Cart(<span id="cartCount">0</span>)
+                </a>
+            </p>
+
+            <button class="adminbtn" onclick="openAdmin()">
+                <i class="fa-regular fa-circle-user"></i>
+                Admin
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- PRODUCT DETAILS -->
+
+    <div class="product-details-container" id="productDetails">
+
+        <img
+            class="detail-image"
+            id="detailImage"
+            alt="Product Image"
+        >
+
+        <div class="detail-info">
+
+            <h2 id="detailTitle"></h2>
+
+            <p id="detailCategory"></p>
+
+            <p class="detail-price" id="detailPrice"></p>
+
+            <p id="detailOriginalPrice"></p>
+
+            <p id="detailQuantity"></p>
+
+            <div class="detail-actions">
+
+                <button type="button" id="detailCart">
+                    Add to Cart
+                </button>
+
+                <button type="button" id="detailBuy">
+                    Buy Now
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        <p style="font-weight:bold;">ProductWorld</p>
+        <p>Purchase and enjoy</p>
+        <p>2026 All rights reserved</p>
+    </div>
+
+
+    <script src="./config.js"></script>
+    <script src="./script.js"></script>
+
+</body>
+</html>
