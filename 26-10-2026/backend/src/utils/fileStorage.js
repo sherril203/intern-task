@@ -11,9 +11,10 @@ if (!fs.existsSync(uploadPath)) {
 console.log("Multer image folder:", uploadPath);
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadPath);
-    },
+   destination: (req, file, cb) => {
+    console.log("Upload folder:", uploadPath);
+    cb(null, uploadPath);
+},
 
     filename: (req, file, cb) => {
         const fileName = `${Date.now()}-${path.basename(file.originalname)}`;

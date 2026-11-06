@@ -1,14 +1,12 @@
 const ProductModel=require('../models/product.model')
 const postProductData = async (req, res) => {
     try {
-        const quantity = Number(req.body.quantity ?? 0);
+        console.log("Request Body:", req.body);
+        console.log("Uploaded File:", req.file);
 
-        const data = {
-            ...req.body,
-            quantity: quantity,
-            status: quantity > 0 ? "available" : "out of stock"
-        };
-         if (
+        const quantity = Number(req.body.quantity);
+
+        if (
             req.body.quantity === undefined ||
             req.body.quantity === "" ||
             !Number.isInteger(quantity) ||
@@ -19,22 +17,32 @@ const postProductData = async (req, res) => {
             });
         }
 
+        const data = {
+            ...req.body,
+            quantity,
+            status: quantity > 0 ? "available" : "out of stock"
+        };
+
         if (req.file) {
             data.image = req.file.filename;
+        } else {
+            return res.status(400).json({
+                message: "Image file not received"
+            });
         }
 
-        const saved = new ProductModel(data);
+        const saved = await ProductModel.create(data);
 
-        await saved.save();
-
-        res.status(201).json({
+        return res.status(201).json({
             message: "Product data added",
             data: saved
         });
 
     } catch (err) {
         console.error("Error in product data:", err);
-        res.status(500).json({ message: err.message });
+        return res.status(500).json({
+            message: err.message
+        });
     }
 };
 const getProductData=async(req,res)=>{
