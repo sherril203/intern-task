@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="index.css">
+
+    <title>Feedback</title>
+</head>
+
+<body>
+
+    <div class="admin">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <h2>Admin</h2>
+
+            <!-- Sidebar Navigation -->
+            <div class="sidebar-upper">
+
+                <p>
+                    <a href="./Admin.html" class="link">Dashboard</a>
+                </p>
+
+                <p>
+                    <a href="./AdminProducts.html" class="link">Products</a>
+                </p>
+<p>
+                    <a href="./Feedback.html" class="link">Feedback</a>
+                </p>
+                <p>
+                    <a href="./profile.html" class="link">Profile</a>
+                </p>
+
+            </div>
+
+            <!-- Sidebar Bottom -->
+            <div class="sidebar-bottom">
+
+                <p>
+                    <a href="./index.html" class="link">View Shop</a>
+                </p>
+
+                   <p onclick="logout()"><a  class="link">Log out</a></p>
+
+            </div>
+
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <h2>Products</h2>
+
+            <!-- Count Boxes -->
+            <section class="count">
+
+                <div class="box">
+                    <p>Categories</p>
+                    <p id="categoryCount">0</p>
+                </div>
+
+                <div class="box">
+                    <p>Products</p>
+                    <p id="productCount">0</p>
+                </div>
+            <div class="box">
+    <p>Available Products</p>
+    <p id="availableCount">0</p>
+</div>
+
+<div class="box">
+    <p>Out of Stock</p>
+    <p id="outOfStockCount">0</p>
+</div>
+            </section>
+
+            <!-- Product Management -->
+            <section class="manage">
+
+                <!-- Heading and Add Product Button -->
+                <div class="align">
+
+                    <h3>Product Management</h3>
+
+                    <button class="add" type="button">
+                        <a href="./productForm.html">Add Product</a>
+                    </button>
+
+                </div>
+
+                <!-- Product Table Heading -->
+                <div class="product-heading">
+
+                    <span>Image</span>
+                    <span>Product Name</span>
+                    <span>Category</span>
+                    <span>Price</span>
+                    <span>Quantity</span>
+                    <span>Status</span>
+                    <span>Actions</span>
+
+                </div>
+
+                <!-- Dynamic Product List -->
+                <div id="adminProductList"></div>
+
+                <!-- Product Template -->
+                <template id="adminProductTemplate">
+
+                    <div class="admin-product-row">
+
+                        <img class="admin-product-img" src="" alt="Product">
+
+                        <h4 class="admin-product-name"></h4>
+
+                        <p class="admin-product-category"></p>
+
+                        <p class="admin-product-price"></p>
+
+                        <p class="admin-product-quantity"></p>
+
+                        <p class="admin-product-status"></p>
+
+                        <!-- Product Actions -->
+                        <div class="product-actions">
+
+                            <button type="button" class="edit-product">
+                                Edit
+                            </button>
+
+                            <button type="button" class="delete-product">
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </template>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- JavaScript -->
+<script src="./config.js"></script>
+<script src="./auth.js"></script>
+<script src="./script.js"></script>
+
+</body>
+
+</html>

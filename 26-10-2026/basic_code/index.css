@@ -12,7 +12,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
-button {
+.button {
     background-color: blue;
     color: white;
     border: none;
@@ -641,7 +641,6 @@ nav {
     flex: 1;
     min-width: 150px;
     padding: 15px;
-    border: 1px solid gray;
     border-radius: 5px;
     background-color: white;
 }
@@ -738,7 +737,8 @@ nav {
 }
 
 .edit-product {
-    background-color: #2196F3;
+    background-color: green;
+    color: white;
 }
 
 .delete-product {
@@ -1057,7 +1057,16 @@ nav {
 }
 
 .edit-product {
-    background: blue;
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-product:hover {
+    background-color: darkgreen;
 }
 
 .delete-product {
@@ -1173,8 +1182,6 @@ nav {
     }
 }
 /* more products */
-/* More Products */
-
 .more-products {
     max-width: 1200px;
     margin: 50px auto;
@@ -1212,4 +1219,37 @@ nav {
         width: 100%;
         max-width: 300px;
     }
+}
+
+/*cart check out*/
+.cart-summary {
+    width: 300px;
+    padding: 20px;
+    margin: 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.cart-summary div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-summary h2 {
+    margin-bottom: 20px;
+}
+
+.cart-summary p {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.cart-summary button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
