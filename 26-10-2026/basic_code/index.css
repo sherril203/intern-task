@@ -1260,9 +1260,9 @@ nav {
 .feedback-container {
     background: white;
     padding: 20px;
-    margin: 20px 0 20px 20px; /* Remove right margin */
-    border-radius: 10px 0 0 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin: 20px 0 20px 0px; /* Remove right margin */
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(229, 220, 220, 0.08);
     flex: 1;
     min-width: 0;
     box-sizing: border-box;
@@ -1353,4 +1353,656 @@ nav {
     padding: 20px;
     text-align: center;
     color: #666;
+}
+
+/* FILTER NAVBAR */
+
+.filter-navbar {
+    width: 100%;
+    background-color: black;
+    padding: 12px 20px;
+    box-sizing: border-box;
+}
+
+.items-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.items-nav li {
+    display: flex;
+    align-items: center;
+}
+
+.items-nav select {
+    background-color: black;
+    color: white;
+    /* border: 1px solid #777; */
+    border-radius: 5px;
+    padding: 10px 18px;
+    font-size: 15px;
+    cursor: pointer;
+    outline: none;
+}
+
+/* .items-nav select:hover {
+    border-color: orange;
+} */
+
+.items-nav select option {
+    background-color: white;
+    color: black;
+}
+
+.filter-all {
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px 18px;
+}
+
+/* .filter-all:hover {
+    color: orange;
+} */
+
+@media (max-width: 600px) {
+
+    .filter-navbar {
+        padding: 10px;
+    }
+
+    .items-nav {
+        gap: 10px;
+    }
+
+    .items-nav select {
+        padding: 9px;
+        font-size: 13px;
+        max-width: 145px;
+    }
+
+    .filter-all {
+        padding: 9px;
+        font-size: 14px;
+    }
+
+}
+.filter-navbar select {
+    background: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    appearance: auto;
+}
+
+.filter-navbar select:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+.filter-navbar select option {
+    background-color: white;
+    color: black;
+}
+
+
+/* ==========================================
+   PRODUCTWORLD - PREMIUM MODERN THEME
+   Navy Blue + Royal Blue + Teal + White
+   All pages | Existing layout preserved
+========================================== */
+
+:root {
+    --primary: #2563EB;
+    --primary-dark: #1D4ED8;
+    --secondary: #0D9488;
+    --secondary-dark: #0F766E;
+
+    --background: #F1F5F9;
+    --surface: #FFFFFF;
+    --banner: #EFF6FF;
+
+    --text: #1E293B;
+    --muted: #64748B;
+    --border: #E2E8F0;
+
+    --sidebar: #111827;
+    --sidebar-hover: #273449;
+
+    --danger: #DC2626;
+    --success: #16A34A;
+    --warning: #F59E0B;
+
+    --shadow: 0 2px 8px rgba(15, 23, 42, 0.07);
+    --shadow-hover: 0 8px 22px rgba(15, 23, 42, 0.12);
+    --radius: 10px;
+}
+
+/* ==========================================
+   GLOBAL STYLING
+========================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text);
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+    color: var(--text);
+}
+
+p {
+    color: var(--muted);
+}
+
+a {
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+/* ==========================================
+   NAVBAR - ALL PAGES
+========================================== */
+
+.navbar {
+    background-color: var(--surface);
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+    border-bottom: 1px solid var(--border);
+}
+
+.navbar li a,
+.navbar a,
+.link {
+    color: var(--text);
+    transition: color 0.3s ease;
+}
+
+.navbar li a:hover,
+.navbar a:hover,
+.link:hover {
+    color: var(--primary);
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.button,
+.search,
+.buy,
+.click,
+.explore,
+.adminbtn,
+.form-submit,
+#detailBuy {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 7px;
+    transition: all 0.25s ease;
+}
+
+.button:hover,
+.search:hover,
+.buy:hover,
+.click:hover,
+.explore:hover,
+.adminbtn:hover,
+.form-submit:hover,
+#detailBuy:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+}
+
+/* Add to Cart / Remove Cart */
+
+.add,
+.cart,
+.cart-item .cart,
+#detailCart {
+    background-color: var(--secondary);
+    color: white;
+    border: none;
+    border-radius: 7px;
+}
+
+.add:hover,
+.cart:hover,
+.cart-item .cart:hover,
+#detailCart:hover {
+    background-color: var(--secondary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(13, 148, 136, 0.2);
+}
+
+/* ==========================================
+   HOME AND MAIN BANNER
+========================================== */
+
+.main,
+.section {
+    background-color: var(--banner);
+    color: var(--text);
+}
+
+.main h1,
+.main h2,
+.section h1,
+.section h2 {
+    color: #172554;
+}
+
+/* ==========================================
+   PRODUCTS FILTER NAVBAR
+========================================== */
+
+.filter-navbar {
+    background-color: var(--sidebar);
+    color: white;
+}
+
+.items-nav {
+    color: white;
+}
+
+.items-nav a,
+.filter-all {
+    color: white;
+    transition: 0.3s ease;
+}
+
+.filter-all:hover,
+.items-nav a:hover,
+.items-nav select:hover {
+    color: #5EEAD4;
+}
+
+.items-nav select {
+    background-color: var(--sidebar);
+    color: white;
+    /* border: 1px solid #475569; */
+    border-radius: 5px;
+    padding: 7px;
+}
+
+/* ==========================================
+   SEARCH BAR
+========================================== */
+
+input,
+textarea,
+select {
+    accent-color: var(--primary);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* ==========================================
+   PRODUCT CARDS
+========================================== */
+
+.product,
+.dynamic-product,
+.cart-item {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product:hover,
+.dynamic-product:hover,
+.cart-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.product h3,
+.product h4,
+.dynamic-product h3,
+.dynamic-product h4 {
+    color: var(--text);
+}
+
+.product .category,
+.dynamic-product .category,
+.cart-details .category {
+    background-color: #475569;
+    color: white;
+    border-radius: 4px;
+}
+
+/* Product images */
+
+.product img,
+.dynamic-product img,
+.cart-item img {
+    transition: transform 0.3s ease;
+}
+
+.product:hover img,
+.dynamic-product:hover img {
+    transform: scale(1.04);
+}
+
+/* ==========================================
+   CART PAGE
+========================================== */
+
+.cart-item {
+    background-color: var(--surface);
+    border-color: var(--border);
+}
+
+.cart-summary {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.cart-summary h2,
+.cart-summary h3 {
+    color: var(--text);
+}
+
+/* ==========================================
+   FORMS - CONTACT / LOGIN / REGISTER
+========================================== */
+
+.form,
+.formdata {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.form input,
+.form textarea,
+.formdata input,
+.input {
+    background-color: #F8FAFC;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: 0.25s ease;
+}
+
+.form input:focus,
+.form textarea:focus,
+.formdata input:focus,
+.input:focus {
+    background-color: white;
+    border-color: var(--primary);
+}
+
+.form-submit {
+    background-color: var(--primary);
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+.footer {
+    background-color: var(--sidebar);
+    color: white;
+}
+
+.footer h2,
+.footer h3,
+.footer h4,
+.footer p,
+.footer a {
+    color: white;
+}
+
+.footer a:hover {
+    color: #5EEAD4;
+}
+
+/* ==========================================
+   ADMIN DASHBOARD
+========================================== */
+
+.admin {
+    background-color: var(--background);
+}
+
+.sidebar {
+    background-color: var(--sidebar);
+    color: white;
+}
+
+.sidebar h2,
+.sidebar h3,
+.sidebar a,
+.sidebar p {
+    color: white;
+}
+
+.sidebar p:hover,
+.sidebar a:hover {
+    background-color: var(--sidebar-hover);
+    color: #5EEAD4;
+}
+
+.main-content {
+    background-color: var(--background);
+    color: var(--text);
+}
+
+/* Admin boxes */
+
+.box,
+.manage,
+.feedback-container,
+.cart-summary {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+/* Admin headings */
+
+.product-heading,
+.feedback-heading {
+    background-color: #E2E8F0;
+    color: var(--text);
+}
+
+/* Admin product and feedback rows */
+
+.admin-product-row,
+.feedback-row {
+    border-color: var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+/* ==========================================
+   ADMIN ACTION BUTTONS
+========================================== */
+
+.edit-product {
+    background-color: var(--success);
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.edit-product:hover {
+    background-color: #15803D;
+}
+
+.delete-product,
+.feedback-delete {
+    background-color: var(--danger);
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.delete-product:hover,
+.feedback-delete:hover {
+    background-color: #B91C1C;
+}
+
+/* ==========================================
+   FEEDBACK COUNT
+========================================== */
+
+#feedbackCount {
+    background-color: #DBEAFE;
+    color: var(--primary-dark);
+    border-radius: 20px;
+}
+
+/* ==========================================
+   PRODUCT DETAILS PAGE
+========================================== */
+
+.product-details-container {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.detail-info h2,
+.detail-info h3 {
+    color: var(--text);
+}
+
+.detail-info p {
+    color: var(--muted);
+}
+
+.detail-info .detail-price {
+    color: var(--primary-dark);
+    font-weight: bold;
+}
+
+#detailQuantity {
+    color: var(--success);
+}
+
+/* ==========================================
+   TABLES
+========================================== */
+
+table {
+    border-collapse: collapse;
+    background-color: var(--surface);
+}
+
+th {
+    background-color: #E2E8F0;
+    color: var(--text);
+}
+
+td {
+    color: var(--text);
+    border-color: var(--border);
+}
+
+tr:hover {
+    background-color: #F8FAFC;
+}
+
+/* ==========================================
+   COMMON HOVER AND BORDER EFFECTS
+========================================== */
+
+.filter,
+.form,
+.formdata {
+    border-color: var(--border);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ==========================================
+   RESPONSIVE STYLING
+========================================== */
+
+img {
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+
+    .navbar {
+        gap: 10px;
+    }
+
+    .product,
+    .dynamic-product,
+    .cart-item {
+        border-radius: 8px;
+    }
+
+    .form,
+    .formdata,
+    .product-details-container {
+        width: 95%;
+        max-width: 100%;
+    }
+
+    .main-content {
+        padding: 12px;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .navbar {
+        flex-wrap: wrap;
+    }
+
+    .sidebar {
+        max-width: 100%;
+    }
+
+    button {
+        max-width: 100%;
+    }
+
 }

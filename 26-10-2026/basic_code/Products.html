@@ -46,12 +46,12 @@
 
         <div style="display:flex; gap:20px; align-items:center;">
 
-            <p>
-                <a href="./Cart.html" class="link" style="color:black;">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    Cart(<span id="cartCount">0</span>)
-                </a>
-            </p>
+           <p>
+    <a href="./Cart.html" class="link" style="color:black;">
+        <i class="fa-solid fa-cart-shopping"></i>
+        Cart(<span id="cartCount">0</span>)
+    </a>
+</p>
 
             <button class="adminbtn"
                 onclick="openAdmin()"
@@ -65,7 +65,56 @@
         </div>
 
     </nav>
+ <nav class="filter-navbar">
+    <ul class="items-nav">
 
+        <li>
+            <button class="filter-all" id="filterAll" type="button">
+                All
+            </button>
+        </li>
+
+        <li>
+            <select id="topCategory">
+                <option value="">Category</option>
+                <option value="PC Accessories">PC Accessories</option>
+                <option value="Game Accessories">Game Accessories</option>
+                <option value="Laptop">Laptop</option>
+                <option value="Camera">Camera</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Smart Watch">Smart Watch</option>
+                <option value="Power Bank">Power Bank</option>
+                <option value="Mobiles">Mobiles</option>
+                <option value="Books">Books</option>
+                <option value="Shoes">Shoes</option>
+                <option value="Bags">Bags</option>
+                <option value="Electricals">Electricals</option>
+            </select>
+        </li>
+
+        <li>
+            <select id="topBrand">
+                <option value="">Brand</option>
+                <option value="Sandisk">Sandisk</option>
+                <option value="Boat">boAt</option>
+                <option value="Portronics">Portronics</option>
+                <option value="Acer">Acer</option>
+                <option value="Canon">Canon</option>
+                <option value="Tecno">Tecno</option>
+                <option value="Callmate">Callmate</option>
+                <option value="Bacca Bucci">Bacca Bucci</option>
+                <option value="OnePlus">OnePlus</option>
+                <option value="Samsung">Samsung</option>
+                <option value="Asus">Asus</option>
+                <option value="Sony">Sony</option>
+                <option value="Noise">Noise</option>
+                <option value="Zebronics">Zebronics</option>
+                <option value="Cason">Cason</option>
+            </select>
+        </li>
+
+    </ul>
+</nav>
 
     <!-- PAGE HEADER -->
     <div class="main">
@@ -80,10 +129,10 @@
     <div class="filter-products">
 
         <!-- FILTER SIDEBAR -->
-        <div class="filter">
+        <!-- <div class="filter">
 
             <!-- CATEGORIES -->
-            <div style="font-size:20px;">
+            <!-- <div style="font-size:20px;">
 
                 <p style="font-weight:bold;">Categories</p>
 
@@ -108,11 +157,9 @@
                     Show More
                 </button>
 
-            </div>
-
-
+            </div> -->
             <!-- BRANDS -->
-            <div style="font-size:20px;">
+            <!-- <div style="font-size:20px;">
 
                 <p style="font-weight:bold;">Brands</p>
 
@@ -140,11 +187,11 @@
                     Show More
                 </button>
 
-            </div>
+            </div> -->
 
 
             <!-- PRICE -->
-            <div style="font-size:20px;">
+            <!-- <div style="font-size:20px;">
 
                 <p style="font-weight:bold;">Price</p>
 
@@ -173,9 +220,9 @@
                     ₹7,000+
                 </label>
 
-            </div>
+            </div> -->
 
-        </div>
+        <!-- </div> -->
 
 
         <!-- PRODUCT SECTION -->
