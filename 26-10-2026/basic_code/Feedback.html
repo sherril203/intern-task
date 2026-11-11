@@ -50,102 +50,51 @@
             </div>
 
         </aside>
+     <section class="feedback-container">
+ <h2>Feedback</h2>
+    <div class="feedback-header">
+        <h3>Customer Feedback</h3>
+        <span id="feedbackCount">0 Feedbacks</span>
+    </div>
 
-        <!-- Main Content -->
-        <main class="main-content">
+    <div class="feedback-table">
 
-            <h2>Products</h2>
+        <div class="feedback-heading">
+            <span>Name</span>
+            <span>Email</span>
+            <span>Message</span>
+            <span>Action</span>
+        </div>
 
-            <!-- Count Boxes -->
-            <section class="count">
+        <div id="feedbackList">
 
-                <div class="box">
-                    <p>Categories</p>
-                    <p id="categoryCount">0</p>
-                </div>
+            <!-- Feedback displayed using JavaScript -->
 
-                <div class="box">
-                    <p>Products</p>
-                    <p id="productCount">0</p>
-                </div>
-            <div class="box">
-    <p>Available Products</p>
-    <p id="availableCount">0</p>
-</div>
+        </div>
 
-<div class="box">
-    <p>Out of Stock</p>
-    <p id="outOfStockCount">0</p>
-</div>
-            </section>
+        <template id="feedbackTemplate">
 
-            <!-- Product Management -->
-            <section class="manage">
+            <div class="feedback-row">
 
-                <!-- Heading and Add Product Button -->
-                <div class="align">
+                <p class="feedback-name"></p>
 
-                    <h3>Product Management</h3>
+                <p class="feedback-email"></p>
 
-                    <button class="add" type="button">
-                        <a href="./productForm.html">Add Product</a>
+                <p class="feedback-message"></p>
+
+                <div class="feedback-actions">
+                    <button type="button" class="feedback-delete">
+                        Delete
                     </button>
-
                 </div>
 
-                <!-- Product Table Heading -->
-                <div class="product-heading">
+            </div>
 
-                    <span>Image</span>
-                    <span>Product Name</span>
-                    <span>Category</span>
-                    <span>Price</span>
-                    <span>Quantity</span>
-                    <span>Status</span>
-                    <span>Actions</span>
+        </template>
 
-                </div>
+    </div>
 
-                <!-- Dynamic Product List -->
-                <div id="adminProductList"></div>
-
-                <!-- Product Template -->
-                <template id="adminProductTemplate">
-
-                    <div class="admin-product-row">
-
-                        <img class="admin-product-img" src="" alt="Product">
-
-                        <h4 class="admin-product-name"></h4>
-
-                        <p class="admin-product-category"></p>
-
-                        <p class="admin-product-price"></p>
-
-                        <p class="admin-product-quantity"></p>
-
-                        <p class="admin-product-status"></p>
-
-                        <!-- Product Actions -->
-                        <div class="product-actions">
-
-                            <button type="button" class="edit-product">
-                                Edit
-                            </button>
-
-                            <button type="button" class="delete-product">
-                                Delete
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </template>
-
-            </section>
-
-        </main>
+</section>
 
     </div>
 
@@ -153,6 +102,7 @@
 <script src="./config.js"></script>
 <script src="./auth.js"></script>
 <script src="./script.js"></script>
+<script src="feedback.js"></script>
 
 </body>
 

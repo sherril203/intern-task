@@ -146,7 +146,52 @@
                 </template>
 
             </section>
+             <h2>Feedback</h2>
+          <section class="feedback-container">
 
+    <div class="feedback-header">
+        <h3>Customer Feedback</h3>
+        <span id="feedbackCount">0 Feedbacks</span>
+    </div>
+
+    <div class="feedback-table">
+
+        <div class="feedback-heading">
+            <span>Name</span>
+            <span>Email</span>
+            <span>Message</span>
+            <span>Action</span>
+        </div>
+
+        <div id="feedbackList">
+
+            <!-- Feedback displayed using JavaScript -->
+
+        </div>
+
+        <template id="feedbackTemplate">
+
+            <div class="feedback-row">
+
+                <p class="feedback-name"></p>
+
+                <p class="feedback-email"></p>
+
+                <p class="feedback-message"></p>
+
+                <div class="feedback-actions">
+                    <button type="button" class="feedback-delete">
+                        Delete
+                    </button>
+                </div>
+
+            </div>
+
+        </template>
+
+    </div>
+
+</section>
         </main>
 
     </div>
@@ -155,6 +200,7 @@
 <script src="./config.js"></script>
 <script src="./auth.js"></script>
 <script src="./script.js"></script>
+<script src="./feedback.js"></script>
 </body>
 
 </html>

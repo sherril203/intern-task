@@ -1253,3 +1253,104 @@ nav {
     border-radius: 5px;
     cursor: pointer;
 }
+
+
+/* FEEDBACK MANAGEMENT */
+
+.feedback-container {
+    background: white;
+    padding: 20px;
+    margin: 20px 0 20px 20px; /* Remove right margin */
+    border-radius: 10px 0 0 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow-x: auto;
+    display: block !important;
+    width: 100%;
+}
+
+.feedback-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.feedback-header h3 {
+    font-size: 22px;
+}
+
+#feedbackCount {
+    background: #e6f2ff;
+    color: #007bff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.feedback-table {
+    width: 100%;
+    min-width: 650px;
+}
+
+.feedback-heading,
+.feedback-row {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 2fr 100px;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+}
+
+.feedback-heading {
+    background: #f1f3f5;
+    font-weight: bold;
+    border-radius: 6px;
+    text-transform: capitalize;
+}
+
+.feedback-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1.5fr 2fr auto;
+    gap: 15px;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    align-items: center;
+}
+
+.feedback-row p {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.feedback-delete {
+    background: red;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+.feedback-name {
+    font-weight: bold;
+}
+
+.feedback-email {
+    color: #555;
+}
+
+.feedback-message {
+    line-height: 1.5;
+}
+
+.feedback-delete:hover {
+    background: darkred;
+}
+
+#feedbackList > p {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+}

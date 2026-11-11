@@ -22,4 +22,6 @@ router.post('/adminLogin',Admin.Adminlogin)
 
 //contact
 router.post('/contact',Contactform.postContact);
+router.get('/getcontact', Contactform.getContact);
+router.delete('/contact/:id', Contactform.deleteContact);
 module.exports=router
