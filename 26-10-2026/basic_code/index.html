@@ -43,13 +43,15 @@
         </ul>
 
         <div style="display: flex;justify-content: center; align-items: center; gap:10px;">
-                    <p>
-    <a href="./Cart.html" class="link" style="color:black;">
-        <i class="fa-solid fa-cart-shopping"></i>
-        Cart(<span id="cartCount">0</span>)
-    </a>
-</p>
-              <button class="adminbtn" onclick="openAdmin()" style="display: flex;justify-content: center; align-items: center; gap:10px;"> <i class="fa-regular fa-circle-user"></i> Admin</button>
+            <p>
+                <a href="./Cart.html" class="link" style="color:black;">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    Cart(<span id="cartCount">0</span>)
+                </a>
+            </p>
+            <button class="adminbtn" onclick="openAdmin()"
+                style="display: flex;justify-content: center; align-items: center; gap:10px;"> <i
+                    class="fa-regular fa-circle-user"></i> Admin</button>
         </div>
 
     </nav>
@@ -86,26 +88,31 @@
         </div>
 
         <!-- Product Template -->
-<template id="productTemplate">
-    <div class="dynamic-product">
+        <template id="productTemplate">
+            <div class="dynamic-product">
 
-        <img class="product-image"
-             src=""
-             alt="Product"
-             width="200"
-             height="200">
+                <img src="" alt="Product" class="product-image" style="cursor:pointer;">
 
-        <p class="category"></p>
-        <p class="title"></p>
-        <p class="price"></p>
+                <p class="category"></p>
 
-        <div class="product-btn">
-            <button class="cart" type="button">Add to Cart</button>
-            <button class="buy" type="button">Buy Now</button>
-        </div>
+                <p class="title" style="cursor:pointer;"></p>
 
-    </div>
-</template>
+                <p class="price"></p>
+
+                <div class="product-btn">
+
+                    <button class="cart" type="button">
+                        Add to Cart
+                    </button>
+
+                    <button class="buy" type="button">
+                        Buy Now
+                    </button>
+
+                </div>
+
+            </div>
+        </template>
 
         <!-- Explore More Button -->
         <div style="display:flex; justify-content:center; padding:8px;">
@@ -136,7 +143,7 @@
     <!-- JavaScript -->
     <script src="./config.js"></script>
     <script src="./script.js"></script>
-       <script src="https://kit.fontawesome.com/8872bf04b0.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/8872bf04b0.js" crossorigin="anonymous"></script>
 
 </body>
 

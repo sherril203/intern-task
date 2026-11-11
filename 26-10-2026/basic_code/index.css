@@ -2006,3 +2006,20 @@ img {
     }
 
 }
+.product-image {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.product-image:hover {
+    transform: scale(1.05);
+}
+
+.dynamic-product .title {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.dynamic-product .title:hover {
+    color: #087f5b;
+}
