@@ -73,8 +73,13 @@ async function loadFeedback() {
 
             const deleteBtn = document.createElement("button");
             deleteBtn.type = "button";
-            deleteBtn.textContent = "Delete";
             deleteBtn.className = "feedback-delete";
+
+            // Add trash icon
+            const trashIcon = document.createElement("i");
+            trashIcon.className = "fa-solid fa-trash";
+
+            deleteBtn.append(trashIcon, document.createTextNode(" Delete"));
 
             deleteBtn.addEventListener("click", () => {
                 deleteFeedback(item._id);
