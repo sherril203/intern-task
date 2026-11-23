@@ -197,6 +197,14 @@
     </div>
 
     <!-- JavaScript -->
+     <script>
+        const token = localStorage.getItem("token");
+        const role = localStorage.getItem("role");
+
+        if (!token || role !== "admin") {
+            window.location.replace("./login.html");
+        }
+    </script>
 <script src="./config.js"></script>
 <script src="./auth.js"></script>
 <script src="./script.js"></script>

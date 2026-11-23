@@ -2023,3 +2023,12 @@ img {
 .dynamic-product .title:hover {
     color: #087f5b;
 }
+.role{
+  width: 400px;
+    max-width: 100%;
+    padding: 8px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    font-size: 15px;
+    box-sizing: border-box;
+}

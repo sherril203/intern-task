@@ -1,4 +1,3 @@
-
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -10,8 +9,6 @@ app.use(cors());
 app.use(express.json());
 
 const imagePath = path.join(__dirname, 'image');
-
-console.log("Static image folder:", imagePath);
 
 app.use('/files', express.static(imagePath));
 

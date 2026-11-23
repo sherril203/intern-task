@@ -19,8 +19,15 @@
         <li class="list"><a href="Contact.html" class="link"><i class="fa-solid fa-comments"></i> Contact</a></li>
     </ul>
      <div>
-        <button class="adminbtn" onclick="openAdmin()" style="display: flex;justify-content: center; align-items: center; gap:10px;"> <i class="fa-regular fa-circle-user"></i> Admin</button>
-    </div>
+        <button
+    class="adminbtn"
+    id="authBtn"
+    onclick="handleAuth()"
+    style="display:flex;justify-content:center;align-items:center;gap:10px;"
+>
+    <i class="fa-regular fa-circle-user"></i>
+    <span id="authText">Login</span>
+</button>
    </nav>
    <div class="section">
     <p  style="font-weight: bold;font-size: 25px;">Contact Us</p>

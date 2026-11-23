@@ -53,14 +53,15 @@
     </a>
 </p>
 
-            <button class="adminbtn"
-                onclick="openAdmin()"
-                style="display:flex; justify-content:center; align-items:center; gap:10px;">
-
-                <i class="fa-regular fa-circle-user"></i>
-                Admin
-
-            </button>
+            <button
+    class="adminbtn"
+    id="authBtn"
+    onclick="handleAuth()"
+    style="display:flex;justify-content:center;align-items:center;gap:10px;"
+>
+    <i class="fa-regular fa-circle-user"></i>
+    <span id="authText">Login</span>
+</button>
 
         </div>
 

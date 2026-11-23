@@ -686,91 +686,27 @@ async function addProductToCart(item) {
 }
 
 
-// =============================================
-// ADMIN LOGIN
-// =============================================
 
-async function login(e) {
-
-    e.preventDefault();
-
-    try {
-
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
-
-        const response = await fetch(`${API}/adminLogin`, {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({ email, password })
-
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-            alert(result.message || "Login failed");
-            return;
-        }
-
-        const token = result.data?.token;
-        const admin = result.data?.admin;
-
-        if (!token) {
-            alert("Token not received from backend");
-            return;
-        }
-
-        localStorage.setItem("token", token);
-
-        if (admin) {
-            localStorage.setItem("admin", JSON.stringify(admin));
-        }
-
-        alert("Login successful!");
-
-        window.location.href = "./Admin.html";
-
-    } catch (error) {
-
-        console.error("Login failed:", error);
-
-        alert("Something went wrong!");
-
-    }
-
-}
-
-
-// =============================================
-// ADMIN SIGNUP
-// =============================================
 
 async function signup(e) {
-
     e.preventDefault();
 
     try {
-
         const name = document.getElementById("name").value.trim();
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
 
-        const response = await fetch(`${API}/adminRegister`, {
+        if (!name || !email || !password) {
+            alert("Please fill all fields");
+            return;
+        }
 
+        const response = await fetch(`${API}/userRegister`, {
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
             body: JSON.stringify({ name, email, password })
-
         });
 
         const result = await response.json();
@@ -780,43 +716,116 @@ async function signup(e) {
             return;
         }
 
-        alert("Registration successful!");
+        alert(result.message || "Registration successful!");
+
+        document.getElementById("signupForm").reset();
 
         window.location.href = "./login.html";
 
     } catch (error) {
-
         console.error("Signup failed:", error);
-
-        alert("Something went wrong!");
-
+        alert("Unable to connect to server. Please try again.");
     }
-
 }
 
 
-// =============================================
-// ADMIN NAVIGATION AND LOGOUT
-// =============================================
+async function login(e) {
+    e.preventDefault();
+
+    try {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const role = document.getElementById("role").value;
+
+        if (!email || !password || !role) {
+            alert("Please fill all fields");
+            return;
+        }
+
+        const endpoint = role === "admin"
+            ? "/adminLogin"
+            : "/userLogin";
+
+        const response = await fetch(`${API}${endpoint}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            alert(result.message || "Login failed");
+            return;
+        }
+
+        if (!result.data?.token) {
+            alert("Token not received from backend");
+            return;
+        }
+
+        // Validate role-specific response
+        const account = role === "admin"
+            ? result.data.admin
+            : result.data.User;
+
+        if (!account) {
+            alert("Account details not received from backend");
+            return;
+        }
+
+        // Clear previous login details
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        localStorage.removeItem("admin");
+        localStorage.removeItem("user");
+
+        // Store new login details
+        localStorage.setItem("token", result.data.token);
+        localStorage.setItem("role", role);
+
+        if (role === "admin") {
+            localStorage.setItem("admin", JSON.stringify(account));
+
+            alert("Admin login successful!");
+            window.location.href = "./Admin.html";
+
+        } else {
+            localStorage.setItem("user", JSON.stringify(account));
+
+            alert("User login successful!");
+            window.location.href = "./index.html";
+        }
+
+    } catch (error) {
+        console.error("Login failed:", error);
+        alert("Unable to connect to server. Please try again.");
+    }
+}
+
+
 
 function openAdmin() {
-
     const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
 
-    window.location.href = token
-        ? "./Admin.html"
-        : "./login.html";
-
+    if (token && role === "admin") {
+        window.location.href = "./Admin.html";
+    } else {
+        window.location.href = "./login.html";
+    }
 }
 
 
 function logout() {
-
     localStorage.removeItem("token");
     localStorage.removeItem("admin");
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
 
     window.location.href = "./login.html";
-
 }
 
 
@@ -1339,28 +1348,93 @@ function updateCartSummary(products) {
 }
 // cart page 
 
-// =============================================
-// FETCH CART PRODUCTS
-// =============================================
+async function addProductToCart(item) {
+    try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("Please login to add products to cart");
+            window.location.href = "login.html";
+            return false;
+        }
+
+        const response = await fetch(`${API}/cart`, {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+
+            body: JSON.stringify({
+                image: item.image,
+                category: item.category,
+                product_title: item.product_title,
+                price: item.price,
+                original_price: item.original_price,
+                brand: item.brand
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || "Unable to add product to cart");
+        }
+
+        alert("Product added to cart!");
+
+        return true;
+
+    } catch (error) {
+        console.error("Add to Cart Error:", error);
+        alert(error.message);
+        return false;
+    }
+}
 
 async function getCartProducts() {
-    const response = await fetch(`${API}/cart`);
+    try {
+        const token = localStorage.getItem("token");
 
-    if (!response.ok) {
-        throw new Error("Unable to fetch cart products");
+        if (!token) {
+            alert("Please login to view your cart");
+            window.location.href = "login.html";
+            return [];
+        }
+
+        const response = await fetch(`${API}/cart`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                result.message || "Unable to fetch cart products"
+            );
+        }
+
+        return Array.isArray(result)
+            ? result
+            : result.data || [];
+
+    } catch (error) {
+        console.error("Get Cart Error:", error);
+        alert(error.message);
+        return [];
     }
-
-    const result = await response.json();
-
-    return Array.isArray(result)
-        ? result
-        : result.data || [];
 }
+
 
 
 // =============================================
 // LOAD AND DISPLAY CART
 // =============================================
+
 
 async function loadCart() {
 
@@ -1368,6 +1442,20 @@ async function loadCart() {
     const template = document.getElementById("cartTemplate");
 
     if (!productList || !template) return;
+
+    // Check login token
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        productList.innerHTML = "<p>Please login to view your cart.</p>";
+
+        const cartCount = document.getElementById("cartCount");
+        if (cartCount) {
+            cartCount.textContent = "0";
+        }
+
+        return;
+    }
 
     productList.innerHTML = "<p>Loading cart...</p>";
 
@@ -1387,11 +1475,13 @@ async function loadCart() {
             cartCount.textContent = products.length;
         }
 
+        // Empty cart
         if (products.length === 0) {
             productList.innerHTML = "<p>Your cart is empty!</p>";
             return;
         }
 
+        // Display products
         products.forEach(item => {
 
             const product = template.content.cloneNode(true);
@@ -1446,7 +1536,7 @@ async function loadCart() {
         console.error("Cart loading error:", error);
 
         productList.innerHTML =
-            "<p>Unable to load cart products.</p>";
+            "<p>Unable to load cart products. Please try again.</p>";
 
     }
 }
@@ -1456,6 +1546,7 @@ async function loadCart() {
 // REMOVE CART PRODUCT
 // =============================================
 
+
 async function removeCartProduct(id) {
 
     if (!confirm("Remove this product from cart?")) {
@@ -1463,9 +1554,20 @@ async function removeCartProduct(id) {
     }
 
     try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("Please login first");
+            window.location.href = "login.html";
+            return;
+        }
 
         const response = await fetch(`${API}/cart/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
         });
 
         const result = await response.json();
@@ -1476,17 +1578,14 @@ async function removeCartProduct(id) {
 
         alert("Product removed from cart!");
 
-        // Refresh cart after removal
         await loadCart();
 
     } catch (error) {
-
         console.error("Remove cart error:", error);
-
         alert(error.message);
-
     }
 }
+
 function openProduct(id) {
     if (!id) {
         alert("Product ID not found");
@@ -1495,4 +1594,46 @@ function openProduct(id) {
 
     window.location.href =
         `ProductDetails.html?id=${encodeURIComponent(id)}`;
+}
+document.addEventListener("DOMContentLoaded", () => {
+    updateNavbar();
+});
+
+function updateNavbar() {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    const authText = document.getElementById("authText");
+
+    if (!authText) return;
+
+    if (!token) {
+        authText.textContent = "Login";
+    } else if (role === "admin") {
+        authText.textContent = "Admin Dashboard";
+    } else {
+        authText.textContent = "Logout";
+    }
+}
+
+function handleAuth() {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    if (!token) {
+        window.location.href = "./login.html";
+    } else if (role === "admin") {
+        window.location.href = "./Admin.html";
+    } else {
+        logout();
+    }
+}
+
+function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("admin");
+    localStorage.removeItem("user");
+
+    window.location.href = "./login.html";
 }

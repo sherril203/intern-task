@@ -1,50 +1,87 @@
 
-const CartModel = require("../models/Cart.model");
+const CartModel = require('../models/Cart.model');
 
-// Get cart products
+// GET USER CART
 const getCartData = async (req, res) => {
     try {
-        const products = await CartModel.find().sort({ _id: -1 });
-        res.status(200).json({ data: products });
+        const products = await CartModel.find({
+            userId: req.user._id
+        }).sort({ _id: -1 });
+
+        res.status(200).json({
+            data: products
+        });
+
     } catch (error) {
-        console.log("Get cart error:", error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json({
+            message: error.message
+        });
     }
 };
 
-// Add product to cart
+
+// ADD TO CART
 const addToCart = async (req, res) => {
     try {
-        const product = await CartModel.create(req.body);
+        const {
+            image,
+            category,
+            product_title,
+            price,
+            original_price,
+            brand
+        } = req.body;
+
+        const product = await CartModel.create({
+            userId: req.user._id,
+            image,
+            category,
+            product_title,
+            price,
+            original_price,
+            brand
+        });
 
         res.status(201).json({
-            message: "Product added to cart",
+            message: 'Product added to cart',
             data: product
         });
+
     } catch (error) {
-        console.log("Add cart error:", error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json({
+            message: error.message
+        });
     }
 };
 
-// Remove product from cart
+
+// REMOVE FROM CART
 const removeCart = async (req, res) => {
     try {
-        const product = await CartModel.findByIdAndDelete(req.params.id);
+        const product = await CartModel.findOneAndDelete({
+            _id: req.params.id,
+            userId: req.user._id
+        });
 
         if (!product) {
             return res.status(404).json({
-                message: "Product not found"
+                message: 'Product not found'
             });
         }
 
         res.status(200).json({
-            message: "Product removed"
+            message: 'Product removed successfully'
         });
+
     } catch (error) {
-        console.log("Remove cart error:", error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json({
+            message: error.message
+        });
     }
 };
 
-module.exports = { getCartData, addToCart, removeCart };
+module.exports = {
+    getCartData,
+    addToCart,
+    removeCart
+};
