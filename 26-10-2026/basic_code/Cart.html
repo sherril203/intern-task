@@ -12,31 +12,54 @@
 
 <body>
 
-    <nav class="navbar">
-        <div style="display:flex;justify-content: center; align-items: center;gap: 10px;">
-            <img src="./logo/favicon.ico" alt="">
-            <p style="font-family:cursive; font-weight: bold;"><a href="index.html" class="link"
-                    style="color:black">ProductWorld</a></p>
-        </div>
+         <nav class="navbar">
+    <div style="display:flex;justify-content:center;align-items:center;gap:10px;">
+        <img src="./logo/favicon.ico" alt="">
+        <p style="font-family:cursive;font-weight:bold;">
+            <a href="index.html" class="link" style="color:black">
+                ProductWorld
+            </a>
+        </p>
+    </div>
 
-        <ul>
-            <li class="list"><a href="index.html" class="link"><i class="fa-solid fa-house"></i> Home</a></li>
-            <li class="list"><a href="Products.html" class="link"><i class="fa-solid fa-basket-shopping"></i> Products</a></li>
-            <li class="list"><a href="Contact.html" class="link"><i class="fa-solid fa-comments"></i> Contact</a></li>
-        </ul>
-        <div style="display: flex;justify-content: center; align-items: center; gap:10px;">
-           <p><a href="./Cart.html" class="link" style="color:black"><i class="fa-solid fa-cart-shopping"></i> Cart(<span id="cartCount">0</span>)</a></p>
+    <ul>
+        <li class="list">
+            <a href="index.html" class="link">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
+        </li>
+
+        <li class="list">
+            <a href="Products.html" class="link">
+                <i class="fa-solid fa-basket-shopping"></i> Products
+            </a>
+        </li>
+
+        <li class="list">
+            <a href="Contact.html" class="link">
+                <i class="fa-solid fa-comments"></i> Contact
+            </a>
+        </li>
+    </ul>
+
+    <div style="display:flex;align-items:center;gap:20px;">
+
+        <a href="Cart.html" class="link" style="position:relative;">
+            <i class="fa-solid fa-cart-shopping"></i>Cart(<span id="cartCount">0</span>)
+        </a>
+
         <button
-    class="adminbtn"
-    id="authBtn"
-    onclick="handleAuth()"
-    style="display:flex;justify-content:center;align-items:center;gap:10px;"
->
-    <i class="fa-regular fa-circle-user"></i>
-    <span id="authText">Login</span>
-</button>
-        </div>
-    </nav>
+            class="adminbtn"
+            id="authBtn"
+            onclick="handleAuth()"
+            style="display:flex;justify-content:center;align-items:center;gap:10px;"
+        >
+            <i class="fa-regular fa-circle-user"></i>
+            <span id="authText">Login</span>
+        </button>
+
+    </div>
+</nav>
 
     <div class="main">
         <div>

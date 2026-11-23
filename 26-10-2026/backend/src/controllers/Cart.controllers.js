@@ -32,8 +32,8 @@ const addToCart = async (req, res) => {
             brand
         } = req.body;
 
-        const product = await CartModel.create({
-            userId: req.user._id,
+        const cartItem = await CartModel.create({
+            userId: req.user.id, // Important
             image,
             category,
             product_title,
@@ -42,15 +42,14 @@ const addToCart = async (req, res) => {
             brand
         });
 
-        res.status(201).json({
-            message: 'Product added to cart',
-            data: product
+        return res.status(201).json({
+            message: "Product added to cart",
+            data: cartItem
         });
 
     } catch (error) {
-        res.status(500).json({
-            message: error.message
-        });
+        console.error("Add to cart error:", error);
+        return res.status(500).json({ message: error.message });
     }
 };
 
