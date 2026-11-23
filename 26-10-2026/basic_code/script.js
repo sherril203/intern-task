@@ -1429,13 +1429,6 @@ async function getCartProducts() {
     }
 }
 
-
-
-// =============================================
-// LOAD AND DISPLAY CART
-// =============================================
-
-
 async function loadCart() {
 
     const productList = document.getElementById("productList");
@@ -1540,12 +1533,6 @@ async function loadCart() {
 
     }
 }
-
-
-// =============================================
-// REMOVE CART PRODUCT
-// =============================================
-
 
 async function removeCartProduct(id) {
 

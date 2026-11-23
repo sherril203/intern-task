@@ -4,21 +4,24 @@ const CartModel = require('../models/Cart.model');
 // GET USER CART
 const getCartData = async (req, res) => {
     try {
+        const userId = req.user.id;
+
         const products = await CartModel.find({
-            userId: req.user._id
+            userId: userId
         }).sort({ _id: -1 });
 
-        res.status(200).json({
+        return res.status(200).json({
+            success: true,
             data: products
         });
 
     } catch (error) {
-        res.status(500).json({
+        console.error("Get cart error:", error);
+        return res.status(500).json({
             message: error.message
         });
     }
 };
-
 
 // ADD TO CART
 const addToCart = async (req, res) => {
@@ -33,7 +36,7 @@ const addToCart = async (req, res) => {
         } = req.body;
 
         const cartItem = await CartModel.create({
-            userId: req.user.id, // Important
+            userId: req.user.id,
             image,
             category,
             product_title,
@@ -49,31 +52,33 @@ const addToCart = async (req, res) => {
 
     } catch (error) {
         console.error("Add to cart error:", error);
-        return res.status(500).json({ message: error.message });
+        return res.status(500).json({
+            message: error.message
+        });
     }
 };
-
 
 // REMOVE FROM CART
 const removeCart = async (req, res) => {
     try {
         const product = await CartModel.findOneAndDelete({
             _id: req.params.id,
-            userId: req.user._id
+            userId: req.user.id
         });
 
         if (!product) {
             return res.status(404).json({
-                message: 'Product not found'
+                message: "Product not found"
             });
         }
 
-        res.status(200).json({
-            message: 'Product removed successfully'
+        return res.status(200).json({
+            message: "Product removed successfully"
         });
 
     } catch (error) {
-        res.status(500).json({
+        console.error("Remove cart error:", error);
+        return res.status(500).json({
             message: error.message
         });
     }
