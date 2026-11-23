@@ -1,7 +1,12 @@
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Cart page loaded");
 
-// =============================================
-// PRODUCTWORLD - COMPLETE SCRIPT
-// =============================================
+    const productList = document.getElementById("productList");
+
+    if (productList) {
+        loadCart();
+    }
+});
 
 const productParams = new URLSearchParams(window.location.search);
 const editId = productParams.get("id");
