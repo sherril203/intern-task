@@ -606,31 +606,28 @@ function applyProductFilters() {
 
 }
 
-
-// =============================================
-// CART COUNT DISPLAY
-// =============================================
-
-// =============================================
-// UPDATE CART COUNT
-// =============================================
-
 async function updateVisibleCartCount() {
 
     const cartCount = document.getElementById("cartCount");
 
     if (!cartCount) return;
 
-    try {
+    const token = localStorage.getItem("token");
 
+    // Logged-out or new user
+    if (!token) {
+        cartCount.textContent = "0";
+        return;
+    }
+
+    try {
         const products = await getCartProducts();
 
         cartCount.textContent = products.length;
 
     } catch (error) {
-
         console.error("Cart count error:", error);
-
+        cartCount.textContent = "0";
     }
 }
 
@@ -641,48 +638,51 @@ async function updateVisibleCartCount() {
 async function addProductToCart(item) {
 
     try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("Please login to add products to cart");
+            window.location.href = "./login.html";
+            return false;
+        }
 
         const response = await fetch(`${API}/cart`, {
-
             method: "POST",
 
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
 
             body: JSON.stringify({
-
                 image: item.image,
                 category: item.category,
                 product_title: item.product_title,
                 price: item.price,
                 original_price: item.original_price,
                 brand: item.brand
-
             })
-
         });
 
         const result = await response.json();
 
         if (!response.ok) {
-            throw new Error(result.message || "Unable to add product to cart");
+            throw new Error(
+                result.message || "Unable to add product to cart"
+            );
         }
+
+        await updateVisibleCartCount();
 
         alert("Product added to cart!");
 
         return true;
 
     } catch (error) {
-
         console.error("Add to Cart Error:", error);
-
         alert(error.message);
-
         return false;
-
     }
-
 }
 
 

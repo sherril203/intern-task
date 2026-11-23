@@ -14,53 +14,55 @@
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar">
+       <nav class="navbar">
+    <div style="display:flex;justify-content:center;align-items:center;gap:10px;">
+        <img src="./logo/favicon.ico" alt="">
+        <p style="font-family:cursive;font-weight:bold;">
+            <a href="index.html" class="link" style="color:black">
+                ProductWorld
+            </a>
+        </p>
+    </div>
 
-        <div style="display:flex; justify-content:center; align-items:center; gap:10px;">
-            <img src="./logo/favicon.ico" alt="ProductWorld Logo">
+    <ul>
+        <li class="list">
+            <a href="index.html" class="link">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
+        </li>
 
-            <p style="font-family:cursive; font-weight:bold;">
-                <a href="index.html" class="link" style="color:black;">
-                    ProductWorld
-                </a>
-            </p>
-        </div>
+        <li class="list">
+            <a href="Products.html" class="link">
+                <i class="fa-solid fa-basket-shopping"></i> Products
+            </a>
+        </li>
 
-        <ul>
-            <li class="list">
-                <a href="index.html" class="link">
-                 <i class="fa-solid fa-house"></i> Home
-                </a>
-            </li>
+        <li class="list">
+            <a href="Contact.html" class="link">
+                <i class="fa-solid fa-comments"></i> Contact
+            </a>
+        </li>
+    </ul>
 
-            <li class="list">
-                <a href="Products.html" class="link"><i class="fa-solid fa-basket-shopping"></i> Products</a>
-            </li>
+    <div style="display:flex;align-items:center;gap:20px;">
 
-            <li class="list">
-                <a href="Contact.html" class="link"><i class="fa-solid fa-comments"></i> Contact</a>
-            </li>
-        </ul>
+        <a href="Cart.html" class="link" style="position:relative;">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cartCount">0</span>
+        </a>
 
-        <div style="display: flex;justify-content: center; align-items: center; gap:10px;">
-            <p>
-                <a href="./Cart.html" class="link" style="color:black;">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    Cart(<span id="cartCount">0</span>)
-                </a>
-            </p>
-         <button
-    class="adminbtn"
-    id="authBtn"
-    onclick="handleAuth()"
-    style="display:flex;justify-content:center;align-items:center;gap:10px;"
->
-    <i class="fa-regular fa-circle-user"></i>
-    <span id="authText">Login</span>
-</button>
-        </div>
+        <button
+            class="adminbtn"
+            id="authBtn"
+            onclick="handleAuth()"
+            style="display:flex;justify-content:center;align-items:center;gap:10px;"
+        >
+            <i class="fa-regular fa-circle-user"></i>
+            <span id="authText">Login</span>
+        </button>
 
-    </nav>
+    </div>
+</nav>
 
     <!-- Home Section -->
     <div class="main">
