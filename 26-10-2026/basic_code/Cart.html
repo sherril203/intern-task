@@ -68,50 +68,60 @@
         </div>
     </div>
 
-   <div class="filter-products">
+<div class="cart-layout">
 
+    <!-- LEFT SIDE: PRODUCTS -->
     <div class="product-container">
 
         <div id="productList"></div>
 
         <template id="cartTemplate">
             <div class="cart-item">
+
                 <img src="" alt="Product">
 
                 <div class="cart-details">
+
                     <p class="category"></p>
+
                     <h3 class="title"></h3>
+
                     <p class="price"></p>
 
                     <div class="cart-btn">
+
                         <button class="cart" type="button">
-                        <i class="fa-solid fa-trash"></i>    Remove Cart
+                            <i class="fa-solid fa-trash"></i>
+                            Remove Cart
                         </button>
 
                         <button class="buy" type="button">
-                        <i class="fa-solid fa-basket-shopping"></i>    Buy Now
+                            <i class="fa-solid fa-basket-shopping"></i>
+                            Buy Now
                         </button>
+
                     </div>
+
                 </div>
             </div>
         </template>
 
     </div>
 
-</div>
+    <!-- RIGHT SIDE: CHECKOUT -->
+    <div class="cart-summary">
 
-<!-- CHECKOUT SUMMARY -->
-<div class="cart-summary">
+        <h3>Checkout</h3>
 
-    <h3>Checkout</h3>
+        <p>No. of Items: <span id="totalItems">0</span></p>
 
-    <p>No. of Items: <span id="totalItems">0</span></p>
+        <p>Total: <span id="totalPrice">₹0</span></p>
 
-    <p>Total: <span id="totalPrice">₹0</span></p>
+        <button class="buy" id="checkoutBtn" type="button">
+            Proceed to Checkout
+        </button>
 
-    <button class="buy" id="checkoutBtn" type="button">
-        Proceed to Checkout
-    </button>
+    </div>
 
 </div>
     <div class="footer">

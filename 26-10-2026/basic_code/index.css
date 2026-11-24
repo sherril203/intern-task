@@ -84,7 +84,16 @@ nav {
     margin: 10px;
 }
 
+.search-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+}
+
 .search-content {
+    width: 100%;
     text-align: center;
 }
 
@@ -2031,4 +2040,146 @@ img {
     border-radius: 5px;
     font-size: 15px;
     box-sizing: border-box;
+}
+/* RIGHT SIDE CART */
+
+.filter-products {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+}
+
+.product-container {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Cart Sidebar */
+
+.side-cart {
+    position: sticky;
+    top: 20px;
+
+    flex: 0 0 230px;
+    width: 230px;
+
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+
+    background: white;
+    padding: 15px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+
+    align-self: flex-start;
+}
+
+.side-cart-product {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.side-cart-product img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.side-cart-product p {
+    margin: 4px 0;
+    font-size: 13px;
+}
+
+.side-cart button {
+    width: 100%;
+    padding: 10px;
+    background: #ff9900;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+
+    .filter-products {
+        flex-direction: column;
+    }
+
+    .side-cart {
+        position: static;
+        width: 100%;
+        max-height: none;
+        flex-basis: auto;
+    }
+
+    #productList {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 500px) {
+
+    #productList {
+        grid-template-columns: 1fr;
+    }
+}
+#sideCart {
+    display: none;
+}
+.side-cart-product {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.side-cart-product img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.side-cart-delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.side-cart-delete:hover {
+    background-color: #b02a37;
+}
+.cart-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 25px;
+    width: 98%;
+    margin: 20px auto;
+}
+
+.product-container {
+    flex: 1;
+    min-width: 0;
+}
+
+.cart-summary {
+    width: 280px;
+    flex-shrink: 0;
+    height: fit-content;
+    position: sticky;
+    top: 20px;
 }

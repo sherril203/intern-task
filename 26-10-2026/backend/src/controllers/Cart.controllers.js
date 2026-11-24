@@ -1,17 +1,14 @@
 
-const CartModel = require('../models/Cart.model');
+const CartModel = require("../models/Cart.model");
 
-// GET USER CART
+// GET LOGGED-IN USER'S CART
 const getCartData = async (req, res) => {
     try {
-        const userId = req.user.id;
-
         const products = await CartModel.find({
-            userId: userId
+            userId: req.user.id
         }).sort({ _id: -1 });
 
         return res.status(200).json({
-            success: true,
             data: products
         });
 
@@ -23,7 +20,7 @@ const getCartData = async (req, res) => {
     }
 };
 
-// ADD TO CART
+// ADD PRODUCT TO CART
 const addToCart = async (req, res) => {
     try {
         const {
@@ -34,6 +31,12 @@ const addToCart = async (req, res) => {
             original_price,
             brand
         } = req.body;
+
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({
+                message: "Invalid user token"
+            });
+        }
 
         const cartItem = await CartModel.create({
             userId: req.user.id,
@@ -58,7 +61,7 @@ const addToCart = async (req, res) => {
     }
 };
 
-// REMOVE FROM CART
+// REMOVE PRODUCT FROM LOGGED-IN USER'S CART
 const removeCart = async (req, res) => {
     try {
         const product = await CartModel.findOneAndDelete({

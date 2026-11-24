@@ -15,8 +15,8 @@
     <title>Products | ProductWorld</title>
 </head>
 
-<body>
 
+<body>
     <!-- NAVBAR -->
        <nav class="navbar">
     <div style="display:flex;justify-content:center;align-items:center;gap:10px;">
@@ -264,20 +264,20 @@
 
             <!-- PRODUCT TEMPLATE -->
           <template id="productTemplate">
-    <div class="dynamic-product">
+          <div class="dynamic-product">
 
         <img src=""
             alt="Product"
             class="product-image"
             style="cursor:pointer;">
 
-        <p class="category"></p>
+         <p class="category"></p>
 
-        <p class="title" style="cursor:pointer;"></p>
+         <p class="title" style="cursor:pointer;"></p>
 
-        <p class="price"></p>
+         <p class="price"></p>
 
-        <div class="product-btn">
+         <div class="product-btn">
 
             <button class="cart" type="button">
             <i class="fa-solid fa-cart-shopping"></i> Add to Cart
@@ -293,6 +293,24 @@
 </template>
 
         </div>
+<aside  class="side-cart" id="cartAside">
+    <h3>Your Cart</h3>
+
+    <div id="sideCartProducts"></div>
+
+    <p id="sideCartItems">0 items in your cart</p>
+
+    <hr>
+
+    <p>
+        Subtotal:
+        <strong id="sideCartTotal">₹0</strong>
+    </p>
+
+    <button type="button" onclick="goToCart()">
+        Go to Cart
+    </button>
+</aside>
 
     </div>
 

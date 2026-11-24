@@ -116,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   updateVisibleCartCount();
+  updateSideCart();
     const pageName = window.location.pathname
         .split("/")
         .pop()
@@ -1365,12 +1366,10 @@ async function addProductToCart(item) {
 
         const response = await fetch(`${API}/cart`, {
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-
             body: JSON.stringify({
                 image: item.image,
                 category: item.category,
@@ -1384,8 +1383,13 @@ async function addProductToCart(item) {
         const result = await response.json();
 
         if (!response.ok) {
-            throw new Error(result.message || "Unable to add product to cart");
+            throw new Error(
+                result.message || "Unable to add product to cart"
+            );
         }
+
+        // Update right-side cart after successful addition
+        await updateSideCart();
 
         alert("Product added to cart!");
 
@@ -1568,9 +1572,11 @@ async function removeCartProduct(id) {
             throw new Error(result.message || "Unable to remove product");
         }
 
-        alert("Product removed from cart!");
+     alert("Product removed from cart!");
 
-        await loadCart();
+await updateSideCart();
+await updateVisibleCartCount();
+await loadCart();
 
     } catch (error) {
         console.error("Remove cart error:", error);
@@ -1628,4 +1634,113 @@ function logout() {
     localStorage.removeItem("user");
 
     window.location.href = "./login.html";
+}
+// UPDATE SIDE CART
+
+async function updateSideCart() {
+
+    const aside = document.getElementById("cartAside");
+    const container = document.getElementById("sideCartProducts");
+
+    if (!aside || !container) return;
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        aside.style.display = "none";
+        return;
+    }
+
+    try {
+
+        const products = await getCartProducts();
+
+        // Cart empty
+        if (!products || products.length === 0) {
+
+            aside.style.display = "none";
+            container.innerHTML = "";
+
+            return;
+        }
+
+        // Cart has products
+        aside.style.display = "block";
+
+        // Cart count
+        const count = document.getElementById("sideCartItems");
+        const total = document.getElementById("sideCartTotal");
+
+        if (count) {
+            count.textContent = `${products.length} items in your cart`;
+        }
+
+        // Calculate subtotal
+        const totalPrice = products.reduce(
+            (sum, item) => sum + getNumericPrice(item.price), 0
+        );
+
+        if (total) {
+            total.textContent = formatPrice(totalPrice);
+        }
+
+        // Display cart products
+        container.innerHTML = "";
+
+        products.slice(0, 3).forEach(item => {
+
+            const div = document.createElement("div");
+            div.className = "side-cart-product";
+
+            const image = document.createElement("img");
+            image.src = getImageUrl(item.image);
+            image.alt = item.product_title || "Product";
+
+            const details = document.createElement("div");
+
+            const title = document.createElement("p");
+            title.textContent = item.product_title || "Product";
+
+            const price = document.createElement("p");
+            price.textContent = formatPrice(item.price);
+
+            // Delete button
+            const deleteBtn = document.createElement("button");
+
+            deleteBtn.textContent = "Delete";
+            deleteBtn.className = "side-cart-delete";
+
+            deleteBtn.addEventListener("click", () => {
+                removeCartProduct(item._id);
+            });
+
+            details.append(title, price, deleteBtn);
+
+            div.append(image, details);
+
+            container.appendChild(div);
+
+        });
+
+        // Show remaining product count
+        if (products.length > 3) {
+
+            const more = document.createElement("p");
+
+            more.textContent = `+ ${products.length - 3} more products`;
+
+            container.appendChild(more);
+        }
+
+    } catch (error) {
+
+        console.error("Side cart error:", error);
+
+        aside.style.display = "none";
+
+    }
+}
+// GO TO CART PAGE
+function goToCart() {
+    window.location.href = "Cart.html";
 }
