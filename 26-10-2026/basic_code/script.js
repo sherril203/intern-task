@@ -691,9 +691,6 @@ async function addProductToCart(item) {
     }
 }
 
-
-
-
 async function signup(e) {
     e.preventDefault();
 
@@ -702,12 +699,19 @@ async function signup(e) {
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
 
+        // Admin or User
+        const role = document.getElementById("role").value;
+
         if (!name || !email || !password) {
             alert("Please fill all fields");
             return;
         }
 
-        const response = await fetch(`${API}/userRegister`, {
+        const endpoint = role === "admin"
+            ? "/adminRegister"
+            : "/userRegister";
+
+        const response = await fetch(`${API}${endpoint}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -734,17 +738,19 @@ async function signup(e) {
     }
 }
 
-
-
 async function login(event) {
     event.preventDefault();
 
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
-    const role = document.getElementById("role").value;
+    const selectedRole = document.getElementById("role").value.trim().toLowerCase();
 
     try {
-        const response = await fetch(`${API}/userLogin`, {
+        const endpoint = selectedRole === "admin"
+            ? "/adminLogin"
+            : "/userLogin";
+
+        const response = await fetch(`${API}${endpoint}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -753,54 +759,47 @@ async function login(event) {
         });
 
         const result = await response.json();
-        console.log("FULL LOGIN RESPONSE:", result);
-console.log("LOGIN DATA:", result.data);
-console.log("USER OBJECT:", result.data?.User);
+
+        console.log("FULL RESPONSE:", result);
+
         if (!response.ok) {
-            alert(result.message || "Login failed");
+            alert(result.message);
             return;
         }
 
-        const user = result.data.User;
+        const account = selectedRole === "admin"
+            ? result.data.admin
+            : result.data.User;
 
-        // Normalize roles
-        const databaseRole = String(user.role || "")
-            .trim()
-            .toLowerCase();
-
-        const selectedRole = String(role || "")
-            .trim()
-            .toLowerCase();
-
-        console.log("Database role:", databaseRole);
+        console.log("ACCOUNT:", account);
         console.log("Selected role:", selectedRole);
+        console.log("Account role:", account?.role);
 
-        // Validate role
-        if (databaseRole !== selectedRole) {
-            alert(
-                `Role mismatch! Account: ${databaseRole}, Selected: ${selectedRole}`
-            );
+        const actualRole = String(account?.role || "")
+            .trim()
+            .toLowerCase();
+
+        if (actualRole !== selectedRole) {
+            alert(`Role mismatch! Selected: ${selectedRole}, Account: ${actualRole}`);
             return;
         }
 
-        // Save login details
         localStorage.setItem("token", result.data.token);
-        localStorage.setItem("role", databaseRole);
-        localStorage.setItem("username", user.username);
-        localStorage.setItem("email", user.email);
+        localStorage.setItem("role", actualRole);
+        localStorage.setItem("username", account.username);
+        localStorage.setItem("email", account.email);
 
-        console.log("Token saved:", !!localStorage.getItem("token"));
-        console.log("Role saved:", localStorage.getItem("role"));
-
-        window.location.href = "./index.html";
+        if (actualRole === "admin") {
+            window.location.href = "./Admin.html";
+        } else {
+            window.location.href = "./index.html";
+        }
 
     } catch (error) {
         console.error("Login error:", error);
         alert("Login failed");
     }
 }
-
-
 
 function openAdmin() {
     const token = localStorage.getItem("token");
@@ -1783,3 +1782,43 @@ async function loadUserProfile() {
         console.error("Profile Error:", error);
     }
 }
+/*admin*/
+
+async function loadAdminProfile() {
+    const token = localStorage.getItem("token");
+
+    try {
+        const response = await fetch(`${API}/adminProfile`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            alert(result.message);
+            return;
+        }
+
+        document.getElementById("adminName").textContent =
+            result.data.username;
+
+        document.getElementById("adminEmail").textContent =
+            result.data.email;
+
+        document.getElementById("adminRole").textContent =
+            `Role: ${result.data.role}`;
+
+    } catch (error) {
+        console.error("Admin profile error:", error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (document.getElementById("adminName")) {
+        loadAdminProfile();
+    }
+});
+

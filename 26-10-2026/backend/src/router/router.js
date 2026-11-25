@@ -23,6 +23,7 @@ router.delete('/cart/:id', verifyToken, Cartdata.removeCart);
 //admin
 router.post('/adminRegister',Admin.AdminRegister);
 router.post('/adminLogin',Admin.Adminlogin)
+router.get('/adminProfile', verifyToken, Admin.getAdminProfile);
 
 //user
 router.post('/userRegister',User.UserRegister);
