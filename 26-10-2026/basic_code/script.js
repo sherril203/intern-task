@@ -735,24 +735,16 @@ async function signup(e) {
 }
 
 
-async function login(e) {
-    e.preventDefault();
+
+async function login(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const role = document.getElementById("role").value;
 
     try {
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
-        const role = document.getElementById("role").value;
-
-        if (!email || !password || !role) {
-            alert("Please fill all fields");
-            return;
-        }
-
-        const endpoint = role === "admin"
-            ? "/adminLogin"
-            : "/userLogin";
-
-        const response = await fetch(`${API}${endpoint}`, {
+        const response = await fetch(`${API}/userLogin`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -761,53 +753,50 @@ async function login(e) {
         });
 
         const result = await response.json();
-
+        console.log("FULL LOGIN RESPONSE:", result);
+console.log("LOGIN DATA:", result.data);
+console.log("USER OBJECT:", result.data?.User);
         if (!response.ok) {
             alert(result.message || "Login failed");
             return;
         }
 
-        if (!result.data?.token) {
-            alert("Token not received from backend");
+        const user = result.data.User;
+
+        // Normalize roles
+        const databaseRole = String(user.role || "")
+            .trim()
+            .toLowerCase();
+
+        const selectedRole = String(role || "")
+            .trim()
+            .toLowerCase();
+
+        console.log("Database role:", databaseRole);
+        console.log("Selected role:", selectedRole);
+
+        // Validate role
+        if (databaseRole !== selectedRole) {
+            alert(
+                `Role mismatch! Account: ${databaseRole}, Selected: ${selectedRole}`
+            );
             return;
         }
 
-        // Validate role-specific response
-        const account = role === "admin"
-            ? result.data.admin
-            : result.data.User;
-
-        if (!account) {
-            alert("Account details not received from backend");
-            return;
-        }
-
-        // Clear previous login details
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-        localStorage.removeItem("admin");
-        localStorage.removeItem("user");
-
-        // Store new login details
+        // Save login details
         localStorage.setItem("token", result.data.token);
-        localStorage.setItem("role", role);
+        localStorage.setItem("role", databaseRole);
+        localStorage.setItem("username", user.username);
+        localStorage.setItem("email", user.email);
 
-        if (role === "admin") {
-            localStorage.setItem("admin", JSON.stringify(account));
+        console.log("Token saved:", !!localStorage.getItem("token"));
+        console.log("Role saved:", localStorage.getItem("role"));
 
-            alert("Admin login successful!");
-            window.location.href = "./Admin.html";
-
-        } else {
-            localStorage.setItem("user", JSON.stringify(account));
-
-            alert("User login successful!");
-            window.location.href = "./index.html";
-        }
+        window.location.href = "./index.html";
 
     } catch (error) {
-        console.error("Login failed:", error);
-        alert("Unable to connect to server. Please try again.");
+        console.error("Login error:", error);
+        alert("Login failed");
     }
 }
 
@@ -1613,36 +1602,34 @@ function updateNavbar() {
         authText.textContent = "Logout";
     }
 }
-
 function handleAuth() {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 
     if (!token) {
         window.location.href = "./login.html";
-    } else if (role === "admin") {
+    } 
+    else if (role === "admin") {
         window.location.href = "./Admin.html";
-    } else {
-        logout();
+    } 
+    else if (role === "user") {
+        window.location.href = "./User.html";
     }
 }
 
-function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    localStorage.removeItem("admin");
-    localStorage.removeItem("user");
-
-    window.location.href = "./login.html";
-}
 // UPDATE SIDE CART
 
 async function updateSideCart() {
 
     const aside = document.getElementById("cartAside");
     const container = document.getElementById("sideCartProducts");
+    const template = document.getElementById("sideCartProductTemplate");
+    const itemsText = document.getElementById("sideCartItems");
+    const totalText = document.getElementById("sideCartTotal");
 
-    if (!aside || !container) return;
+    if (!aside || !container || !template || !itemsText || !totalText) {
+        return;
+    }
 
     const token = localStorage.getItem("token");
 
@@ -1652,95 +1639,147 @@ async function updateSideCart() {
     }
 
     try {
-
         const products = await getCartProducts();
 
-        // Cart empty
         if (!products || products.length === 0) {
-
             aside.style.display = "none";
             container.innerHTML = "";
-
             return;
         }
 
-        // Cart has products
         aside.style.display = "block";
-
-        // Cart count
-        const count = document.getElementById("sideCartItems");
-        const total = document.getElementById("sideCartTotal");
-
-        if (count) {
-            count.textContent = `${products.length} items in your cart`;
-        }
-
-        // Calculate subtotal
-        const totalPrice = products.reduce(
-            (sum, item) => sum + getNumericPrice(item.price), 0
-        );
-
-        if (total) {
-            total.textContent = formatPrice(totalPrice);
-        }
-
-        // Display cart products
         container.innerHTML = "";
 
-        products.slice(0, 3).forEach(item => {
+        let total = 0;
 
-            const div = document.createElement("div");
-            div.className = "side-cart-product";
+        products.slice(0, 5).forEach(item => {
 
-            const image = document.createElement("img");
-            image.src = getImageUrl(item.image);
-            image.alt = item.product_title || "Product";
+            const card = template.content.cloneNode(true);
 
-            const details = document.createElement("div");
+            const image = card.querySelector(".side-product-image");
+            const name = card.querySelector(".side-product-name");
+            const price = card.querySelector(".side-product-price");
+            const deleteButton = card.querySelector(".side-cart-delete");
 
-            const title = document.createElement("p");
-            title.textContent = item.product_title || "Product";
+            if (image) {
+                image.src = getImageUrl(item.image);
+                image.alt = item.product_title || "Product";
+            }
 
-            const price = document.createElement("p");
-            price.textContent = formatPrice(item.price);
+            if (name) {
+                name.textContent = item.product_title || "Product";
+            }
 
-            // Delete button
-            const deleteBtn = document.createElement("button");
+            if (price) {
+                price.textContent = formatPrice(item.price);
+            }
 
-            deleteBtn.textContent = "Delete";
-            deleteBtn.className = "side-cart-delete";
+            if (deleteButton) {
+                deleteButton.addEventListener("click", async () => {
+                    await removeCartProduct(item._id);
+                });
+            }
 
-            deleteBtn.addEventListener("click", () => {
-                removeCartProduct(item._id);
-            });
-
-            details.append(title, price, deleteBtn);
-
-            div.append(image, details);
-
-            container.appendChild(div);
-
+            container.appendChild(card);
+            total += getNumericPrice(item.price);
         });
 
-        // Show remaining product count
-        if (products.length > 3) {
-
-            const more = document.createElement("p");
-
-            more.textContent = `+ ${products.length - 3} more products`;
-
-            container.appendChild(more);
-        }
+        itemsText.textContent = `${products.length} items in your cart`;
+        totalText.textContent = formatPrice(total);
 
     } catch (error) {
-
         console.error("Side cart error:", error);
-
-        aside.style.display = "none";
-
     }
 }
 // GO TO CART PAGE
 function goToCart() {
     window.location.href = "Cart.html";
+}
+document.addEventListener("DOMContentLoaded", () => {
+
+    const token = localStorage.getItem("token");
+
+    const authBtn = document.getElementById("authBtn");
+    const menuContainer = document.getElementById("menuContainer");
+    const menuBtn = document.getElementById("menuBtn");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+
+    if (authBtn && menuContainer) {
+        if (token) {
+            authBtn.style.display = "none";
+            menuContainer.style.display = "block";
+        } else {
+            authBtn.style.display = "block";
+            menuContainer.style.display = "none";
+        }
+    }
+
+    if (menuBtn && dropdownMenu && menuContainer) {
+
+        menuBtn.addEventListener("click", () => {
+            dropdownMenu.classList.toggle("show");
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!menuContainer.contains(e.target)) {
+                dropdownMenu.classList.remove("show");
+            }
+        });
+    }
+
+});
+function logoutUser(event) {
+    if (event) event.preventDefault();
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+
+    window.location.replace("./login.html");
+}
+
+function logout() {
+    logoutUser();
+}
+/*user*/ 
+document.addEventListener("DOMContentLoaded", () => {
+    if (document.getElementById("profileName")) {
+        loadUserProfile();
+    }
+});
+async function loadUserProfile() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.replace("./login.html");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API}/profile`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message);
+        }
+
+        document.getElementById("profileName").textContent =
+            result.data.username;
+
+        document.getElementById("profileEmail").textContent =
+            result.data.email;
+
+        document.getElementById("profileRole").textContent =
+            result.data.role;
+
+    } catch (error) {
+        console.error("Profile Error:", error);
+    }
 }

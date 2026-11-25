@@ -14,7 +14,8 @@
 <body>
 
     <!-- Navbar -->
-       <nav class="navbar">
+<nav class="navbar">
+
     <div style="display:flex;justify-content:center;align-items:center;gap:10px;">
         <img src="./logo/favicon.ico" alt="">
         <p style="font-family:cursive;font-weight:bold;">
@@ -46,19 +47,45 @@
 
     <div style="display:flex;align-items:center;gap:20px;">
 
-        <a href="Cart.html" class="link" style="position:relative;">
-            <i class="fa-solid fa-cart-shopping"></i>Cart(<span id="cartCount">0</span>)
+        <!-- Cart -->
+        <a href="Cart.html" class="link">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Cart (<span id="cartCount">0</span>)
         </a>
 
-        <button
-            class="adminbtn"
-            id="authBtn"
-            onclick="handleAuth()"
-            style="display:flex;justify-content:center;align-items:center;gap:10px;"
-        >
+        <!-- Login Button -->
+        <button id="authBtn" onclick="handleAuth()">
             <i class="fa-regular fa-circle-user"></i>
             <span id="authText">Login</span>
         </button>
+
+        <!-- Hamburger -->
+        <div class="menu-container" id="menuContainer" style="display:none;">
+
+            <button type="button" id="menuBtn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+
+                <a href="MyOrders.html">
+                    <i class="fa-solid fa-box"></i> My Orders
+                </a>
+
+                <a href="Cart.html">
+                    <i class="fa-solid fa-cart-shopping"></i> My Cart
+                </a>
+
+                <a href="User.html">
+                    <i class="fa-solid fa-user"></i> Profile
+                </a>
+
+                <a href="login.html" onclick="logoutUser(event)">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+
+            </div>
+        </div>
 
     </div>
 </nav>

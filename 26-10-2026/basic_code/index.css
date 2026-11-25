@@ -2135,25 +2135,43 @@ img {
 #sideCart {
     display: none;
 }
+/* Side cart product */
 .side-cart-product {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 10px;
-    padding: 10px 0;
+    text-align: center;
+    gap: 5px;
+    padding: 12px 0;
     border-bottom: 1px solid #ddd;
 }
 
-.side-cart-product img {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
+#sideCartProducts .side-product-image {
+    width: 160px !important;
+    height: 160px !important;
+    max-width: none !important;
+    object-fit: contain !important;
+    display: block;
+    margin: 0 auto;
+}
+/* Product details */
+.side-cart-product div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
+.side-cart-product p {
+    margin: 5px 0;
+}
+
+/* Delete button */
 .side-cart-delete {
     background-color: #dc3545;
     color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 6px 15px;
     border-radius: 5px;
     cursor: pointer;
     margin-top: 5px;
@@ -2182,4 +2200,54 @@ img {
     height: fit-content;
     position: sticky;
     top: 20px;
+}
+/* hamburger dropdown*/
+.menu-container {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 180px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown-menu a:hover {
+    background: #f1f1f1;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+#authBtn,
+#menuBtn {
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#authBtn:hover,
+#menuBtn:hover {
+    background-color: darkblue;
+}
+
+#authBtn{
+    font-size: 15px;
 }

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>User</title>
+</head>
+
+<body>
+    <div>
+<nav class="navbar">
+
+    <div style="display:flex;justify-content:center;align-items:center;gap:10px;">
+        <img src="./logo/favicon.ico" alt="">
+        <p style="font-family:cursive;font-weight:bold;">
+            <a href="index.html" class="link" style="color:black">
+                ProductWorld
+            </a>
+        </p>
+    </div>
+
+    <ul>
+        <li class="list">
+            <a href="index.html" class="link">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
+        </li>
+
+        <li class="list">
+            <a href="Products.html" class="link">
+                <i class="fa-solid fa-basket-shopping"></i> Products
+            </a>
+        </li>
+
+        <li class="list">
+            <a href="Contact.html" class="link">
+                <i class="fa-solid fa-comments"></i> Contact
+            </a>
+        </li>
+    </ul>
+
+    <div style="display:flex;align-items:center;gap:20px;">
+
+        <!-- Cart -->
+        <a href="Cart.html" class="link">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Cart (<span id="cartCount">0</span>)
+        </a>
+
+        <!-- Login Button -->
+        <button id="authBtn" onclick="handleAuth()">
+            <i class="fa-regular fa-circle-user"></i>
+            <span id="authText">Login</span>
+        </button>
+
+        <!-- Hamburger -->
+        <div class="menu-container" id="menuContainer" style="display:none;">
+
+            <button type="button" id="menuBtn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+
+                <a href="MyOrders.html">
+                    <i class="fa-solid fa-box"></i> My Orders
+                </a>
+
+                <a href="Cart.html">
+                    <i class="fa-solid fa-cart-shopping"></i> My Cart
+                </a>
+
+                <a href="User.html">
+                    <i class="fa-solid fa-user"></i> Profile
+                </a>
+
+                <a href="login.html" onclick="logoutUser(event)">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+</nav>
+
+
+
+        <!-- Main Dashboard -->
+   <div class="main-content">
+
+    <div class="formdata">
+
+        <p style="display:flex;justify-content:center;font-weight:bold;">
+            Profile
+        </p>
+
+        <div style="text-align:center;">
+
+            <img src="./assests/profile.png"
+                alt="Profile"
+                height="200"
+                width="200">
+
+            <h3 id="profileName">Loading...</h3>
+
+        </div>
+
+        <div>
+            <p>Email: <span id="profileEmail">Loading...</span></p>
+        </div>
+
+        <div>
+            <p>Role: <span id="profileRole">Loading...</span></p>
+        </div>
+
+        <div>
+            <button class="form-submit" onclick="logoutUser(event)">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Log out
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+    </div>
+   <script src="./config.js"></script>
+<script src="./auth.js"></script>
+<script src="./script.js"></script>
+<script src="https://kit.fontawesome.com/8872bf04b0.js"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

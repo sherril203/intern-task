@@ -27,6 +27,8 @@ router.post('/adminLogin',Admin.Adminlogin)
 //user
 router.post('/userRegister',User.UserRegister);
 router.post('/userLogin',User.Userlogin)
+// User profile
+router.get('/profile', verifyToken, User.getUserProfile);
 
 //contact
 router.post('/contact',Contactform.postContact);

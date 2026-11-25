@@ -47,6 +47,7 @@ const UserRegister = async (req, res) => {
 };
 
 
+
 const Userlogin = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -54,34 +55,33 @@ const Userlogin = async (req, res) => {
         const existdata = await UserModel.findOne({ email });
 
         if (!existdata) {
-            return res.status(400).send({
+            return res.status(400).json({
                 message: "User not registered"
             });
         }
 
-        // Compare password
         const matchedPassword = await bcrypt.compare(
             password,
             existdata.password
         );
 
         if (!matchedPassword) {
-            return res.status(401).send({
+            return res.status(401).json({
                 message: "Invalid password"
             });
         }
 
-        // Generate token
         const token = tokengenerator(existdata._id);
 
-        return res.status(200).send({
+        return res.status(200).json({
             message: "User login successful",
             data: {
                 token,
                 User: {
                     id: existdata._id,
                     username: existdata.username,
-                    email: existdata.email
+                    email: existdata.email,
+                    role: existdata.role
                 }
             }
         });
@@ -89,10 +89,40 @@ const Userlogin = async (req, res) => {
     } catch (err) {
         console.error("Login error:", err);
 
-        return res.status(500).send({
+        return res.status(500).json({
             message: "Login failed"
         });
     }
 };
 
-module.exports = { UserRegister, Userlogin };
+const getUserProfile = async (req, res) => {
+    try {
+        console.log("Logged in user ID:", req.user.id);
+
+        const user = await UserModel.findById(req.user.id)
+            .select("-password");
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        return res.status(200).json({
+            message: "Profile fetched successfully",
+            data: {
+                username: user.username,
+                email: user.email,
+                role: user.role
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Unable to fetch profile"
+        });
+    }
+};
+
+module.exports = { UserRegister, Userlogin,getUserProfile };

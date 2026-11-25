@@ -1,9 +1,7 @@
-
 const token = localStorage.getItem("token");
 const role = localStorage.getItem("role");
 
-// Get the required role from the current page
-const currentPage = window.location.pathname.toLowerCase();
+const page = window.location.pathname.split("/").pop().toLowerCase();
 
 const adminPages = [
     "admin.html",
@@ -15,10 +13,9 @@ const adminPages = [
 const userPages = [
     "cart.html",
     "checkout.html",
-    "userprofile.html"
+    "user.html",
+    "myorders.html"
 ];
-
-const page = currentPage.split("/").pop();
 
 if (!token) {
     window.location.replace("./login.html");
