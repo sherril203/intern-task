@@ -37,21 +37,34 @@
 
         <!-- Main Dashboard -->
         <div class="main-content">
-            <div class="formdata">
-                <p style="display: flex; justify-content: center; font-weight: bold;">Profile</p>
-                <div>
-                    <img src="./assests/profile.png" alt="" height="200" width="200"
-                        style="display: flex; justify-content: center;">
-                    <p>Admin</p>
-                </div>
-                <div>
-                    <p>role: Admin</p>
-                </div>
-                <div>
-                    <button class="form-submit" onclick="logout()"><a class="link"> <i
-                                class="fa-solid fa-right-from-bracket"></i> Log out</a></button>
-                </div>
-            </div>
+           
+<div class="formdata">
+    <p style="display:flex; justify-content:center; font-weight:bold;">
+        Admin Profile
+    </p>
+
+    <div>
+        <img src="./assests/profile.png"
+             alt="Admin Profile"
+             height="200"
+             width="200">
+
+        <p id="adminName">Loading...</p>
+        <p id="adminEmail"></p>
+    </div>
+
+    <div>
+        <p id="adminRole">Role: Admin</p>
+    </div>
+
+    <div>
+        <button class="form-submit" onclick="logout()">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Log out
+        </button>
+    </div>
+</div>
+
 
 
         </div>

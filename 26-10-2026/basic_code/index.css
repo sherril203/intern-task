@@ -345,10 +345,24 @@ nav {
     justify-content: center;
 }
 
-.dynamic-product .price {
-    font-size: 15px;
+.dynamic-product .price-row {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+}
+
+.dynamic-product .price {
+    font-size: 17px;
+    margin: 0;
+}
+
+.dynamic-product .original-price {
+    text-decoration: line-through;
+    color: #888;
+    font-size: 17px;
+    margin: 0;
 }
 
 .dynamic-product .cart,
@@ -2200,6 +2214,7 @@ img {
     height: fit-content;
     position: sticky;
     top: 20px;
+    
 }
 /* hamburger dropdown*/
 .menu-container {
@@ -2250,4 +2265,73 @@ img {
 
 #authBtn{
     font-size: 15px;
+}
+/* Recently Removed Cart */
+
+.recently-removed {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.recently-removed h3 {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#removedProducts {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+}
+
+.empty-removed {
+    display: block;
+    width: 100%;
+    margin: 0;
+    text-align: left;
+}
+
+.removed-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100%;
+    gap: 8px;
+    padding: 12px 0;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+.removed-item img {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+.removed-item div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100%;
+}
+
+.removed-item h4 {
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    margin: 0 0 8px;
+    text-align: left;
+}
+
+.removed-item p {
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    margin: 0;
+    color: #64748b;
+    text-align: left !important;
 }

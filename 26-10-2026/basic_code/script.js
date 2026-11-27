@@ -132,8 +132,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
      //cart page 
-     if (pageName === "cart.html") {
+if (pageName === "cart.html") {
     loadCart();
+    displayRemovedProducts();
 }
 // HOME AND PRODUCTS PAGE
 if (
@@ -415,6 +416,7 @@ function displayProducts(products) {
         const category = product.querySelector(".category");
         const title = product.querySelector(".title");
         const price = product.querySelector(".price");
+        const original=product.querySelector(".original-price")
 
         const cartButton = product.querySelector(".cart");
         const buyButton = product.querySelector(".buy");
@@ -453,6 +455,9 @@ function displayProducts(products) {
         if (price) {
             price.textContent = formatPrice(item.price);
         }
+        if (original) {
+    original.textContent = formatPrice(item.original_price);
+}
 
         // ADD TO CART
         if (cartButton) {
@@ -1507,9 +1512,9 @@ async function loadCart() {
 
             // REMOVE CART
             if (removeButton) {
-                removeButton.addEventListener("click", () => {
-                    removeCartProduct(item._id);
-                });
+               removeButton.addEventListener("click", () => {
+    removeCartProduct(item);
+});
             }
 
             // BUY NOW
@@ -1531,7 +1536,8 @@ async function loadCart() {
     }
 }
 
-async function removeCartProduct(id) {
+
+async function removeCartProduct(item) {
 
     if (!confirm("Remove this product from cart?")) {
         return;
@@ -1546,9 +1552,29 @@ async function removeCartProduct(id) {
             return;
         }
 
-        const response = await fetch(`${API}/cart/${id}`, {
-            method: "DELETE",
+        // Save removed product before deleting
+        let removedProducts = JSON.parse(
+            localStorage.getItem("recentlyRemoved") || "[]"
+        );
 
+        removedProducts.unshift({
+            image: item.image,
+            product_title: item.product_title,
+            price: item.price,
+            category: item.category
+        });
+
+        // Keep only latest 5 products
+        removedProducts = removedProducts.slice(0, 5);
+
+        localStorage.setItem(
+            "recentlyRemoved",
+            JSON.stringify(removedProducts)
+        );
+
+        // Delete from MongoDB
+        const response = await fetch(`${API}/cart/${item._id}`, {
+            method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`
             }
@@ -1560,17 +1586,20 @@ async function removeCartProduct(id) {
             throw new Error(result.message || "Unable to remove product");
         }
 
-     alert("Product removed from cart!");
+        alert("Product removed from cart!");
 
-await updateSideCart();
-await updateVisibleCartCount();
-await loadCart();
+        displayRemovedProducts();
+
+        await updateSideCart();
+        await updateVisibleCartCount();
+        await loadCart();
 
     } catch (error) {
         console.error("Remove cart error:", error);
         alert(error.message);
     }
 }
+
 
 function openProduct(id) {
     if (!id) {
@@ -1821,4 +1850,50 @@ document.addEventListener("DOMContentLoaded", () => {
         loadAdminProfile();
     }
 });
+//recent deleted cart data
 
+function displayRemovedProducts() {
+
+    const container = document.getElementById("removedProducts");
+
+    if (!container) return;
+
+    const removedProducts = JSON.parse(
+        localStorage.getItem("recentlyRemoved") || "[]"
+    );
+
+    container.replaceChildren();
+
+    if (removedProducts.length === 0) {
+
+        const emptyMessage = document.createElement("p");
+        emptyMessage.textContent = "No recently removed products";
+
+        container.appendChild(emptyMessage);
+        return;
+    }
+
+    removedProducts.forEach(product => {
+
+        const item = document.createElement("div");
+        item.className = "removed-item";
+
+        const image = document.createElement("img");
+        image.src = getImageUrl(product.image);
+        image.alt = product.product_title;
+
+        const details = document.createElement("div");
+
+        const title = document.createElement("h4");
+        title.textContent = product.product_title;
+
+        const price = document.createElement("p");
+        price.textContent = formatPrice(product.price);
+
+        details.append(title, price);
+        item.append(image, details);
+
+        container.appendChild(item);
+
+    });
+}
